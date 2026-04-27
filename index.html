@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oppodel</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0f;
+      --surface:   #141417;
+      --border:    #222228;
+      --accent:    #7c6fff;
+      --accent-hi: #9d90ff;
+      --text:      #e8e8f0;
+      --muted:     #6b6b80;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1.25rem;
+    }
+
+    /* subtle grid overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,111,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,111,255,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .logo {
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3rem;
+    }
+
+    .headline {
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      text-align: center;
+      max-width: 680px;
+      margin-bottom: .75rem;
+    }
+
+    .headline span {
+      color: var(--accent);
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 2.75rem;
+    }
+
+    form {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+
+    label {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input, textarea, select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: .95rem;
+      font-family: inherit;
+      padding: .65rem .85rem;
+      transition: border-color .15s;
+      outline: none;
+      resize: none;
+    }
+
+    input::placeholder, textarea::placeholder { color: #3a3a4a; }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124,111,255,.12);
+    }
+
+    select option { background: #1a1a22; }
+
+    textarea { height: 110px; }
+
+    button {
+      margin-top: .5rem;
+      padding: .8rem 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: .95rem;
+      font-weight: 700;
+      letter-spacing: .03em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .15s, transform .1s;
+    }
+
+    button:hover  { background: var(--accent-hi); }
+    button:active { transform: scale(.98); }
+
+    .footer {
+      margin-top: 2.5rem;
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    .footer a { color: var(--muted); text-decoration: none; }
+    .footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <p class="logo">Oppodel</p>
+
+  <h1 class="headline">Want Some <span>Nerds</span> To Build You Something?</h1>
+  <p class="sub">Tell us what you need. We'll make it real.</p>
+
+  <form>
+    <div class="field">
+      <label for="name">Your Name</label>
+      <input id="name" type="text" placeholder="Jane Smith" autocomplete="name" />
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="jane@example.com" autocomplete="email" />
+    </div>
+
+    <div class="field">
+      <label for="type">What Do You Need?</label>
+      <select id="type">
+        <option value="" disabled selected>Pick one...</option>
+        <option>Website or Web App</option>
+        <option>Automation / Scripts</option>
+        <option>Network or IT Setup</option>
+        <option>Database / Backend</option>
+        <option>Something Else Entirely</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="idea">Tell Us More</label>
+      <textarea id="idea" placeholder="Describe your idea, problem, or 3am brain dump..."></textarea>
+    </div>
+
+    <button type="submit">Send It Over &rarr;</button>
+  </form>
+
+  <p class="footer">oppodel.com &nbsp;&middot;&nbsp; <a href="mailto:hello@oppodel.com">hello@oppodel.com</a></p>
+
+</body>
+</html>
