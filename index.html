@@ -177,13 +177,13 @@
   <form name="contact" method="POST" data-netlify="true">
     <input type="hidden" name="form-name" value="contact" />
     <div class="row">
-      <input type="text" placeholder="First name" />
-      <input type="text" placeholder="Last name" />
+      <input type="text" name="first-name" placeholder="First name" />
+      <input type="text" name="last-name" placeholder="Last name" />
     </div>
 
-    <input type="email" placeholder="Email address" />
+    <input type="email" name="email" placeholder="Email address" />
 
-    <select onchange="this.classList.toggle('filled', this.value !== '')">
+    <select name="project-type" onchange="this.classList.toggle('filled', this.value !== '')">
       <option value="" disabled selected>What do you need?</option>
       <option>Website or Web App</option>
       <option>Automation / Scripts</option>
@@ -192,7 +192,7 @@
       <option>Something Else</option>
     </select>
 
-    <textarea placeholder="Describe your idea..."></textarea>
+    <textarea name="message" placeholder="Describe your idea..."></textarea>
 
     <button type="submit">Send it over</button>
   </form>
