@@ -174,7 +174,8 @@
   <h1 class="headline">Want Some <em>Nerds</em> To Build You Something?</h1>
   <p class="sub">Tell us what you need &mdash; we'll handle the rest.</p>
 
-  <form>
+  <form name="contact" method="POST" data-netlify="true">
+    <input type="hidden" name="form-name" value="contact" />
     <div class="row">
       <input type="text" placeholder="First name" />
       <input type="text" placeholder="Last name" />
