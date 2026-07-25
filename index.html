@@ -28,9 +28,20 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       min-height: 100vh;
-      padding: 3rem 1.5rem;
+      padding: 0 1.5rem 3rem;
+    }
+
+    /* hero fills the first screen and stays centred */
+    .hero {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 0;
     }
 
     header {
@@ -252,6 +263,7 @@
 </head>
 <body>
 
+  <div class="hero">
   <header>
     <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Oppodel">
       <path d="M 55.29 12.37 A 38 38 0 0 1 55.29 87.63" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
@@ -289,6 +301,7 @@
 
     <button type="submit">Send it over</button>
   </form>
+  </div>
 
   <section class="cases">
     <div class="cases-head">
