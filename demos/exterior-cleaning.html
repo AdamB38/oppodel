@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<!--
+  DEMO — Exterior Cleaning · Interactive Instant Quote (Oppodel)
+  ------------------------------------------------------------------------------------------------
+  Generic showcase piece for exterior cleaning businesses.
+
+  v2 changes (client feedback):
+  - Single-viewport layout: no page scrolling. Right panel is a 3-step wizard
+    (1 Property -> 2 Services -> 3 Estimate) that transitions in place; 3D stays put on the left.
+  - More realistic BRITISH house: procedural brick + rendered gable, slate roof with ridge line,
+    bay windows, porch canopy, chimney pots, block-paved drive, flagstone patio, fence panels,
+    real-time shadows. All procedural (canvas textures) — no external model files. Can be swapped
+    for photoreal GLTF models later without changing the app.
+  - Before/After removed. Selected services now HIGHLIGHT the matching part of the model in brand
+    blue (steady glow, gentle pulse); hovering a service card previews the highlight.
+  - New variables: access difficulty (multiplies labour-heavy services), outdoor tap availability
+    (small surcharge where water matters), urgency capture on the estimate step.
+
+  Pricing anchored to their REAL published from-prices (roof £500, drive/patio £200, gutters £80,
+  render £200, fascias £120, conservatory roof £80) — still illustrative, exact price confirmed
+  before booking. Demo-only booking button. No backend, no analytics; outbound = fonts + three.js CDN.
+  Illustrative demonstration only — not a live business.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exterior Cleaning — Instant Quote Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1099D6; --blue-dk:#0B7AB0; --blue-pale:#E7F5FC;
+  --grey:#8C8C8C; --slate:#3A4149; --ink:#232A31;
+  --line:#E3E8EC; --bg:#F4F8FA; --good:#2FA35A;
+}
+html,body{height:100%;}
+body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;overflow:hidden;}
+
+/* ───────── header + trust ───────── */
+.hdr{background:#fff;border-bottom:1px solid var(--line);flex-shrink:0;}
+.hdr-in{max-width:1340px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:18px;}
+.logo{display:flex;align-items:center;gap:11px;}
+.logo svg{height:38px;width:auto;display:block;}
+.logo-top{font-family:"Montserrat",sans-serif;font-weight:900;font-size:19px;letter-spacing:0.02em;color:var(--grey);line-height:1;}
+.logo-top b{color:var(--blue);}
+.logo-btm{font-family:"Montserrat",sans-serif;font-weight:700;font-size:10px;letter-spacing:0.18em;color:var(--blue);margin-top:3px;}
+.hdr-right{margin-left:auto;text-align:right;}
+.hdr-phone{font-family:"Montserrat",sans-serif;font-weight:800;font-size:15px;color:var(--slate);}
+.hdr-area{font-size:10px;color:var(--grey);margin-top:1px;}
+.trust{background:var(--slate);color:#fff;flex-shrink:0;}
+.trust-in{max-width:1340px;margin:0 auto;padding:7px 24px;display:flex;gap:24px;flex-wrap:wrap;justify-content:center;}
+.trust span{font-size:10.5px;font-weight:600;color:rgba(255,255,255,0.85);}
+.trust b{color:#5BC6F2;}
+
+/* ───────── main split ───────── */
+.main{flex:1;min-height:0;max-width:1340px;width:100%;margin:0 auto;padding:16px 24px 18px;display:grid;grid-template-columns:minmax(430px,1fr) 470px;gap:20px;}
+
+/* 3D panel */
+.viz{position:relative;background:linear-gradient(160deg,#D8EEFA 0%,#F2FAFE 55%,#E7F2F8 100%);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 14px 40px rgba(16,80,110,0.10);display:flex;flex-direction:column;}
+.viz-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 0;flex-shrink:0;}
+.viz-title{font-family:"Montserrat",sans-serif;font-weight:800;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);}
+.viz-badge{font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;background:var(--blue);color:#fff;border-radius:20px;padding:4px 11px;transition:background .2s;}
+#stage{flex:1;min-height:0;width:100%;display:block;cursor:grab;}
+#stage:active{cursor:grabbing;}
+.viz-foot{padding:0 18px 12px;flex-shrink:0;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.viz-hint{font-size:10px;color:#7d8b94;}
+.viz-sel{font-size:10px;font-weight:700;color:var(--blue-dk);}
+
+/* wizard panel */
+.wiz{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(20,60,90,0.07);display:flex;flex-direction:column;min-height:0;overflow:hidden;}
+.wiz-steps{display:flex;gap:6px;padding:16px 20px 0;flex-shrink:0;}
+.wstep{flex:1;text-align:center;cursor:default;}
+.wstep-bar{height:4px;border-radius:3px;background:var(--line);margin-bottom:7px;transition:background .25s;}
+.wstep.done .wstep-bar,.wstep.on .wstep-bar{background:var(--blue);}
+.wstep-name{font-size:9.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#b6c0c7;transition:color .25s;}
+.wstep.on .wstep-name{color:var(--blue-dk);}
+.wstep.done .wstep-name{color:var(--slate);cursor:pointer;}
+
+.wiz-body{flex:1;min-height:0;position:relative;}
+.stepview{position:absolute;inset:0;padding:16px 20px 12px;overflow-y:auto;opacity:0;transform:translateX(26px);pointer-events:none;transition:opacity .28s ease,transform .28s ease;}
+.stepview.on{opacity:1;transform:none;pointer-events:auto;}
+.stepview.back{transform:translateX(-26px);}
+.stepview::-webkit-scrollbar{width:5px;}
+.stepview::-webkit-scrollbar-thumb{background:#d3dde3;border-radius:4px;}
+
+.wiz-nav{flex-shrink:0;display:flex;gap:10px;padding:12px 20px 16px;border-top:1px solid var(--line);}
+.btn-back{border:1.5px solid var(--line);background:#fff;color:var(--grey);border-radius:10px;font-family:"Inter",sans-serif;font-size:12.5px;font-weight:600;padding:12px 20px;cursor:pointer;}
+.btn-back:hover{color:var(--slate);border-color:#b8c6cf;}
+.btn-next{flex:1;border:none;border-radius:10px;background:var(--blue);color:#fff;font-family:"Montserrat",sans-serif;font-size:13.5px;font-weight:800;padding:13px;cursor:pointer;box-shadow:0 6px 18px rgba(16,153,214,0.35);transition:transform .15s,background .2s;}
+.btn-next:hover:not(:disabled){transform:translateY(-1px);background:#17A6E4;}
+.btn-next:disabled{background:#c3ced5;box-shadow:none;cursor:not-allowed;}
+
+/* step 1 controls */
+h2.step-t{font-family:"Montserrat",sans-serif;font-weight:800;font-size:17px;color:var(--slate);}
+.step-s{font-size:11.5px;color:#68737b;line-height:1.55;margin:4px 0 14px;}
+.row{display:flex;gap:7px;flex-wrap:wrap;}
+.chip{flex:1;min-width:82px;border:1.5px solid var(--line);border-radius:10px;background:#fff;padding:9px 5px;text-align:center;cursor:pointer;transition:all .15s;}
+.chip:hover{border-color:#b8cad4;}
+.chip.on{border-color:var(--blue);background:var(--blue-pale);}
+.chip-icon{height:24px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;}
+.chip-icon svg{height:22px;width:auto;}
+.chip-name{font-size:10.5px;font-weight:700;color:var(--slate);}
+.chip-sub{font-size:8.5px;color:var(--grey);margin-top:1px;}
+.lbl{display:block;font-size:11px;font-weight:700;color:var(--slate);margin:13px 0 6px;}
+.lbl small{font-weight:500;color:var(--grey);}
+.seg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;}
+.seg button{flex:1;font-family:"Inter",sans-serif;border:none;background:none;font-size:11px;font-weight:600;color:var(--grey);padding:8px 4px;border-radius:8px;cursor:pointer;transition:all .15s;line-height:1.3;}
+.seg button.on{background:#fff;color:var(--slate);box-shadow:0 1px 4px rgba(0,0,0,0.12);}
+.seg button small{display:block;font-size:8.5px;font-weight:500;color:var(--grey);}
+.pc-wrap input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;font-family:"Inter",sans-serif;font-size:13px;font-weight:600;letter-spacing:0.04em;color:var(--ink);text-transform:uppercase;outline:none;transition:border-color .15s,box-shadow .15s;}
+.pc-wrap input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(16,153,214,0.14);}
+.pc-note{font-size:10px;margin-top:6px;line-height:1.5;color:var(--grey);}
+.pc-note.ok{color:var(--good);font-weight:600;}
+.switch-row{display:flex;align-items:center;justify-content:space-between;margin-top:13px;gap:12px;}
+.switch-row .lbl{margin:0;}
+.switch-row .sub{font-size:9.5px;color:var(--grey);margin-top:2px;font-weight:500;}
+.tog{position:relative;width:40px;height:22px;border-radius:20px;background:#cdd8de;cursor:pointer;transition:background .15s;flex-shrink:0;}
+.tog::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s;}
+.tog.on{background:var(--blue);}
+.tog.on::after{left:21px;}
+
+/* step 2 service cards */
+.svc{border:1.5px solid var(--line);border-radius:12px;margin-bottom:9px;overflow:hidden;transition:border-color .2s,box-shadow .2s;background:#fff;}
+.svc:hover{box-shadow:0 6px 18px rgba(20,60,90,0.08);}
+.svc.on{border-color:var(--blue);}
+.svc-head{display:flex;align-items:center;gap:11px;padding:11px 13px;cursor:pointer;user-select:none;}
+.svc-check{width:20px;height:20px;border-radius:6px;border:2px solid #c9d4db;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800;transition:all .15s;}
+.svc.on .svc-check{background:var(--blue);border-color:var(--blue);}
+.svc-icon{width:30px;height:30px;border-radius:8px;background:var(--blue-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.svc-icon svg{width:17px;height:17px;}
+.svc-names{flex:1;min-width:0;}
+.svc-name{font-family:"Montserrat",sans-serif;font-size:12.5px;font-weight:800;color:var(--slate);}
+.svc-tag{font-size:9.5px;color:var(--grey);margin-top:1px;}
+.svc-from{text-align:right;flex-shrink:0;}
+.svc-from-lab{font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);font-weight:600;}
+.svc-price{font-family:"Montserrat",sans-serif;font-size:14px;font-weight:800;color:var(--slate);}
+.svc.on .svc-price{color:var(--blue-dk);}
+.svc-body{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;padding:0 13px;}
+.svc.on .svc-body{max-height:420px;padding:0 13px 13px;}
+.svc-body .lbl{margin:10px 0 5px;font-size:10.5px;}
+
+/* step 3 estimate */
+.tot-lines{display:flex;flex-direction:column;gap:7px;}
+.tot-line{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--slate);}
+.tot-line .val{font-family:"Montserrat",sans-serif;font-weight:700;}
+.tot-line.save{color:var(--good);}
+.tot-line.mod{color:var(--grey);font-size:11px;}
+.tot-rule{border-top:1px solid var(--line);margin:12px 0;}
+.tot-grand{display:flex;justify-content:space-between;align-items:baseline;}
+.tot-grand-label{font-size:11.5px;color:var(--grey);}
+.tot-grand-val{font-family:"Montserrat",sans-serif;font-size:33px;font-weight:900;color:var(--slate);}
+.tot-grand-val small{font-size:12px;font-weight:700;color:var(--grey);}
+.est-note{font-size:9.5px;color:var(--grey);line-height:1.6;margin-top:9px;}
+.warranty{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:10px;color:var(--grey);line-height:1.5;background:var(--bg);border-radius:9px;padding:9px 11px;}
+.warranty svg{flex-shrink:0;}
+
+/* ── demo strip + Oppodel CTA ── */
+.demo-strip{background:#111;color:rgba(255,255,255,0.72);flex-shrink:0;font-size:10.5px;line-height:1.5;text-align:center;padding:8px 24px;}
+.demo-strip b{color:#fff;letter-spacing:0.12em;text-transform:uppercase;font-size:9.5px;}
+.op-cta{margin-top:16px;border-radius:12px;background:#111;padding:20px 22px;text-align:center;}
+.op-cta-t{font-family:"Montserrat",sans-serif;font-size:17px;font-weight:800;color:#fff;margin-bottom:6px;}
+.op-cta-s{font-size:11px;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:16px;}
+.op-cta-b{width:100%;border:none;border-radius:10px;background:#fff;color:#000;font-family:"Montserrat",sans-serif;font-size:12px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;padding:13px;cursor:pointer;transition:opacity .2s;}
+.op-cta-b:hover{opacity:0.85;}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--slate);color:#fff;padding:13px 22px;border-radius:30px;font-size:12.5px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.3);opacity:0;pointer-events:none;transition:all .25s;z-index:50;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.foot{flex-shrink:0;text-align:center;font-size:9px;color:#9aa5ac;line-height:1.5;padding:0 20px 8px;}
+
+@media(max-width:980px){
+  body{overflow:auto;}
+  .main{grid-template-columns:1fr;padding:12px;}
+  .viz{min-height:300px;}
+  #stage{min-height:260px;}
+  .hdr-right{display:none;}
+  .wiz-body{min-height:430px;}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="logo">
+      <svg viewBox="0 0 120 88" fill="none" aria-hidden="true">
+        <path d="M8 52 L52 8 L74 30 L74 16 L88 16 L88 44 L96 52 L74 52 L52 30 L26 56 Z" fill="#1099D6"/>
+        <path d="M98 58 q14 4 12 16 q-2 10 -12 10" stroke="#1099D6" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <rect x="86" y="52" width="16" height="10" rx="2" fill="#8C8C8C" transform="rotate(24 94 57)"/>
+      </svg>
+      <div>
+        <div class="logo-top">INSTANT <b>QUOTE</b></div>
+        <div class="logo-btm">EXTERIOR CLEANING</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-phone">Demo</div>
+      <div class="hdr-area">Example build &mdash; yours would carry your own branding</div>
+    </div>
+  </div>
+</header>
+
+<div class="demo-strip">
+  <b>Demo</b> &mdash; a working example, not a live business. Anything built for you would be tailored to your services, your pricing and your branding, then properly polished.
+</div>
+
+<div class="trust">
+  <div class="trust-in">
+    <span><b>Build</b> your property in 3D</span>
+    <span><b>6 services</b> in one calculator</span>
+    <span><b>Instant</b> estimates, 24/7</span>
+    <span><b>Bundle</b> savings built in</span>
+    <span><b>Every price</b> confirmed before booking</span>
+  </div>
+</div>
+
+<main class="main">
+
+  <!-- 3D -->
+  <section class="viz">
+    <div class="viz-head">
+      <div class="viz-title">Your Property — Live Preview</div>
+      <div class="viz-badge" id="vizBadge">Set up your property</div>
+    </div>
+    <canvas id="stage"></canvas>
+    <div class="viz-foot">
+      <div class="viz-hint">Drag to rotate · scroll to zoom</div>
+      <div class="viz-sel" id="vizSel"></div>
+    </div>
+  </section>
+
+  <!-- wizard -->
+  <section class="wiz">
+    <div class="wiz-steps">
+      <div class="wstep on" data-step="1"><div class="wstep-bar"></div><div class="wstep-name">1 · Property</div></div>
+      <div class="wstep" data-step="2"><div class="wstep-bar"></div><div class="wstep-name">2 · Services</div></div>
+      <div class="wstep" data-step="3"><div class="wstep-bar"></div><div class="wstep-name">3 · Estimate</div></div>
+    </div>
+
+    <div class="wiz-body">
+
+      <!-- STEP 1 -->
+      <div class="stepview on" id="step1">
+        <h2 class="step-t">Tell us about your property</h2>
+        <div class="step-s">The 3D preview updates as you go — we use this to size the job accurately.</div>
+
+        <label class="lbl" style="margin-top:0;">Property type</label>
+        <div class="row" id="propRow">
+          <div class="chip" data-prop="terraced">
+            <div class="chip-icon"><svg viewBox="0 0 44 24" fill="none"><rect x="1" y="9" width="13" height="14" fill="#C7D5DD"/><rect x="15" y="9" width="14" height="14" fill="#1099D6"/><rect x="30" y="9" width="13" height="14" fill="#C7D5DD"/><path d="M14 9 L22 2 L30 9 Z" fill="#3A4149"/><path d="M0 9 L7 3 L14 9 Z" fill="#9FB4BF"/><path d="M30 9 L37 3 L44 9 Z" fill="#9FB4BF"/></svg></div>
+            <div class="chip-name">Terraced</div><div class="chip-sub">mid or end</div>
+          </div>
+          <div class="chip on" data-prop="semi">
+            <div class="chip-icon"><svg viewBox="0 0 44 24" fill="none"><rect x="6" y="9" width="16" height="14" fill="#1099D6"/><rect x="22" y="9" width="16" height="14" fill="#C7D5DD"/><path d="M5 9 L14 2 L23 9 Z" fill="#3A4149"/><path d="M21 9 L30 2 L39 9 Z" fill="#9FB4BF"/></svg></div>
+            <div class="chip-name">Semi</div><div class="chip-sub">most popular</div>
+          </div>
+          <div class="chip" data-prop="detached">
+            <div class="chip-icon"><svg viewBox="0 0 44 24" fill="none"><rect x="10" y="8" width="24" height="15" fill="#1099D6"/><path d="M8 8 L22 0 L36 8 Z" fill="#3A4149"/></svg></div>
+            <div class="chip-name">Detached</div><div class="chip-sub">standalone</div>
+          </div>
+          <div class="chip" data-prop="bungalow">
+            <div class="chip-icon"><svg viewBox="0 0 44 24" fill="none"><rect x="8" y="13" width="28" height="10" fill="#1099D6"/><path d="M5 13 L22 4 L39 13 Z" fill="#3A4149"/></svg></div>
+            <div class="chip-name">Bungalow</div><div class="chip-sub">single storey</div>
+          </div>
+        </div>
+
+        <label class="lbl">Storeys</label>
+        <div class="seg" id="storeySeg">
+          <button data-st="1">1</button>
+          <button data-st="2" class="on">2</button>
+          <button data-st="3">3</button>
+        </div>
+
+        <label class="lbl">Access around the property <small>— affects roof, gutter &amp; render work</small></label>
+        <div class="seg" id="accessSeg">
+          <button data-ac="easy" class="on">Easy<small>drive / side gate</small></button>
+          <button data-ac="restricted">Restricted<small>terrace / rear alley</small></button>
+          <button data-ac="tight">Tight<small>no vehicle access</small></button>
+        </div>
+
+        <div class="switch-row">
+          <div><label class="lbl">Outdoor tap available?</label>
+          <div class="sub">No problem if not — we bring our own water supply.</div></div>
+          <div class="tog on" id="waterTog"></div>
+        </div>
+
+        <label class="lbl">Postcode <small>— we'll check you're in our patch</small></label>
+        <div class="pc-wrap"><input id="pcInput" placeholder="e.g. DE13 9EX" maxlength="8"></div>
+        <div class="pc-note" id="pcNote">In a real build this checks the postcode against your own service area.</div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="stepview" id="step2">
+        <h2 class="step-t">What needs cleaning?</h2>
+        <div class="step-s">Pick as many as you like — the model highlights what we'll clean, and bundling earns a discount.</div>
+        <div id="svcList"></div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="stepview" id="step3">
+        <h2 class="step-t">Your instant estimate</h2>
+        <div class="step-s" id="estSub">Here's your tailored estimate.</div>
+        <div class="tot-lines" id="totLines"></div>
+        <div class="tot-rule"></div>
+        <div class="tot-grand">
+          <div class="tot-grand-label">Estimated total</div>
+          <div class="tot-grand-val" id="totGrand">£0</div>
+        </div>
+        <div class="est-note">Instant estimate based on typical properties — the exact price is confirmed (with photos or a quick visit) before anything is booked. No deposits, no surprises.</div>
+
+        <label class="lbl">How soon would you like it done?</label>
+        <div class="seg" id="urgSeg">
+          <button data-u="asap" class="on">ASAP</button>
+          <button data-u="month">2–4 weeks</button>
+          <button data-u="flex">I'm flexible</button>
+        </div>
+
+        <div class="warranty">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2FA35A" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          Roof cleans include a 2-year warranty · fully insured · HSE-licensed products
+        </div>
+
+        <div class="op-cta">
+          <div class="op-cta-t">Like what you see?</div>
+          <div class="op-cta-s">This is a demo. We build these properly &mdash; your services, your pricing, your branding.</div>
+          <button class="op-cta-b" onclick="oppodelContact()">Get in touch</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wiz-nav">
+      <button class="btn-back" id="navBack" style="display:none;">← Back</button>
+      <button class="btn-next" id="navNext">Continue → Choose services</button>
+    </div>
+  </section>
+</main>
+
+<div class="foot">Demo build by Oppodel · illustrative pricing only · not a live business</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+/* ═════════════ STATE ═════════════ */
+const state = {
+  prop:'semi', storeys:2, access:'easy', water:true, postcode:'',
+  services:{}, hover:null, step:1, urgency:'asap',
+};
+const PROP_FACTOR = { terraced:0.8, semi:1.0, detached:1.3, bungalow:0.9 };
+const ST_FACTOR   = { 1:1, 2:1.15, 3:1.35 };
+const AC_FACTOR   = { easy:1, restricted:1.08, tight:1.15 };
+const AC_LABEL    = { easy:'Easy access', restricted:'Restricted access', tight:'Tight access' };
+
+/* ═════════════ SERVICES ═════════════ */
+const SERVICES = [
+  { id:'roof', name:'Roof Cleaning & Moss Removal', tag:'Softwash or steam · 2-year warranty', from:500, part:['roof'],
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0B7AB0" stroke-width="1.8" stroke-linecap="round"><path d="M3 11L12 3l9 8"/><path d="M5 10v9h14v-9"/><path d="M9 19v-5h6v5"/></svg>',
+    opts:[{key:'moss',label:'How mossy is the roof?',type:'seg',values:[['light','Light'],['moderate','Moderate'],['heavy','Heavy']],def:'moderate'}],
+    price(s,o){ const m={light:1,moderate:1.25,heavy:1.55}[o.moss]; return 500*PROP_FACTOR[s.prop]*m*AC_FACTOR[s.access]; } },
+  { id:'drive', name:'Driveway & Patio Cleaning', tag:'Pressure wash · re-sand available', from:200, part:['drive','patio'],
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0B7AB0" stroke-width="1.8" stroke-linecap="round"><path d="M4 20L10 4h4l6 16"/><path d="M8 14h8M6.5 17h11"/></svg>',
+    opts:[
+      {key:'what',label:'What needs cleaning?',type:'seg',values:[['drive','Driveway'],['patio','Patio'],['both','Both']],def:'drive'},
+      {key:'size',label:'Approximate size',type:'seg',values:[['s','Small'],['m','Medium'],['l','Large']],def:'m'},
+      {key:'surface',label:'Surface',type:'seg',values:[['block','Block paving'],['concrete','Concrete'],['stone','Natural stone']],def:'block'},
+      {key:'resand',label:'Re-sand joints after cleaning',type:'toggle',def:false}],
+    price(s,o){ const w={drive:1,patio:0.9,both:1.7}[o.what], z={s:1,m:1.5,l:2.2}[o.size], f={block:1.1,concrete:1,stone:1.15}[o.surface];
+      let p=200*w*z*f; if(o.resand)p+=60*z*(o.what==='both'?1.6:1); if(!s.water)p+=10; return p; } },
+  { id:'gutter', name:'Gutter Cleaning', tag:'"Gutter Busters" — cleared & flushed', from:80, part:['gutter'],
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0B7AB0" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h18v3a3 3 0 01-3 3h-1v6"/><path d="M3 8l9-5 9 5"/></svg>',
+    opts:[
+      {key:'downpipes',label:'Include downpipes & outlets',type:'toggle',def:true},
+      {key:'camera',label:'Before/after camera footage',type:'toggle',def:false}],
+    price(s,o){ let p=80*PROP_FACTOR[s.prop]*ST_FACTOR[s.storeys]*AC_FACTOR[s.access]; if(o.downpipes)p+=20; if(o.camera)p+=15; return p; } },
+  { id:'render', name:'Render Cleaning', tag:'Gentle softwash — no damage', from:200, part:['render'],
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0B7AB0" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16M4 16h16M10 4v16"/></svg>',
+    opts:[
+      {key:'walls',label:'Which walls?',type:'seg',values:[['front','Front only'],['frontback','Front & back'],['all','Whole house']],def:'front'},
+      {key:'algae',label:'Staining level',type:'seg',values:[['light','Light'],['green','Green algae'],['heavy','Heavy/red']],def:'green'}],
+    price(s,o){ const w={front:1,frontback:1.6,all:2.2}[o.walls], a={light:1,green:1.15,heavy:1.35}[o.algae];
+      let p=200*w*a*PROP_FACTOR[s.prop]*ST_FACTOR[s.storeys]*AC_FACTOR[s.access]; if(!s.water)p+=10; return p; } },
+  { id:'fascia', name:'Fascias & Soffits', tag:'Brighten the whole roofline', from:120, part:['fascia','gutter'],
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0B7AB0" stroke-width="1.8" stroke-linecap="round"><path d="M2 9l10-6 10 6"/><path d="M4 9v2h16V9"/><path d="M7 15l5-3 5 3"/></svg>',
+    opts:[{key:'scope',label:'Scope',type:'seg',values:[['front','Front only'],['all','Whole house']],def:'all'}],
+    price(s,o){ const sc={front:0.6,all:1}[o.scope]; return 120*sc*PROP_FACTOR[s.prop]*ST_FACTOR[s.storeys]*AC_FACTOR[s.access]; } },
+  { id:'cons', name:'Conservatory Cleaning', tag:'Roof, frames & glass', from:80, part:['cons'],
+    icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0B7AB0" stroke-width="1.8" stroke-linecap="round"><path d="M3 11L12 5l9 6"/><path d="M5 11v8h14v-8"/><path d="M9 19v-6M15 19v-6M5 15h14"/></svg>',
+    opts:[
+      {key:'scope',label:'What to clean?',type:'seg',values:[['roof','Roof only'],['full','Full clean']],def:'roof'},
+      {key:'size',label:'Size',type:'seg',values:[['s','Small'],['m','Medium'],['l','Lean-to/large']],def:'m'}],
+    price(s,o){ const sc={roof:1,full:1.7}[o.scope], sz={s:1,m:1.3,l:1.7}[o.size]; return 80*sc*sz; } },
+];
+
+const money = n => '£' + (Math.round(n/5)*5).toLocaleString('en-GB');
+
+/* ═════════════ SERVICE CARDS ═════════════ */
+const svcList = document.getElementById('svcList');
+SERVICES.forEach(sv => {
+  const card = document.createElement('div');
+  card.className='svc'; card.id='card-'+sv.id;
+  let body='';
+  sv.opts.forEach(op=>{
+    if(op.type==='seg'){
+      body+=`<label class="lbl">${op.label}</label><div class="seg" data-svc="${sv.id}" data-key="${op.key}">`+
+        op.values.map(([v,l])=>`<button data-val="${v}" class="${v===op.def?'on':''}">${l}</button>`).join('')+`</div>`;
+    } else {
+      body+=`<div class="switch-row"><label class="lbl" style="margin:0;">${op.label}</label><div class="tog ${op.def?'on':''}" data-svc="${sv.id}" data-key="${op.key}"></div></div>`;
+    }
+  });
+  card.innerHTML=`
+    <div class="svc-head" data-toggle="${sv.id}">
+      <div class="svc-check">✓</div>
+      <div class="svc-icon">${sv.icon}</div>
+      <div class="svc-names"><div class="svc-name">${sv.name}</div><div class="svc-tag">${sv.tag}</div></div>
+      <div class="svc-from"><div class="svc-from-lab">from</div><div class="svc-price" id="p-${sv.id}">£${sv.from}</div></div>
+    </div>
+    <div class="svc-body">${body}</div>`;
+  svcList.appendChild(card);
+  card.addEventListener('mouseenter',()=>{ state.hover=sv.id; });
+  card.addEventListener('mouseleave',()=>{ state.hover=null; });
+});
+function defaults(sv){ const o={}; sv.opts.forEach(op=>o[op.key]=op.def); return o; }
+
+svcList.addEventListener('click', e=>{
+  const head=e.target.closest('.svc-head');
+  if(head){
+    const id=head.dataset.toggle, sv=SERVICES.find(s=>s.id===id);
+    if(state.services[id]) delete state.services[id]; else state.services[id]=defaults(sv);
+    document.getElementById('card-'+id).classList.toggle('on',!!state.services[id]);
+    recalc(); return;
+  }
+  const b=e.target.closest('.seg button');
+  if(b){
+    const seg=b.parentElement;
+    seg.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    const o=state.services[seg.dataset.svc]; if(o)o[seg.dataset.key]=b.dataset.val;
+    recalc(); return;
+  }
+  const t=e.target.closest('.tog');
+  if(t){
+    t.classList.toggle('on');
+    const o=state.services[t.dataset.svc]; if(o)o[t.dataset.key]=t.classList.contains('on');
+    recalc(); return;
+  }
+});
+
+/* ═════════════ STEP 1 CONTROLS ═════════════ */
+document.getElementById('propRow').addEventListener('click',e=>{
+  const chip=e.target.closest('.chip'); if(!chip)return;
+  document.querySelectorAll('#propRow .chip').forEach(c=>c.classList.remove('on'));
+  chip.classList.add('on'); state.prop=chip.dataset.prop;
+  if(state.prop==='bungalow'){ state.storeys=1; setSeg('storeySeg','st',1); }
+  buildHouse(); recalc();
+});
+function setSeg(id,attr,val){
+  document.querySelectorAll('#'+id+' button').forEach(b=>b.classList.toggle('on', b.dataset[attr]==String(val)));
+}
+document.getElementById('storeySeg').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  state.storeys=+b.dataset.st;
+  if(state.prop==='bungalow'&&state.storeys>1){ state.prop='semi';
+    document.querySelectorAll('#propRow .chip').forEach(c=>c.classList.toggle('on',c.dataset.prop==='semi')); }
+  setSeg('storeySeg','st',state.storeys); buildHouse(); recalc();
+});
+document.getElementById('accessSeg').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  state.access=b.dataset.ac; setSeg('accessSeg','ac',state.access); recalc();
+});
+document.getElementById('waterTog').addEventListener('click',e=>{
+  e.currentTarget.classList.toggle('on'); state.water=e.currentTarget.classList.contains('on'); recalc();
+});
+document.getElementById('urgSeg').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  state.urgency=b.dataset.u; setSeg('urgSeg','u',state.urgency);
+});
+const AREAS=['DE','ST','B','LE','CV','WS','WV','TF','SY','NG','DY'];
+document.getElementById('pcInput').addEventListener('input',e=>{
+  const v=e.target.value.toUpperCase(); e.target.value=v; state.postcode=v;
+  const note=document.getElementById('pcNote');
+  const m=v.trim().match(/^[A-Z]{1,2}/);
+  if(v.trim().length>=3&&m&&AREAS.includes(m[0])){
+    note.textContent="✓ Great news — you're in our patch. "+v.trim()+" is covered."; note.className='pc-note ok';
+  } else if(v.trim().length>=3){
+    note.textContent="We may still cover you — pop us a message to check."; note.className='pc-note';
+  } else {
+    note.textContent="In a real build this checks the postcode against your own service area."; note.className='pc-note';
+  }
+});
+
+/* ═════════════ WIZARD NAV ═════════════ */
+/* CTA — bubbles up to the Oppodel site to open the contact form */
+function oppodelContact(){
+  if(window.parent && window.parent!==window){
+    window.parent.postMessage({type:'oppodel-contact'},'*');
+  } else {
+    window.location.href='../index.html#contact';
+  }
+}
+
+const NEXT_LABEL={1:'Continue → Choose services',2:'See my estimate →',3:'Like what you see? Get in touch →'};
+function goStep(n){
+  const prev=state.step; state.step=n;
+  document.querySelectorAll('.stepview').forEach((el,i)=>{
+    const s=i+1;
+    el.classList.toggle('on',s===n);
+    el.classList.toggle('back',s<n);
+  });
+  document.querySelectorAll('.wstep').forEach(el=>{
+    const s=+el.dataset.step;
+    el.classList.toggle('on',s===n);
+    el.classList.toggle('done',s<n);
+  });
+  document.getElementById('navBack').style.display=n>1?'block':'none';
+  document.getElementById('navNext').textContent=NEXT_LABEL[n];
+  updateNav(); updateBadge();
+}
+function updateNav(){
+  const next=document.getElementById('navNext');
+  next.disabled = (state.step===2 && !Object.keys(state.services).length);
+}
+document.getElementById('navNext').addEventListener('click',()=>{
+  if(state.step===3){ oppodelContact(); return; }
+  if(state.step===2) buildEstimate();
+  goStep(state.step+1);
+});
+document.getElementById('navBack').addEventListener('click',()=>goStep(state.step-1));
+document.querySelector('.wiz-steps').addEventListener('click',e=>{
+  const w=e.target.closest('.wstep.done'); if(w) goStep(+w.dataset.step);
+});
+
+/* ═════════════ PRICING ═════════════ */
+function lineItems(){
+  const lines=[];
+  let subtotal=0;
+  SERVICES.forEach(sv=>{
+    const o=state.services[sv.id];
+    const el=document.getElementById('p-'+sv.id);
+    if(o){ const p=sv.price(state,o); subtotal+=p; lines.push([sv,p]); el.textContent=money(p); }
+    else el.textContent='£'+sv.from;
+  });
+  return {lines,subtotal};
+}
+function recalc(){
+  const {lines,subtotal}=lineItems();
+  updateNav(); updateBadge();
+  if(state.step===3) buildEstimate();
+}
+function buildEstimate(){
+  const {lines,subtotal}=lineItems();
+  const n=lines.length;
+  const disc=n>=3?0.15:n===2?0.10:0;
+  const el=document.getElementById('totLines');
+  const mods=[AC_LABEL[state.access]+(state.access!=='easy'?' (+'+Math.round((AC_FACTOR[state.access]-1)*100)+'% on labour)':''),
+              state.water?null:'No outdoor tap — we bring water (+£10 where needed)'].filter(Boolean);
+  el.innerHTML =
+    lines.map(([sv,p])=>`<div class="tot-line"><b>${sv.name}</b><span class="val">${money(p)}</span></div>`).join('')+
+    (disc?`<div class="tot-line save"><b>Multi-service saving (−${disc*100}%)</b><span class="val">−${money(subtotal*disc)}</span></div>`:'')+
+    mods.map(m=>`<div class="tot-line mod"><b>${m}</b><span></span></div>`).join('');
+  document.getElementById('totGrand').innerHTML=money(subtotal*(1-disc))+' <small>est.</small>';
+  document.getElementById('estSub').textContent =
+    `${n} service${n===1?'':'s'} · ${ {terraced:'terraced',semi:'semi-detached',detached:'detached',bungalow:'bungalow'}[state.prop] }` +
+    ` · ${state.storeys} storey${state.storeys>1?'s':''}` + (state.postcode?` · ${state.postcode}`:'');
+}
+
+/* toast */
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+/* badge */
+function updateBadge(){
+  const n=Object.keys(state.services).length;
+  const badge=document.getElementById('vizBadge');
+  if(state.step===1){ badge.textContent='Set up your property'; badge.style.background='var(--blue)'; }
+  else if(n===0){ badge.textContent='Pick your services'; badge.style.background='var(--blue)'; }
+  else { badge.textContent=n+' service'+(n>1?'s':'')+' — highlighted'; badge.style.background='var(--good)'; }
+  document.getElementById('vizSel').textContent =
+    Object.keys(state.services).map(id=>SERVICES.find(s=>s.id===id).name.split(' ')[0]).join(' · ');
+}
+
+/* ═════════════ 3D — BRITISH HOUSE ═════════════ */
+const canvas=document.getElementById('stage');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputEncoding=THREE.sRGBEncoding;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.06;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(36,1,0.1,300);
+camera.position.set(15,8.5,17);
+const controls=new THREE.OrbitControls(camera,canvas);
+controls.target.set(0,2.4,0);
+controls.enableDamping=true; controls.dampingFactor=0.08;
+controls.autoRotate=true; controls.autoRotateSpeed=0.8;
+controls.minDistance=10; controls.maxDistance=36;
+controls.maxPolarAngle=Math.PI/2.05;
+canvas.addEventListener('pointerdown',()=>{controls.autoRotate=false;});
+
+scene.add(new THREE.HemisphereLight(0xeaf4fb,0x9aa88f,0.6));
+const sun=new THREE.DirectionalLight(0xfff2dd,0.85);
+sun.position.set(14,20,10);
+sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);
+sun.shadow.camera.left=-22; sun.shadow.camera.right=22;
+sun.shadow.camera.top=22; sun.shadow.camera.bottom=-22;
+sun.shadow.bias=-0.0004;
+scene.add(sun);
+const fill=new THREE.DirectionalLight(0xcfe4f2,0.25);
+fill.position.set(-10,8,-12);
+scene.add(fill);
+
+/* -- procedural textures (512px, sRGB) -------------------------- */
+function texture(w,h,draw,rx,ry){
+  const c=document.createElement('canvas'); c.width=w; c.height=h;
+  draw(c.getContext('2d'),w,h);
+  const t=new THREE.CanvasTexture(c);
+  t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(rx||1,ry||1);
+  t.anisotropy=8; t.encoding=THREE.sRGBEncoding;
+  return t;
+}
+function shade(base,dv){
+  const v=(Math.random()*2-1)*dv;
+  return 'rgb('+base.map(c=>Math.max(0,Math.min(255,Math.round(c*(1+v))))).join(',')+')';
+}
+const brickDraw=(x,w,h)=>{
+  x.fillStyle='#b7ad9e'; x.fillRect(0,0,w,h);
+  const bh=18,bw=52,m=3;
+  for(let r=0;r*bh<h+bh;r++){
+    const off=(r%2)*(bw/2);
+    for(let c=-1;c*bw<w+bw;c++){
+      const bx=c*bw+off, by=r*bh;
+      x.fillStyle=Math.random()<0.08 ? shade([112,64,50],0.08) : shade([154,88,62],0.10);
+      x.fillRect(bx+m,by+m,bw-m*2,bh-m*2);
+      x.fillStyle='rgba(255,255,255,0.10)'; x.fillRect(bx+m,by+m,bw-m*2,2);
+      x.fillStyle='rgba(0,0,0,0.13)'; x.fillRect(bx+m,by+bh-m-2,bw-m*2,2);
+    }
+  }
+};
+const renderDraw=(x,w,h)=>{
+  x.fillStyle='#efece5'; x.fillRect(0,0,w,h);
+  for(let i=0;i<14000;i++){
+    x.fillStyle='rgba('+(Math.random()<0.5?'255,255,255':'120,116,108')+','+(0.04+Math.random()*0.05)+')';
+    x.fillRect(Math.random()*w,Math.random()*h,1.6,1.6);
+  }
+};
+const slateDraw=(x,w,h)=>{
+  x.fillStyle='#31383f'; x.fillRect(0,0,w,h);
+  const th=26,tw=42;
+  for(let r=0;r*th<h+th;r++){
+    const off=(r%2)*(tw/2);
+    for(let c=-1;c*tw<w+tw;c++){
+      x.fillStyle=shade([80,90,101],0.10);
+      x.fillRect(c*tw+off+1,r*th+1,tw-2,th-2);
+      x.fillStyle='rgba(255,255,255,0.06)'; x.fillRect(c*tw+off+1,r*th+1,tw-2,2);
+    }
+    x.fillStyle='rgba(0,0,0,0.30)'; x.fillRect(0,r*th+th-2,w,3);
+  }
+};
+const herringDraw=(x,w,h)=>{
+  x.fillStyle='#8f8474'; x.fillRect(0,0,w,h);
+  const bl=46,bw2=18;
+  x.save(); x.translate(w/2,h/2); x.rotate(Math.PI/4);
+  for(let i=-16;i<16;i++)for(let j=-16;j<16;j++){
+    const ex=i*bl*0.5, ey=j*bl*0.5;
+    x.fillStyle=shade([182,152,112],0.13);
+    if((i+j)%2===0) x.fillRect(ex,ey,bl-2.5,bw2-2.5);
+    else x.fillRect(ex,ey,bw2-2.5,bl-2.5);
+  }
+  x.restore();
+};
+const flagDraw=(x,w,h)=>{
+  x.fillStyle='#6f6b64'; x.fillRect(0,0,w,h);
+  const s=86;
+  const tones=[[150,144,132],[138,128,120],[158,148,128],[128,124,118],[146,134,116]];
+  for(let r=0;r*s<h;r++)for(let c=0;c*s<w;c++){
+    x.fillStyle=shade(tones[(r*5+c*3)%tones.length],0.05);
+    x.fillRect(c*s+3,r*s+3,s-6,s-6);
+  }
+};
+const grassDraw=(x,w,h)=>{
+  const stripe=64;
+  for(let c=0;c*stripe<w;c++){
+    x.fillStyle=(c%2)?'#5f9350':'#6da35c';
+    x.fillRect(c*stripe,0,stripe,h);
+  }
+  for(let i=0;i<9000;i++){
+    x.fillStyle='rgba('+(Math.random()<0.5?'40,80,35':'150,190,110')+','+(0.05+Math.random()*0.08)+')';
+    x.fillRect(Math.random()*w,Math.random()*h,1.6,2.6);
+  }
+};
+const woodDraw=(x,w,h)=>{
+  const pw=19;
+  for(let c=0;c*pw<w;c++){
+    x.fillStyle=shade([132,102,72],0.09);
+    x.fillRect(c*pw,0,pw-1.5,h);
+    x.fillStyle='rgba(0,0,0,0.18)'; x.fillRect(c*pw+pw-2.5,0,1.5,h);
+  }
+};
+const asphaltDraw=(x,w,h)=>{
+  x.fillStyle='#4b4e52'; x.fillRect(0,0,w,h);
+  for(let i=0;i<9000;i++){
+    x.fillStyle='rgba('+(Math.random()<0.5?'255,255,255':'0,0,0')+','+(0.03+Math.random()*0.05)+')';
+    x.fillRect(Math.random()*w,Math.random()*h,1.4,1.4);
+  }
+};
+
+const parts={};
+function reg(n,m){ (parts[n]=parts[n]||[]).push(m); return m; }
+function sh(m){ m.castShadow=true; m.receiveShadow=true; return m; }
+function stdMat(o){ return new THREE.MeshStandardMaterial(Object.assign({roughness:0.9,metalness:0.02},o)); }
+function texMat(draw,rx,ry,extra){
+  return stdMat(Object.assign({map:texture(512,512,draw,rx,ry)},extra||{}));
+}
+const WHITE=()=>stdMat({color:0xfbfbf9,roughness:0.35});
+const GLASS=()=>stdMat({color:0x9fc3d8,roughness:0.14,metalness:0.25});
+
+let house=null;
+function buildHouse(){
+  if(house) scene.remove(house);
+  for(const k in parts) delete parts[k];
+  house=new THREE.Group();
+
+  const isB=state.prop==='bungalow';
+  const st=isB?1:state.storeys;
+  const W={terraced:5.6,semi:7.2,detached:9.4,bungalow:8.6}[state.prop];
+  const D=6.6;
+  const H=2.75*st+0.25;
+  const roofH=Math.max(1.9,W*0.27);
+  const ov=0.5;
+  const slopeAng=Math.atan2(roofH,W/2+ov);
+  const slopeLen=Math.sqrt(Math.pow(W/2+ov,2)+roofH*roofH);
+
+  /* walls: brick below, rendered band above */
+  const bandH = st>1 ? (H-3.66) : Math.min(1.1,H*0.33);
+  const brickH=H-bandH;
+  const walls=sh(reg('brick',new THREE.Mesh(new THREE.BoxGeometry(W,brickH,D),
+    texMat(brickDraw,W/3.4,brickH/2.6))));
+  walls.position.y=brickH/2; house.add(walls);
+  const band=sh(reg('render',new THREE.Mesh(new THREE.BoxGeometry(W+0.07,bandH,D+0.07),
+    texMat(renderDraw,W/3,1))));
+  band.position.y=brickH+bandH/2; house.add(band);
+  const plinthC=sh(new THREE.Mesh(new THREE.BoxGeometry(W+0.1,0.32,D+0.1),stdMat({color:0x6e4a38,roughness:0.85})));
+  plinthC.position.y=0.16; house.add(plinthC);
+  const course=sh(new THREE.Mesh(new THREE.BoxGeometry(W+0.1,0.09,D+0.1),stdMat({color:0xd9d2c4,roughness:0.6})));
+  course.position.y=brickH-0.02; house.add(course);
+
+  /* roof: coursed slate + ridge roll + bargeboards */
+  const shp=new THREE.Shape();
+  shp.moveTo(-W/2-ov,0); shp.lineTo(W/2+ov,0); shp.lineTo(0,roofH); shp.closePath();
+  const roof=sh(reg('roof',new THREE.Mesh(
+    new THREE.ExtrudeGeometry(shp,{depth:D+2*ov,bevelEnabled:false}),
+    texMat(slateDraw,2.0,1.4))));
+  roof.position.set(0,H,-(D+2*ov)/2); house.add(roof);
+  const ridge=sh(reg('roof',new THREE.Mesh(
+    new THREE.CylinderGeometry(0.15,0.15,D+2*ov+0.06,12),stdMat({color:0x272d33,roughness:0.7}))));
+  ridge.rotation.x=Math.PI/2; ridge.position.set(0,H+roofH+0.02,0); house.add(ridge);
+  [-1,1].forEach(sz=>{
+    [-1,1].forEach(sx=>{
+      const bb=sh(new THREE.Mesh(new THREE.BoxGeometry(slopeLen,0.26,0.09),WHITE()));
+      bb.rotation.z=sx>0?-slopeAng:slopeAng;
+      bb.position.set(sx*(W/2+ov)/2,H+roofH/2+0.02,sz*(D/2+ov));
+      house.add(bb);
+    });
+  });
+
+  /* fascias, gutters with brackets, downpipes */
+  [-1,1].forEach(sx=>{
+    const f=sh(reg('fascia',new THREE.Mesh(new THREE.BoxGeometry(0.09,0.4,D+2*ov),WHITE())));
+    f.position.set(sx*(W/2+ov-0.02),H-0.12,0); house.add(f);
+    const sof=sh(reg('fascia',new THREE.Mesh(new THREE.BoxGeometry(ov+0.15,0.07,D+2*ov),WHITE())));
+    sof.position.set(sx*(W/2+ov/2),H-0.30,0); house.add(sof);
+    const g=sh(reg('gutter',new THREE.Mesh(
+      new THREE.CylinderGeometry(0.12,0.12,D+2*ov,10,1,false,Math.PI,Math.PI),
+      stdMat({color:0x1c1f22,roughness:0.45}))));
+    g.rotation.x=Math.PI/2; g.position.set(sx*(W/2+ov+0.03),H+0.05,0); house.add(g);
+    for(let b=0;b<5;b++){
+      const br=reg('gutter',new THREE.Mesh(new THREE.BoxGeometry(0.05,0.1,0.06),stdMat({color:0x1c1f22})));
+      br.position.set(sx*(W/2+ov+0.03),H+0.11,-D/2+(b+0.5)*(D/5)); house.add(br);
+    }
+    const dp=sh(reg('gutter',new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.055,H-0.35,8),
+      stdMat({color:0x1c1f22,roughness:0.45}))));
+    dp.position.set(sx*(W/2+0.1),(H-0.35)/2,D/2-0.45); house.add(dp);
+  });
+
+  /* windows: lintel + sill + frame + glazing bars */
+  const glass=GLASS();
+  function windowUnit(w2,h2,inRender){
+    const g=new THREE.Group();
+    if(!inRender){
+      const lin=sh(new THREE.Mesh(new THREE.BoxGeometry(w2+0.22,0.13,0.1),stdMat({color:0x7d4938,roughness:0.8})));
+      lin.position.set(0,h2/2+0.085,0.01); g.add(lin);
+    }
+    const sil=sh(new THREE.Mesh(new THREE.BoxGeometry(w2+0.2,0.1,0.2),stdMat({color:0xd9d2c4,roughness:0.55})));
+    sil.position.set(0,-h2/2-0.06,0.05); g.add(sil);
+    const fr=sh(new THREE.Mesh(new THREE.BoxGeometry(w2,h2,0.1),WHITE())); g.add(fr);
+    const gl=new THREE.Mesh(new THREE.BoxGeometry(w2-0.12,h2-0.12,0.11),glass); g.add(gl);
+    const bh2=new THREE.Mesh(new THREE.BoxGeometry(w2-0.1,0.05,0.12),WHITE());
+    bh2.position.y=h2*0.17; g.add(bh2);
+    const bv=new THREE.Mesh(new THREE.BoxGeometry(0.05,h2*0.33-0.05,0.12),WHITE());
+    bv.position.y=h2*0.335; g.add(bv);
+    return g;
+  }
+  const nWin=Math.max(2,Math.round(W/3.1));
+  const doorSlot=Math.floor(nWin/2);
+  for(let r=0;r<st;r++){
+    const y=1.65+r*2.75;
+    for(let i=0;i<nWin;i++){
+      const x=-W/2+(i+0.5)*(W/nWin);
+      if(r===0&&i===doorSlot) continue;
+      if(r===0&&i===0) continue;
+      const wu=windowUnit(1.15,1.3, r>0);
+      wu.position.set(x,y,D/2+0.05); house.add(wu);
+    }
+  }
+
+  /* square bay window (ground floor, front-left) — box-built */
+  const bayX=-W/2+0.5*(W/nWin);
+  (function(){
+    const bw=1.95, bd=0.68, bh3=2.25, glz=1.15, baseH=bh3-glz;
+    const g=new THREE.Group();
+    const base=sh(reg('brick',new THREE.Mesh(new THREE.BoxGeometry(bw,baseH,bd),
+      stdMat({color:0x99593f,roughness:0.9}))));
+    base.position.set(0,baseH/2,bd/2); g.add(base);
+    const gf=new THREE.Mesh(new THREE.BoxGeometry(bw-0.16,glz-0.2,0.08),glass);
+    gf.position.set(0,baseH+glz/2,bd-0.03); g.add(gf);
+    [-1,1].forEach(sx=>{
+      const gs=new THREE.Mesh(new THREE.BoxGeometry(0.08,glz-0.2,bd-0.12),glass);
+      gs.position.set(sx*(bw/2-0.03),baseH+glz/2,bd/2); g.add(gs);
+      const post=sh(new THREE.Mesh(new THREE.BoxGeometry(0.1,glz,0.1),WHITE()));
+      post.position.set(sx*(bw/2-0.02),baseH+glz/2,bd-0.05); g.add(post);
+      const postB=sh(new THREE.Mesh(new THREE.BoxGeometry(0.1,glz,0.1),WHITE()));
+      postB.position.set(sx*(bw/2-0.02),baseH+glz/2,0.07); g.add(postB);
+    });
+    const railT=sh(new THREE.Mesh(new THREE.BoxGeometry(bw+0.05,0.09,bd+0.05),WHITE()));
+    railT.position.set(0,bh3-0.045,bd/2); g.add(railT);
+    const railB=sh(new THREE.Mesh(new THREE.BoxGeometry(bw+0.05,0.09,bd+0.05),WHITE()));
+    railB.position.set(0,baseH+0.045,bd/2); g.add(railB);
+    const lead=sh(new THREE.Mesh(new THREE.BoxGeometry(bw+0.18,0.08,bd+0.14),
+      stdMat({color:0x565d64,roughness:0.6})));
+    lead.position.set(0,bh3+0.04,bd/2); g.add(lead);
+    const sillB=sh(new THREE.Mesh(new THREE.BoxGeometry(bw+0.12,0.09,bd+0.1),
+      stdMat({color:0xd9d2c4,roughness:0.55})));
+    sillB.position.set(0,baseH-0.02,bd/2+0.02); g.add(sillB);
+    g.position.set(bayX,0,D/2+0.02);
+    house.add(g);
+  })();
+
+  /* door: panels + canopy + step */
+  (function(){
+    const doorX=-W/2+(doorSlot+0.5)*(W/nWin);
+    const g=new THREE.Group();
+    const fr=sh(new THREE.Mesh(new THREE.BoxGeometry(1.2,2.25,0.09),WHITE())); fr.position.y=1.12; g.add(fr);
+    const dr=sh(new THREE.Mesh(new THREE.BoxGeometry(0.98,2.08,0.11),stdMat({color:0x23527c,roughness:0.4})));
+    dr.position.y=1.04; g.add(dr);
+    [[0.52,0.5],[1.45,0.62]].forEach(pp=>{
+      const pan=new THREE.Mesh(new THREE.BoxGeometry(0.62,pp[1],0.12),stdMat({color:0x1c4266,roughness:0.4}));
+      pan.position.set(0,pp[0],0); g.add(pan);
+    });
+    const knob=new THREE.Mesh(new THREE.SphereGeometry(0.045,10,8),stdMat({color:0xc9a24b,roughness:0.25,metalness:0.7}));
+    knob.position.set(0.36,1.05,0.08); g.add(knob);
+    const can=sh(new THREE.Mesh(new THREE.BoxGeometry(1.5,0.08,0.75),stdMat({color:0x565d64,roughness:0.6})));
+    can.rotation.x=0.12; can.position.set(0,2.42,0.32); g.add(can);
+    [-0.6,0.6].forEach(dx=>{
+      const brk=sh(new THREE.Mesh(new THREE.BoxGeometry(0.07,0.3,0.4),WHITE()));
+      brk.position.set(dx,2.2,0.18); g.add(brk);
+    });
+    const stp=sh(new THREE.Mesh(new THREE.BoxGeometry(1.35,0.13,0.55),stdMat({color:0xc4bcae,roughness:0.7})));
+    stp.position.set(0,0.065,0.33); g.add(stp);
+    g.position.set(doorX,0,D/2+0.04);
+    house.add(g);
+  })();
+
+  /* chimney: corbelled cap, pots, flashing */
+  if(!isB){
+    const cx=W/4, cz=-D/4;
+    const ch=sh(new THREE.Mesh(new THREE.BoxGeometry(0.78,1.7,0.78),texMat(brickDraw,0.5,0.75)));
+    ch.position.set(cx,H+roofH*0.72+0.35,cz); house.add(ch);
+    [[0.9,0.1],[0.98,0.09]].forEach((cc,i)=>{
+      const cap=sh(new THREE.Mesh(new THREE.BoxGeometry(cc[0],cc[1],cc[0]),stdMat({color:0x8f8880,roughness:0.7})));
+      cap.position.set(cx,H+roofH*0.72+1.2+i*0.1,cz); house.add(cap);
+    });
+    [-0.2,0.2].forEach(dx=>{
+      const pot=sh(new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.12,0.42,10),stdMat({color:0xa4593c,roughness:0.75})));
+      pot.position.set(cx+dx,H+roofH*0.72+1.5,cz); house.add(pot);
+    });
+    const fl=new THREE.Mesh(new THREE.BoxGeometry(0.95,0.1,0.95),stdMat({color:0x3a3f45,roughness:0.55}));
+    fl.position.set(cx,H+roofH*0.72-0.42,cz); house.add(fl);
+  }
+
+  /* neighbours (muted brick) */
+  if(state.prop==='terraced'||state.prop==='semi'){
+    const nW=state.prop==='terraced'?W:W*0.94;
+    const mkN=(dir)=>{
+      const nb=sh(new THREE.Mesh(new THREE.BoxGeometry(nW,H,D),
+        texMat(brickDraw,nW/3.4,H/2.6,{color:0xcfc9c2})));
+      nb.position.set(dir*(W/2+nW/2),H/2,0); house.add(nb);
+      const s2=new THREE.Shape();
+      s2.moveTo(-nW/2-ov,0); s2.lineTo(nW/2+ov,0); s2.lineTo(0,roofH); s2.closePath();
+      const nr=sh(new THREE.Mesh(new THREE.ExtrudeGeometry(s2,{depth:D+2*ov,bevelEnabled:false}),
+        texMat(slateDraw,2.0,1.4,{color:0xb9bec4})));
+      nr.position.set(dir*(W/2+nW/2),H,-(D+2*ov)/2); house.add(nr);
+      for(let r=0;r<st;r++)for(let i=0;i<2;i++){
+        const wn=new THREE.Mesh(new THREE.BoxGeometry(1.0,1.2,0.06),stdMat({color:0x6a7078,roughness:0.4}));
+        wn.position.set(dir*(W/2+nW/2)+(i-0.5)*nW/2.4,1.65+r*2.75,D/2+0.03);
+        house.add(wn);
+      }
+    };
+    mkN(-1);
+    if(state.prop==='terraced') mkN(1);
+  }
+
+  /* conservatory (rear): white frame grid + glass roof */
+  const detB=state.prop==='detached'||state.prop==='bungalow';
+  (function(){
+    const cw=Math.min(4.2,W*0.52), cd=2.6, chh=2.15;
+    const g=new THREE.Group();
+    const cGlass=new THREE.MeshStandardMaterial({color:0xbcd9e8,roughness:0.1,metalness:0.1,transparent:true,opacity:0.5});
+    const wallG=reg('cons',sh(new THREE.Mesh(new THREE.BoxGeometry(cw,chh-0.35,cd),cGlass)));
+    wallG.position.y=(chh-0.35)/2+0.35; g.add(wallG);
+    const baseR=reg('cons',sh(new THREE.Mesh(new THREE.BoxGeometry(cw+0.08,0.35,cd+0.08),
+      stdMat({color:0x9a5940,roughness:0.9}))));
+    baseR.position.y=0.175; g.add(baseR);
+    [[-cw/2,-cd/2],[cw/2,-cd/2],[-cw/2,cd/2],[cw/2,cd/2],[0,-cd/2],[0,cd/2]].forEach(pt=>{
+      const post=reg('cons',sh(new THREE.Mesh(new THREE.BoxGeometry(0.09,chh,0.09),WHITE())));
+      post.position.set(pt[0],chh/2,pt[1]); g.add(post);
+    });
+    const topR=reg('cons',sh(new THREE.Mesh(new THREE.BoxGeometry(cw+0.1,0.1,cd+0.1),WHITE())));
+    topR.position.y=chh; g.add(topR);
+    const rh=0.65;
+    [-1,1].forEach(sd=>{
+      const sl=reg('cons',sh(new THREE.Mesh(new THREE.BoxGeometry(cw+0.12,0.07,1.55),cGlass)));
+      sl.rotation.x=sd*0.46;
+      sl.position.set(0,chh+rh/2,sd*cd/4.4);
+      g.add(sl);
+    });
+    const crest=reg('cons',sh(new THREE.Mesh(new THREE.BoxGeometry(cw+0.14,0.08,0.12),WHITE())));
+    crest.position.y=chh+rh; g.add(crest);
+    g.position.set(detB?W/4-0.4:0.7,0,-(D/2+cd/2)-0.03);
+    house.add(g);
+  })();
+
+  /* grounds: striped lawn, herringbone drive, flag patio */
+  const plot=sh(new THREE.Mesh(new THREE.BoxGeometry(30,0.3,26),texMat(grassDraw,5,4.4)));
+  plot.position.y=-0.15; plot.receiveShadow=true; house.add(plot);
+  const pave=sh(new THREE.Mesh(new THREE.BoxGeometry(30,0.06,2.2),texMat(flagDraw,9,0.8,{color:0xd8d5cd})));
+  pave.position.set(0,0.03,12.0); house.add(pave);
+  const kerb=sh(new THREE.Mesh(new THREE.BoxGeometry(30,0.09,0.25),stdMat({color:0xb9b5ac,roughness:0.7})));
+  kerb.position.set(0,0.045,13.2); house.add(kerb);
+  const road=new THREE.Mesh(new THREE.BoxGeometry(30,0.04,3.4),texMat(asphaltDraw,6,0.9));
+  road.position.set(0,0.01,15.0); house.add(road);
+
+  const drive=reg('drive',sh(new THREE.Mesh(new THREE.BoxGeometry(3.4,0.09,7.6),texMat(herringDraw,1.5,3.2))));
+  drive.position.set(W/2-0.3,0.05,D/2+3.9); house.add(drive);
+  [-1.76,1.76].forEach(dx=>{
+    const edge=reg('drive',sh(new THREE.Mesh(new THREE.BoxGeometry(0.16,0.11,7.6),stdMat({color:0x4a4d50,roughness:0.8}))));
+    edge.position.set(W/2-0.3+dx,0.055,D/2+3.9); house.add(edge);
+  });
+  const patio=reg('patio',sh(new THREE.Mesh(new THREE.BoxGeometry(4.6,0.09,3.4),texMat(flagDraw,1.6,1.2))));
+  patio.position.set(-W/5,0.05,-(D/2+2.1)); house.add(patio);
+  const path=sh(new THREE.Mesh(new THREE.BoxGeometry(1.15,0.07,5.4),texMat(flagDraw,0.5,2,{color:0xd2cec6})));
+  path.position.set(-W/2+(doorSlot+0.5)*(W/nWin),0.035,D/2+2.75); house.add(path);
+
+  /* front wall + hedge + tree + fences */
+  [[-7.5,-1.2],[1.9,7.5]].forEach(seg=>{
+    const len=seg[1]-seg[0];
+    const fw=sh(new THREE.Mesh(new THREE.BoxGeometry(len,0.64,0.24),texMat(brickDraw,len/3.4,0.4)));
+    fw.position.set((seg[0]+seg[1])/2,0.32,10.6); house.add(fw);
+    const cop=sh(new THREE.Mesh(new THREE.BoxGeometry(len,0.08,0.32),stdMat({color:0xc4bcae,roughness:0.6})));
+    cop.position.set((seg[0]+seg[1])/2,0.68,10.6); house.add(cop);
+  });
+  const hedge=sh(new THREE.Mesh(new THREE.BoxGeometry(W*0.5,0.62,0.55),stdMat({color:0x3f6d38,roughness:1})));
+  hedge.position.set(-W/4,0.31,D/2+2.7); house.add(hedge);
+  (function(){
+    const tx=-W/2-3.4, tz=D/2+2.6;
+    const trunk=sh(new THREE.Mesh(new THREE.CylinderGeometry(0.13,0.2,1.6,8),stdMat({color:0x6d5138,roughness:1})));
+    trunk.position.set(tx,0.8,tz); house.add(trunk);
+    [[0,2.45,0,1.15],[0.7,2.1,0.3,0.8],[-0.6,2.15,-0.25,0.75],[0.1,2.95,-0.1,0.7]].forEach(cc=>{
+      const cr=sh(new THREE.Mesh(new THREE.SphereGeometry(cc[3],12,10),
+        stdMat({color:[0x527f46,0x5c8a4d,0x49743f][Math.floor(Math.random()*3)],roughness:1})));
+      cr.position.set(tx+cc[0],cc[1],tz+cc[2]); house.add(cr);
+    });
+  })();
+  const mkFence=(x,z,len,rotY)=>{
+    const f=sh(new THREE.Mesh(new THREE.BoxGeometry(len,1.5,0.07),texMat(woodDraw,len/1.9,1)));
+    f.position.set(x,0.83,z); f.rotation.y=rotY||0; house.add(f);
+    const gb=sh(new THREE.Mesh(new THREE.BoxGeometry(len,0.16,0.09),stdMat({color:0x5e4630,roughness:1})));
+    gb.position.set(x,0.16,z); gb.rotation.y=rotY||0; house.add(gb);
+    const n=Math.round(len/2.6);
+    for(let i=0;i<=n;i++){
+      const post=sh(new THREE.Mesh(new THREE.BoxGeometry(0.12,1.68,0.12),stdMat({color:0x6b5138,roughness:1})));
+      if(rotY){ post.position.set(x,0.92,z-len/2+i*(len/n)); }
+      else { post.position.set(x-len/2+i*(len/n),0.92,z); }
+      house.add(post);
+    }
+  };
+  mkFence(0,-12.4,26,0);
+  mkFence(-14.4,-4,17,Math.PI/2);
+  mkFence(14.4,-4,17,Math.PI/2);
+
+  /* isolate materials for highlight tinting */
+  for(const k in parts) parts[k].forEach(m=>{
+    m.material=m.material.clone();
+    m.material.emissive=new THREE.Color(0x000000);
+  });
+
+  scene.add(house);
+  controls.target.set(0,H*0.58,0);
+  if(controls.autoRotate){
+    const R=Math.max(W,D)*1.75+10.5;
+    const ang=Math.atan2(camera.position.z,camera.position.x);
+    camera.position.set(R*Math.cos(ang),(H+roofH)*1.05+3.0,R*Math.sin(ang));
+  }
+}
+
+/* highlight logic: selected -> steady glow; hover -> brighter pulse */
+function activeParts(){
+  const set=new Set();
+  for(const id in state.services){
+    let ps=SERVICES.find(s=>s.id===id).part;
+    if(id==='drive'){
+      const w=state.services.drive.what;
+      ps=w==='both'?['drive','patio']:w==='patio'?['patio']:['drive'];
+    }
+    ps.forEach(p=>set.add(p));
+  }
+  return set;
+}
+function hoverParts(){
+  if(!state.hover) return new Set();
+  const sv=SERVICES.find(s=>s.id===state.hover);
+  let ps=sv.part;
+  if(state.hover==='drive'&&state.services.drive){
+    const w=state.services.drive.what;
+    ps=w==='both'?['drive','patio']:w==='patio'?['patio']:['drive'];
+  }
+  return new Set(ps);
+}
+
+const HL=new THREE.Color(0x1099D6);
+let t0=performance.now();
+function tick(now){
+  requestAnimationFrame(tick);
+  controls.update();
+  const act=activeParts(), hov=hoverParts();
+  const pulse=0.5+0.5*Math.sin(now/320);
+  for(const part in parts){
+    let k=0;
+    if(hov.has(part)) k=0.55+0.25*pulse;
+    else if(act.has(part)) k=0.30+0.10*pulse;
+    parts[part].forEach(m=>{
+      m.material.emissive.copy(HL).multiplyScalar(k*0.55);
+    });
+  }
+  renderer.render(scene,camera);
+}
+function fit(){
+  const w=canvas.clientWidth,h=canvas.clientHeight;
+  if(!w||!h) return;
+  renderer.setSize(w,h,false);
+  camera.aspect=w/h; camera.updateProjectionMatrix();
+}
+window.addEventListener('resize',fit);
+new ResizeObserver(fit).observe(canvas);
+
+buildHouse(); fit(); requestAnimationFrame(tick); recalc(); goStep(1);
+</script>
+</body>
+</html>
