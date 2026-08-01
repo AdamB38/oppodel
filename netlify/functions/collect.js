@@ -11,16 +11,16 @@ import { getStore } from '@netlify/blobs';
 const MAX_BODY = 64 * 1024;   // a batch should be a couple of KB; reject silly payloads
 
 function reply(status, body) {
-  return new Response(body ? JSON.stringify(body) : '', {
-    status,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Cache-Control': 'no-store'
-    }
-  });
+  /* 204/304 must have a null body — passing even an empty string throws. */
+  const payload = body == null ? null : JSON.stringify(body);
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Cache-Control': 'no-store'
+  };
+  if (payload !== null) headers['Content-Type'] = 'application/json';
+  return new Response(payload, { status, headers });
 }
 
 export default async (request) => {
