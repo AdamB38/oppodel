@@ -395,94 +395,121 @@
       margin-top: .9rem;
     }
 
-    .steps {
-      display: flex;
-      flex-direction: column;
-      border-top: 1px solid var(--border);
-    }
-
-    .step {
+    /* step flow */
+    .flow {
+      position: relative;
       display: grid;
-      grid-template-columns: 4.5rem 1fr;
-      gap: 1.5rem;
-      padding: 1.9rem 0;
-      border-bottom: 1px solid var(--border);
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.1rem;
     }
 
-    .step-num {
-      font-size: .82rem;
+    /* the line the icons sit on */
+    .flow::before {
+      content: '';
+      position: absolute;
+      top: 29px;
+      left: 8%;
+      right: 8%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .fstep { position: relative; text-align: center; }
+
+    .fstep-ic {
+      position: relative;
+      z-index: 1;
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fstep-ic svg { width: 23px; height: 23px; }
+
+    .fstep-num {
+      font-size: .6rem;
       font-weight: 500;
-      letter-spacing: .14em;
+      letter-spacing: .2em;
       color: var(--muted);
-      padding-top: .18rem;
+      margin-bottom: .4rem;
     }
 
-    .step-title {
-      font-size: 1.14rem;
+    .fstep-t {
+      font-size: .96rem;
       font-weight: 500;
       letter-spacing: -.01em;
-      margin-bottom: .5rem;
+      margin-bottom: .4rem;
     }
 
-    .step-body {
-      font-size: .92rem;
+    .fstep-d {
+      font-size: .82rem;
       font-weight: 300;
-      line-height: 1.75;
+      line-height: 1.6;
       color: var(--body);
-      max-width: 640px;
     }
 
-    @media (max-width: 620px) {
-      .step { grid-template-columns: 1fr; gap: .55rem; }
+    @media (max-width: 900px) {
+      .flow { grid-template-columns: 1fr; gap: 1.6rem; }
+      .flow::before {
+        top: 10px; bottom: 10px;
+        left: 22px; right: auto;
+        width: 1px; height: auto;
+      }
+      .fstep {
+        display: grid;
+        grid-template-columns: 45px 1fr;
+        gap: 1.1rem;
+        text-align: left;
+        align-items: start;
+      }
+      .fstep-ic { width: 45px; height: 45px; margin: 0; }
+      .fstep-ic svg { width: 19px; height: 19px; }
     }
 
-    /* ---------- included ---------- */
+    /* included chips */
     .includes { margin-top: 3.5rem; }
 
     .inc-title {
-      font-size: .68rem;
+      font-size: .66rem;
       font-weight: 500;
       letter-spacing: .24em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.1rem;
     }
 
-    .inc-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: .85rem 2rem;
-    }
+    .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
 
-    @media (max-width: 860px) { .inc-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px) { .inc-grid { grid-template-columns: 1fr; } }
-
-    .inc {
-      display: flex;
-      align-items: flex-start;
-      gap: .6rem;
-      font-size: .88rem;
+    .chip2 {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .8rem;
       font-weight: 300;
-      line-height: 1.55;
       color: var(--body);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: .48rem .9rem;
     }
 
-    .inc svg {
-      width: 15px;
-      height: 15px;
-      flex-shrink: 0;
-      margin-top: .22rem;
-    }
+    .chip2 svg { width: 12px; height: 12px; flex-shrink: 0; }
 
     .how-close {
-      margin-top: 3.25rem;
-      padding-top: 2rem;
+      margin-top: 3rem;
+      padding-top: 1.9rem;
       border-top: 1px solid var(--border);
-      font-size: 1.02rem;
+      font-size: 1.05rem;
       font-weight: 400;
-      line-height: 1.7;
-      max-width: 620px;
-      letter-spacing: -.005em;
+      line-height: 1.6;
+      max-width: 560px;
+      letter-spacing: -.01em;
     }
 
     /* ---------- closing cta ---------- */
@@ -789,70 +816,86 @@
       <div class="how-head">
         <div class="eyebrow">How it works</div>
         <h2 class="how-title">The calculator is the easy part</h2>
-        <p class="how-note">Anyone can put a form on a website. What makes a quoting system actually work is the pricing model behind it and the plumbing around it &mdash; and that's the part we do.</p>
+        <p class="how-note">Anyone can put a form on a website. The value is in the pricing model behind it and the plumbing around it.</p>
       </div>
 
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <div>
-            <div class="step-title">We learn how you really price</div>
-            <p class="step-body">We go through real jobs you've quoted &mdash; what you charged, what it cost you, and the judgement calls you make without thinking about them. Access, height, surface, travel, the awkward ones you'd price differently. That's what turns a form into a quote you can stand behind, and it's the step no off-the-shelf tool can do for you.</p>
+      <div class="flow">
+        <div class="fstep">
+          <div class="fstep-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9.5 12h5M9.5 15.5h5M12 10.5v6.5"/>
+            </svg>
           </div>
+          <div class="fstep-num">01</div>
+          <div class="fstep-t">Learn your pricing</div>
+          <p class="fstep-d">Real jobs, real margins, and the calls you make without thinking.</p>
         </div>
 
-        <div class="step">
-          <div class="step-num">02</div>
-          <div>
-            <div class="step-title">We build it around your business</div>
-            <p class="step-body">Not a widget dropped onto your site in someone else's styling. Your name, your colours, your language, your services in the order that makes sense for you &mdash; built so it reads as part of your business rather than something you bolted on.</p>
+        <div class="fstep">
+          <div class="fstep-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>
+            </svg>
           </div>
+          <div class="fstep-num">02</div>
+          <div class="fstep-t">Build it as yours</div>
+          <p class="fstep-d">Your name, colours and services &mdash; not a widget bolted on.</p>
         </div>
 
-        <div class="step">
-          <div class="step-num">03</div>
-          <div>
-            <div class="step-title">We wire it into how you already work</div>
-            <p class="step-body">A quote is only worth something if it lands somewhere useful. We connect it to your CRM or inbox, your calendar or round schedule, your payment and direct debit setup, and your follow-up &mdash; so a lead arrives as a job you can act on, not an email you'll get to later.</p>
+        <div class="fstep">
+          <div class="fstep-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/>
+              <path d="M8.4 6h7.2M7 8.2l3.7 7.6M17 8.2l-3.7 7.6"/>
+            </svg>
           </div>
+          <div class="fstep-num">03</div>
+          <div class="fstep-t">Plug it into your tools</div>
+          <p class="fstep-d">CRM, calendar, payments. Leads arrive as jobs, not emails.</p>
         </div>
 
-        <div class="step">
-          <div class="step-num">04</div>
-          <div>
-            <div class="step-title">We test it against jobs you've already priced</div>
-            <p class="step-body">Before it goes anywhere near a customer we run your own past quotes through it and check the numbers come out where you'd have put them. If they don't, we fix the model &mdash; not the other way round.</p>
+        <div class="fstep">
+          <div class="fstep-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="#0c0c0e"/>
+            </svg>
           </div>
+          <div class="fstep-num">04</div>
+          <div class="fstep-t">Test it on past quotes</div>
+          <p class="fstep-d">The numbers land where you'd have put them, or we fix the model.</p>
         </div>
 
-        <div class="step">
-          <div class="step-num">05</div>
-          <div>
-            <div class="step-title">We keep it sharp</div>
-            <p class="step-body">Prices move and services change. More useful than that: the system tells you things you can't guess &mdash; which quotes convert, where people drop out, which jobs you're pricing too low. We keep tuning it against that, rather than handing over a file and disappearing.</p>
+        <div class="fstep">
+          <div class="fstep-ic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19h16"/><path d="M4 15.5l5-5 3.5 3.5L20 6"/><path d="M15.5 6H20v4.5"/>
+            </svg>
           </div>
+          <div class="fstep-num">05</div>
+          <div class="fstep-t">Keep it earning</div>
+          <p class="fstep-d">We tune it against what converts, instead of walking away.</p>
         </div>
       </div>
 
       <div class="includes">
         <div class="inc-title">Every build includes</div>
-        <div class="inc-grid">
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Bespoke design in your branding</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Your pricing model, not a template</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>CRM &amp; inbox integration</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Payment &amp; direct debit links</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Booking &amp; round scheduling</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Instant lead alerts to you</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Abandoned-quote follow-up</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Postcode &amp; service-area checks</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Conversion tracking &amp; reporting</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Built mobile-first and fast</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Hosting, updates &amp; support</div>
-          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Pricing reviewed as you grow</div>
+        <div class="chips">
+          <span class="chip2">Bespoke design in your branding</span>
+          <span class="chip2">Your pricing model, not a template</span>
+          <span class="chip2">CRM &amp; inbox integration</span>
+          <span class="chip2">Payment &amp; direct debit links</span>
+          <span class="chip2">Booking &amp; round scheduling</span>
+          <span class="chip2">Instant lead alerts</span>
+          <span class="chip2">Abandoned-quote follow-up</span>
+          <span class="chip2">Postcode &amp; service-area checks</span>
+          <span class="chip2">Conversion tracking</span>
+          <span class="chip2">Mobile-first and fast</span>
+          <span class="chip2">Hosting &amp; support</span>
+          <span class="chip2">Pricing reviewed as you grow</span>
         </div>
       </div>
 
-      <p class="how-close">You're not buying a calculator. You're buying your pricing, written down properly and made to work while you're on a job &mdash; and someone who keeps it earning.</p>
+      <p class="how-close">You're not buying a calculator. You're buying your pricing, written down properly &mdash; and someone who keeps it earning.</p>
     </div>
   </section>
 
