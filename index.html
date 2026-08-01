@@ -53,16 +53,33 @@
       text-transform: uppercase;
     }
 
-    .topbar-cta {
+    .topbar-nav {
       margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+    }
+
+    .topbar-nav a {
       font-size: .68rem;
       font-weight: 500;
       letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--text);
+      color: var(--muted);
       text-decoration: none;
+      transition: color .18s;
+    }
+
+    .topbar-nav a:hover { color: var(--text); }
+
+    .topbar-nav a.cta {
+      color: var(--text);
       border-bottom: 1px solid var(--text);
       padding-bottom: 2px;
+    }
+
+    @media (max-width: 620px) {
+      .topbar-nav a:not(.cta) { display: none; }
     }
 
     /* ---------- layout ---------- */
@@ -355,6 +372,171 @@
       .case-grid { grid-template-columns: 1fr; }
     }
 
+    /* ---------- how it works ---------- */
+    .how {
+      border-top: 1px solid var(--line);
+      padding: clamp(3.5rem, 8vw, 6rem) 0;
+    }
+
+    .how-head { max-width: 640px; margin-bottom: 3rem; }
+
+    .how-title {
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+      font-weight: 500;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+    }
+
+    .how-note {
+      font-size: .92rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--body);
+      margin-top: .9rem;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--border);
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 1.5rem;
+      padding: 1.9rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step-num {
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      color: var(--muted);
+      padding-top: .18rem;
+    }
+
+    .step-title {
+      font-size: 1.14rem;
+      font-weight: 500;
+      letter-spacing: -.01em;
+      margin-bottom: .5rem;
+    }
+
+    .step-body {
+      font-size: .92rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--body);
+      max-width: 640px;
+    }
+
+    @media (max-width: 620px) {
+      .step { grid-template-columns: 1fr; gap: .55rem; }
+    }
+
+    /* ---------- included ---------- */
+    .includes { margin-top: 3.5rem; }
+
+    .inc-title {
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .inc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .85rem 2rem;
+    }
+
+    @media (max-width: 860px) { .inc-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .inc-grid { grid-template-columns: 1fr; } }
+
+    .inc {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+      font-size: .88rem;
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--body);
+    }
+
+    .inc svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      margin-top: .22rem;
+    }
+
+    .how-close {
+      margin-top: 3.25rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 1.02rem;
+      font-weight: 400;
+      line-height: 1.7;
+      max-width: 620px;
+      letter-spacing: -.005em;
+    }
+
+    /* ---------- closing cta ---------- */
+    .closing {
+      border-top: 1px solid var(--line);
+      background: var(--text);
+      color: #fff;
+      padding: clamp(3rem, 7vw, 4.5rem) 0;
+    }
+
+    .closing-in {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .closing-t {
+      font-size: clamp(1.35rem, 3vw, 1.9rem);
+      font-weight: 500;
+      letter-spacing: -.02em;
+      line-height: 1.25;
+      max-width: 520px;
+    }
+
+    .closing-s {
+      font-size: .9rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.62);
+      margin-top: .7rem;
+      max-width: 460px;
+      line-height: 1.7;
+    }
+
+    .closing-btn {
+      margin-left: auto;
+      flex-shrink: 0;
+      display: inline-block;
+      background: #fff;
+      color: var(--text);
+      font-size: .76rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      transition: opacity .18s;
+    }
+
+    .closing-btn:hover { opacity: .87; }
+
+    @media (max-width: 700px) { .closing-btn { margin-left: 0; } }
+
     /* ---------- demo overlay ---------- */
     .demo-overlay {
       position: fixed;
@@ -475,7 +657,11 @@
       <circle cx="50" cy="50" r="7" fill="#0c0c0e"/>
     </svg>
     <span class="topbar-word">Oppodel</span>
-    <a class="topbar-cta" href="#enquire">Get in touch</a>
+    <nav class="topbar-nav">
+      <a href="#work">Work</a>
+      <a href="#how">How it works</a>
+      <a class="cta" href="#enquire">Get in touch</a>
+    </nav>
   </div>
 
   <div class="wrap">
@@ -595,6 +781,88 @@
           </div>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section class="how" id="how">
+    <div class="wrap">
+      <div class="how-head">
+        <div class="eyebrow">How it works</div>
+        <h2 class="how-title">The calculator is the easy part</h2>
+        <p class="how-note">Anyone can put a form on a website. What makes a quoting system actually work is the pricing model behind it and the plumbing around it &mdash; and that's the part we do.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div>
+            <div class="step-title">We learn how you really price</div>
+            <p class="step-body">We go through real jobs you've quoted &mdash; what you charged, what it cost you, and the judgement calls you make without thinking about them. Access, height, surface, travel, the awkward ones you'd price differently. That's what turns a form into a quote you can stand behind, and it's the step no off-the-shelf tool can do for you.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">02</div>
+          <div>
+            <div class="step-title">We build it around your business</div>
+            <p class="step-body">Not a widget dropped onto your site in someone else's styling. Your name, your colours, your language, your services in the order that makes sense for you &mdash; built so it reads as part of your business rather than something you bolted on.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">03</div>
+          <div>
+            <div class="step-title">We wire it into how you already work</div>
+            <p class="step-body">A quote is only worth something if it lands somewhere useful. We connect it to your CRM or inbox, your calendar or round schedule, your payment and direct debit setup, and your follow-up &mdash; so a lead arrives as a job you can act on, not an email you'll get to later.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">04</div>
+          <div>
+            <div class="step-title">We test it against jobs you've already priced</div>
+            <p class="step-body">Before it goes anywhere near a customer we run your own past quotes through it and check the numbers come out where you'd have put them. If they don't, we fix the model &mdash; not the other way round.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">05</div>
+          <div>
+            <div class="step-title">We keep it sharp</div>
+            <p class="step-body">Prices move and services change. More useful than that: the system tells you things you can't guess &mdash; which quotes convert, where people drop out, which jobs you're pricing too low. We keep tuning it against that, rather than handing over a file and disappearing.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="includes">
+        <div class="inc-title">Every build includes</div>
+        <div class="inc-grid">
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Bespoke design in your branding</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Your pricing model, not a template</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>CRM &amp; inbox integration</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Payment &amp; direct debit links</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Booking &amp; round scheduling</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Instant lead alerts to you</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Abandoned-quote follow-up</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Postcode &amp; service-area checks</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Conversion tracking &amp; reporting</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Built mobile-first and fast</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Hosting, updates &amp; support</div>
+          <div class="inc"><svg viewBox="0 0 20 20" fill="none" stroke="#0c0c0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>Pricing reviewed as you grow</div>
+        </div>
+      </div>
+
+      <p class="how-close">You're not buying a calculator. You're buying your pricing, written down properly and made to work while you're on a job &mdash; and someone who keeps it earning.</p>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap closing-in">
+      <div>
+        <div class="closing-t">Want to see what this would look like for your business?</div>
+        <div class="closing-s">Tell us what you do and how you price it. We'll come back with a straight answer on whether it's worth building &mdash; no obligation either way.</div>
+      </div>
+      <a class="closing-btn" href="#enquire">Get in touch</a>
     </div>
   </section>
 
