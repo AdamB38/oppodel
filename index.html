@@ -3,132 +3,147 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oppodel</title>
+  <title>Oppodel — Bespoke quoting systems for businesses</title>
+  <meta name="description" content="Oppodel builds bespoke instant-quote systems for trade and service businesses — priced live, on your site, around the clock." />
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #000000;
-      --surface: #0c0c0c;
-      --border:  #262626;
-      --text:    #ffffff;
-      --muted:   #666666;
+      --bg:      #ffffff;
+      --surface: #fafafa;
+      --border:  #e7e7e9;
+      --line:    #f0f0f2;
+      --text:    #0c0c0e;
+      --body:    #45454d;
+      --muted:   #86868f;
     }
 
-    html, body {
-      height: 100%;
+    html { scroll-behavior: smooth; }
+
+    body {
       background: var(--bg);
       color: var(--text);
       font-family: 'Jost', sans-serif;
       -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
     }
 
-    body {
+    /* ---------- top bar ---------- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding: 0 1.5rem 3rem;
+      gap: .6rem;
+      padding: 1rem 1.5rem;
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
     }
 
-    /* hero fills the first screen and stays centred */
-    .hero {
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 3rem 0;
+    .topbar svg { width: 22px; height: 22px; }
+
+    .topbar-word {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .3em;
+      text-transform: uppercase;
     }
 
-    header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 3.5rem;
-    }
-
-    .logo-mark {
-      width: 64px;
-      height: 64px;
-    }
-
-    .logo-word {
-      font-size: 1.4rem;
-      font-weight: 400;
-      letter-spacing: .42em;
+    .topbar-cta {
+      margin-left: auto;
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .16em;
       text-transform: uppercase;
       color: var(--text);
-      /* pull optical centre back given the big letter-spacing */
-      padding-left: .42em;
+      text-decoration: none;
+      border-bottom: 1px solid var(--text);
+      padding-bottom: 2px;
     }
 
-    .logo-tag {
-      font-size: .55rem;
-      font-weight: 400;
-      letter-spacing: .38em;
+    /* ---------- layout ---------- */
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: clamp(3.5rem, 10vw, 7rem) 0 clamp(3rem, 7vw, 5rem);
+    }
+
+    .eyebrow {
+      font-size: .64rem;
+      font-weight: 500;
+      letter-spacing: .3em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-top: .4rem;
-      padding-left: .38em;
+      margin-bottom: 1.5rem;
     }
 
     .headline {
-      font-size: clamp(1.7rem, 5vw, 2.9rem);
+      font-size: clamp(2rem, 5.5vw, 3.4rem);
       font-weight: 500;
-      line-height: 1.18;
-      text-align: center;
-      max-width: 560px;
-      margin-bottom: .7rem;
-      letter-spacing: -.01em;
-    }
-
-    .headline em {
-      font-style: normal;
-      font-weight: 600;
-      border-bottom: 2px solid var(--text);
-      padding-bottom: 1px;
+      line-height: 1.1;
+      letter-spacing: -.025em;
+      max-width: 780px;
     }
 
     .sub {
-      font-size: .85rem;
+      font-size: clamp(.95rem, 1.6vw, 1.08rem);
       font-weight: 300;
-      color: var(--muted);
-      text-align: center;
-      letter-spacing: .05em;
-      margin-bottom: 3rem;
+      color: var(--body);
+      max-width: 520px;
+      margin: 1.25rem auto 0;
+      line-height: 1.7;
     }
 
-    form {
+    /* ---------- form ---------- */
+    .form-card {
       width: 100%;
-      max-width: 420px;
-      display: flex;
-      flex-direction: column;
-      gap: .75rem;
+      max-width: 460px;
+      margin-top: 3rem;
+      text-align: left;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.05);
     }
 
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .75rem;
+    .form-title {
+      font-size: .68rem;
+      font-weight: 500;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
     }
+
+    form { display: flex; flex-direction: column; gap: .7rem; }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
 
     input, textarea, select {
       width: 100%;
-      background: var(--surface);
+      background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--text);
       font-family: 'Jost', sans-serif;
-      font-size: .85rem;
+      font-size: .9rem;
       font-weight: 300;
-      letter-spacing: .02em;
-      padding: .85rem 1rem;
-      transition: border-color .2s, box-shadow .2s;
+      padding: .8rem .95rem;
+      transition: border-color .18s, box-shadow .18s;
       outline: none;
       resize: none;
       appearance: none;
@@ -139,80 +154,81 @@
     select.filled { color: var(--text); }
 
     input:focus, textarea:focus, select:focus {
-      border-color: #ffffff;
-      box-shadow: 0 0 0 3px rgba(255,255,255,.06);
+      border-color: var(--text);
+      box-shadow: 0 0 0 3px rgba(12,12,14,.07);
     }
 
-    textarea { height: 100px; }
+    textarea { height: 96px; }
 
     form button {
       width: 100%;
       padding: .9rem;
-      margin-top: .25rem;
+      margin-top: .4rem;
       background: var(--text);
-      color: #000000;
+      color: #fff;
       font-family: 'Jost', sans-serif;
-      font-size: .8rem;
+      font-size: .78rem;
       font-weight: 500;
       letter-spacing: .18em;
       text-transform: uppercase;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      transition: opacity .2s, transform .15s;
+      transition: opacity .18s, transform .15s;
     }
 
-    form button:hover  { opacity: .85; }
-    form button:active { transform: scale(.985); }
+    form button:hover  { opacity: .86; }
+    form button:active { transform: scale(.99); }
 
-    /* ---- case studies ---- */
-    .cases {
-      width: 100%;
-      max-width: 900px;
-      margin-top: 6rem;
-    }
-
-    .cases-head {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-
-    .cases-eyebrow {
-      font-size: .6rem;
-      font-weight: 500;
-      letter-spacing: .32em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: .75rem;
-    }
-
-    .cases-title {
-      font-size: clamp(1.4rem, 4vw, 2rem);
-      font-weight: 500;
-      letter-spacing: -.01em;
-    }
-
-    .cases-note {
-      font-size: .78rem;
+    .form-note {
+      font-size: .72rem;
       font-weight: 300;
-      line-height: 1.7;
       color: var(--muted);
-      max-width: 520px;
-      margin: 1rem auto 0;
+      text-align: center;
+      margin-top: .9rem;
+    }
+
+    /* ---------- work section ---------- */
+    .work {
+      border-top: 1px solid var(--line);
+      padding: clamp(3.5rem, 8vw, 6rem) 0;
+      background: var(--surface);
+    }
+
+    .work-head {
+      max-width: 620px;
+      margin-bottom: 2.75rem;
+    }
+
+    .work-title {
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+      font-weight: 500;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+    }
+
+    .work-note {
+      font-size: .92rem;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--body);
+      margin-top: .9rem;
     }
 
     .case-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: 1.5rem;
     }
 
     .case {
-      background: var(--surface);
+      background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 14px;
       overflow: hidden;
-      transition: border-color .2s, transform .2s;
+      display: flex;
+      flex-direction: column;
+      transition: border-color .2s, transform .25s, box-shadow .25s;
     }
 
     .case.live {
@@ -221,59 +237,25 @@
       font-family: inherit;
       color: inherit;
       padding: 0;
-      display: block;
       width: 100%;
     }
 
     .case.live:hover {
-      border-color: #fff;
+      border-color: #d0d0d4;
       transform: translateY(-3px);
-    }
-
-    .case-badge {
-      position: absolute;
-      top: .75rem;
-      right: .75rem;
-      font-size: .55rem;
-      font-weight: 500;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      background: #fff;
-      color: #000;
-      border-radius: 20px;
-      padding: .3rem .7rem;
-    }
-
-    .case-open {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      margin-top: .9rem;
-      font-size: .68rem;
-      font-weight: 500;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--text);
-    }
-
-    .case:hover {
-      border-color: #444;
-      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(0,0,0,.09);
     }
 
     .case-thumb {
       position: relative;
-      height: 180px;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      background:
-        repeating-linear-gradient(45deg, #0f0f0f 0 10px, #0a0a0a 10px 20px);
-      border-bottom: 1px solid var(--border);
     }
-
-    .case-thumb svg { width: 34px; height: 34px; opacity: .35; }
 
     .case-shot {
       width: 100%;
@@ -281,75 +263,129 @@
       object-fit: cover;
       object-position: top center;
       display: block;
-      filter: saturate(.92) brightness(.94);
-      transition: transform .35s ease, filter .35s ease;
+      transition: transform .4s ease;
     }
 
-    .case.live:hover .case-shot {
-      transform: scale(1.04);
-      filter: saturate(1) brightness(1);
+    .case.live:hover .case-shot { transform: scale(1.03); }
+
+    .case-badge {
+      position: absolute;
+      top: .8rem;
+      left: .8rem;
+      font-size: .58rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      background: var(--text);
+      color: #fff;
+      border-radius: 20px;
+      padding: .33rem .75rem;
     }
 
-    .case-body { padding: 1.25rem 1.35rem 1.5rem; }
+    .case-body {
+      padding: 1.3rem 1.4rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
 
     .case-cat {
-      font-size: .58rem;
+      font-size: .6rem;
       font-weight: 500;
       letter-spacing: .24em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: .5rem;
+      margin-bottom: .55rem;
     }
 
     .case-name {
-      font-size: 1.05rem;
+      font-size: 1.12rem;
       font-weight: 500;
-      margin-bottom: .5rem;
+      letter-spacing: -.01em;
+      margin-bottom: .55rem;
     }
 
     .case-desc {
-      font-size: .8rem;
+      font-size: .86rem;
       font-weight: 300;
-      line-height: 1.5;
-      color: var(--muted);
+      line-height: 1.65;
+      color: var(--body);
     }
 
-    @media (max-width: 560px) {
+    .case-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-top: 1.1rem;
+    }
+
+    .tag {
+      font-size: .64rem;
+      font-weight: 400;
+      letter-spacing: .06em;
+      color: var(--body);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: .28rem .65rem;
+    }
+
+    .case-open {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      margin-top: 1.3rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--line);
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .case.soon .case-thumb {
+      background:
+        repeating-linear-gradient(45deg, #f4f4f6 0 12px, #fafafa 12px 24px);
+    }
+
+    .case.soon .case-thumb svg { width: 40px; height: 40px; opacity: .28; }
+
+    @media (max-width: 720px) {
       .case-grid { grid-template-columns: 1fr; }
     }
 
-    /* ---- demo overlay ---- */
+    /* ---------- demo overlay ---------- */
     .demo-overlay {
       position: fixed;
       inset: 0;
       z-index: 100;
-      background: rgba(0,0,0,.72);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: rgba(16,16,20,.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
-      padding: clamp(.75rem, 3vw, 2.25rem);
+      padding: clamp(.6rem, 3vw, 2.25rem);
       opacity: 0;
       transition: opacity .25s ease;
     }
 
-    .demo-overlay.open { display: flex; }
+    .demo-overlay.open  { display: flex; }
     .demo-overlay.shown { opacity: 1; }
 
     .demo-modal {
       position: relative;
       width: 100%;
-      max-width: 1240px;
+      max-width: 1260px;
       height: 100%;
-      max-height: 880px;
+      max-height: 900px;
       display: flex;
       flex-direction: column;
-      background: #000;
-      border: 1px solid #2e2e36;
+      background: var(--bg);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 40px 90px rgba(0,0,0,.7);
+      box-shadow: 0 30px 80px rgba(0,0,0,.35);
       transform: translateY(14px) scale(.985);
       transition: transform .3s cubic-bezier(.2,.8,.3,1);
     }
@@ -362,8 +398,8 @@
       align-items: center;
       gap: .9rem;
       padding: .85rem 1.1rem;
-      border-bottom: 1px solid #22222a;
-      background: #000;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
     }
 
     .demo-bar-title {
@@ -371,26 +407,24 @@
       font-weight: 500;
       letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--text);
     }
 
     .demo-bar-note {
-      font-size: .68rem;
+      font-size: .72rem;
       font-weight: 300;
       color: var(--muted);
     }
 
-    @media (max-width: 700px) { .demo-bar-note { display: none; } }
+    @media (max-width: 760px) { .demo-bar-note { display: none; } }
 
     .demo-close {
       margin-left: auto;
-      width: auto;
       padding: .5rem 1rem;
       font-size: .62rem;
       letter-spacing: .16em;
       border-radius: 8px;
-      background: #fff;
-      color: #000;
+      background: var(--text);
+      color: #fff;
       border: none;
       cursor: pointer;
       font-family: 'Jost', sans-serif;
@@ -399,7 +433,7 @@
       transition: opacity .2s;
     }
 
-    .demo-close:hover { opacity: .82; }
+    .demo-close:hover { opacity: .84; }
 
     .demo-frame {
       flex: 1;
@@ -409,136 +443,179 @@
       min-height: 0;
     }
 
+    /* ---------- footer ---------- */
     footer {
-      margin-top: 5rem;
-      font-size: .62rem;
+      border-top: 1px solid var(--line);
+      padding: 2.25rem 0;
+    }
+
+    .footer-in {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: .68rem;
       font-weight: 400;
-      letter-spacing: .28em;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--muted);
     }
+
+    .footer-in a { color: var(--muted); text-decoration: none; }
+    .footer-in a:hover { color: var(--text); }
+    .footer-in .right { margin-left: auto; }
   </style>
 </head>
 <body>
 
-  <div class="hero">
-  <header>
-    <svg class="logo-mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Oppodel">
-      <path d="M 55.29 12.37 A 38 38 0 0 1 55.29 87.63" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
-      <path d="M 44.71 12.37 A 38 38 0 0 0 44.71 87.63" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
-      <circle cx="50" cy="50" r="5" fill="#ffffff"/>
+  <div class="topbar">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M 55.29 12.37 A 38 38 0 0 1 55.29 87.63" stroke="#0c0c0e" stroke-width="5" stroke-linecap="round"/>
+      <path d="M 44.71 12.37 A 38 38 0 0 0 44.71 87.63" stroke="#0c0c0e" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="50" cy="50" r="7" fill="#0c0c0e"/>
     </svg>
-    <div style="text-align:center;">
-      <div class="logo-word">Oppodel</div>
-      <div class="logo-tag">Quote Systems &middot; IT</div>
-    </div>
-  </header>
-
-  <h1 class="headline">Want Some <em>Nerds</em> To Build You Something?</h1>
-  <p class="sub">Tell us what you need &mdash; we'll handle the rest.</p>
-
-  <form name="contact" method="POST" data-netlify="true">
-    <input type="hidden" name="form-name" value="contact" />
-    <div class="row">
-      <input type="text" name="first-name" placeholder="First name" />
-      <input type="text" name="last-name" placeholder="Last name" />
-    </div>
-
-    <input type="email" name="email" placeholder="Email address" />
-
-    <select name="project-type" onchange="this.classList.toggle('filled', this.value !== '')">
-      <option value="" disabled selected>What do you need?</option>
-      <option>Website or Web App</option>
-      <option>Automation / Scripts</option>
-      <option>Network or IT Setup</option>
-      <option>Database / Backend</option>
-      <option>Something Else</option>
-    </select>
-
-    <textarea name="message" placeholder="Describe your idea..."></textarea>
-
-    <button type="submit">Send it over</button>
-  </form>
+    <span class="topbar-word">Oppodel</span>
+    <a class="topbar-cta" href="#enquire">Get in touch</a>
   </div>
 
-  <section class="cases">
-  <section class="cases" id="work">
-    <div class="cases-head">
-      <div class="cases-eyebrow">Selected Work</div>
-      <h2 class="cases-title">Case Studies</h2>
-      <p class="cases-note">Live, working demos &mdash; click one and go all the way through it. These are examples, not real businesses. Anything we build for you gets tailored to your services, your pricing and your branding, then properly polished.</p>
-    </div>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Quote Systems &middot; IT</div>
+      <h1 class="headline">Bespoke quoting systems for businesses</h1>
+      <p class="sub">Instant, accurate quotes on your own website &mdash; so customers get a price the moment they want one, and you get the lead.</p>
 
-    <div class="case-grid">
-      <button class="case live" type="button" onclick="openDemo('demos/lawn-care.html','Lawn Care')">
-        <div class="case-thumb">
-          <span class="case-badge">Try it</span>
-          <img class="case-shot" src="demos/thumbs/lawn-care.jpg" alt="Lawn care quote builder showing three treatment packages priced per month" loading="lazy" />
-        </div>
-        <div class="case-body">
-          <div class="case-cat">Lawn Care</div>
-          <div class="case-name">Treatment plan quote builder</div>
-          <p class="case-desc">Postcode check, lawn sizing, three treatment packages priced live, then details and booking &mdash; the whole customer journey end to end.</p>
-          <span class="case-open">Open demo &rarr;</span>
-        </div>
-      </button>
+      <div class="form-card" id="enquire">
+        <div class="form-title">Tell us what you need</div>
+        <form name="contact" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="contact" />
+          <div class="row">
+            <input type="text" name="first-name" placeholder="First name" autocomplete="given-name" />
+            <input type="text" name="last-name" placeholder="Last name" autocomplete="family-name" />
+          </div>
 
-      <button class="case live" type="button" onclick="openDemo('demos/exterior-cleaning.html','Exterior Cleaning')">
-        <div class="case-thumb">
-          <span class="case-badge">Try it</span>
-          <img class="case-shot" src="demos/thumbs/exterior-cleaning.jpg" alt="Exterior cleaning calculator with a 3D house model beside the quote form" loading="lazy" />
-        </div>
-        <div class="case-body">
-          <div class="case-cat">Exterior Cleaning</div>
-          <div class="case-name">3D property quote calculator</div>
-          <p class="case-desc">Build your house in 3D, pick services and watch the model highlight exactly what gets cleaned &mdash; with bundle savings applied as you go.</p>
-          <span class="case-open">Open demo &rarr;</span>
-        </div>
-      </button>
+          <input type="email" name="email" placeholder="Email address" autocomplete="email" />
 
-      <button class="case live" type="button" onclick="openDemo('demos/roofing.html','Roofing')">
-        <div class="case-thumb">
-          <span class="case-badge">Try it</span>
-          <img class="case-shot" src="demos/thumbs/roofing.jpg" alt="Roofing estimate tool with a 3D roof model beside the spec form" loading="lazy" />
-        </div>
-        <div class="case-body">
-          <div class="case-cat">Roofing</div>
-          <div class="case-name">Roof spec &amp; estimate tool</div>
-          <p class="case-desc">Gable or hipped, dormers, chimneys, Velux &mdash; the 3D roof updates as you spec it, and six services price themselves off the model.</p>
-          <span class="case-open">Open demo &rarr;</span>
-        </div>
-      </button>
+          <select name="project-type" onchange="this.classList.toggle('filled', this.value !== '')">
+            <option value="" disabled selected>What do you need?</option>
+            <option>Instant quote system</option>
+            <option>Website or web app</option>
+            <option>Automation / scripts</option>
+            <option>Network or IT setup</option>
+            <option>Database / backend</option>
+            <option>Something else</option>
+          </select>
 
-      <article class="case">
-        <div class="case-thumb">
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 55.29 12.37 A 38 38 0 0 1 55.29 87.63" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
-            <path d="M 44.71 12.37 A 38 38 0 0 0 44.71 87.63" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
-            <circle cx="50" cy="50" r="5" fill="#fff"/>
-          </svg>
-        </div>
-        <div class="case-body">
-          <div class="case-cat">Garden Rooms</div>
-          <div class="case-name">Coming soon</div>
-          <p class="case-desc">A configurator for garden room builds &mdash; size, cladding, glazing and spec, priced instantly. In the works.</p>
-        </div>
-      </article>
+          <textarea name="message" placeholder="Tell us about your business and what you'd want it to do..."></textarea>
+
+          <button type="submit">Send enquiry</button>
+        </form>
+        <p class="form-note">No obligation &mdash; we'll come back to you with a straight answer.</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="work" id="work">
+    <div class="wrap">
+      <div class="work-head">
+        <div class="eyebrow">Selected Work</div>
+        <h2 class="work-title">Quoting systems, built to be used</h2>
+        <p class="work-note">Each of these is a working demo you can open and run all the way through &mdash; property details in, priced quote out. They're illustrative examples rather than live businesses; a system built for you is shaped around your services, your pricing and your branding.</p>
+      </div>
+
+      <div class="case-grid">
+        <button class="case live" type="button" onclick="openDemo('demos/lawn-care.html','Lawn Care')">
+          <div class="case-thumb">
+            <span class="case-badge">Try it</span>
+            <img class="case-shot" src="demos/thumbs/lawn-care.jpg" alt="Lawn care quote builder showing three treatment packages priced per month" loading="lazy" />
+          </div>
+          <div class="case-body">
+            <div class="case-cat">Lawn Care</div>
+            <div class="case-name">Treatment plan quote builder</div>
+            <p class="case-desc">Checks the postcode, sizes the lawn, then prices three treatment programmes live and carries the customer through to booking.</p>
+            <div class="case-tags">
+              <span class="tag">Postcode gating</span>
+              <span class="tag">Tiered pricing</span>
+              <span class="tag">6-step journey</span>
+            </div>
+            <span class="case-open">Open demo &rarr;</span>
+          </div>
+        </button>
+
+        <button class="case live" type="button" onclick="openDemo('demos/exterior-cleaning.html','Exterior Cleaning')">
+          <div class="case-thumb">
+            <span class="case-badge">Try it</span>
+            <img class="case-shot" src="demos/thumbs/exterior-cleaning.jpg" alt="Exterior cleaning calculator with a 3D house model beside the quote form" loading="lazy" />
+          </div>
+          <div class="case-body">
+            <div class="case-cat">Exterior Cleaning</div>
+            <div class="case-name">3D property quote calculator</div>
+            <p class="case-desc">The customer builds their property in 3D and picks services; the model highlights exactly what gets cleaned as bundle savings apply.</p>
+            <div class="case-tags">
+              <span class="tag">Live 3D model</span>
+              <span class="tag">6 services</span>
+              <span class="tag">Bundle discounts</span>
+            </div>
+            <span class="case-open">Open demo &rarr;</span>
+          </div>
+        </button>
+
+        <button class="case live" type="button" onclick="openDemo('demos/roofing.html','Roofing')">
+          <div class="case-thumb">
+            <span class="case-badge">Try it</span>
+            <img class="case-shot" src="demos/thumbs/roofing.jpg" alt="Roofing estimate tool with a 3D roof model beside the spec form" loading="lazy" />
+          </div>
+          <div class="case-body">
+            <div class="case-cat">Roofing</div>
+            <div class="case-name">Roof spec &amp; estimate tool</div>
+            <p class="case-desc">Gable or hipped, dormers, chimneys, rooflights &mdash; the roof updates as it's specced, and six services price themselves off the model.</p>
+            <div class="case-tags">
+              <span class="tag">Live 3D model</span>
+              <span class="tag">Scaffold &amp; access factors</span>
+              <span class="tag">Multi-job savings</span>
+            </div>
+            <span class="case-open">Open demo &rarr;</span>
+          </div>
+        </button>
+
+        <article class="case soon">
+          <div class="case-thumb">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M 55.29 12.37 A 38 38 0 0 1 55.29 87.63" stroke="#0c0c0e" stroke-width="3.5" stroke-linecap="round"/>
+              <path d="M 44.71 12.37 A 38 38 0 0 0 44.71 87.63" stroke="#0c0c0e" stroke-width="3.5" stroke-linecap="round"/>
+              <circle cx="50" cy="50" r="5" fill="#0c0c0e"/>
+            </svg>
+          </div>
+          <div class="case-body">
+            <div class="case-cat">Garden Rooms</div>
+            <div class="case-name">Build configurator</div>
+            <p class="case-desc">Size, cladding, glazing and internal spec, priced instantly as it's configured. Currently in development.</p>
+            <div class="case-tags">
+              <span class="tag">In progress</span>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
   <!-- demo overlay -->
   <div class="demo-overlay" id="demoOverlay">
-    <div class="demo-modal" id="demoModal">
+    <div class="demo-modal">
       <div class="demo-bar">
         <span class="demo-bar-title" id="demoTitle">Demo</span>
-        <span class="demo-bar-note">Demo only &mdash; a real build would be tailored and polished</span>
+        <span class="demo-bar-note">Illustrative demo &mdash; a system built for you would be tailored and polished</span>
         <button class="demo-close" type="button" onclick="closeDemo()">Close</button>
       </div>
       <iframe class="demo-frame" id="demoFrame" title="Demo" src="about:blank"></iframe>
     </div>
   </div>
 
-  <footer>oppodel.com</footer>
+  <footer>
+    <div class="wrap footer-in">
+      <span>Oppodel</span>
+      <span class="right"><a href="mailto:hello@oppodel.com">hello@oppodel.com</a></span>
+    </div>
+  </footer>
 
   <script>
     var overlay = document.getElementById('demoOverlay');
@@ -549,7 +626,8 @@
       frame.src = src;
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
-      requestAnimationFrame(function () { overlay.classList.add('shown'); });
+      void overlay.offsetHeight;      /* force reflow so the fade actually runs */
+      overlay.classList.add('shown');
     }
 
     function closeDemo() {
@@ -571,7 +649,7 @@
     });
 
     /* a demo's "Get in touch" button closes the overlay and drops
-       the visitor straight onto the contact form */
+       the visitor straight onto the enquiry form */
     window.addEventListener('message', function (e) {
       if (!e.data || e.data.type !== 'oppodel-contact') return;
       closeDemo();
