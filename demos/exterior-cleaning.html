@@ -13,6 +13,7 @@
 <title>Exterior Cleaning — Instant Quote Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="../track/oq-track.js" data-site="demo-exterior-cleaning" data-endpoint="/.netlify/functions/collect" defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -279,6 +280,7 @@ body::before{content:"";position:fixed;top:0;left:0;right:0;height:5px;backgroun
 
 /* CTA — bubbles up to the Oppodel site to open the enquiry form */
 function oppodelContact(){
+  if(window.OQ) OQ.lead({service:'exterior-cleaning-demo'});
   if(window.parent && window.parent!==window){
     window.parent.postMessage({type:'oppodel-contact'},'*');
   } else {
@@ -589,6 +591,7 @@ function setPane(id,n){
   view.classList.toggle('revealed', n===pricePane);
   if(n===detailsPane){ next.textContent='See my price →'; validateDetails(id); }
   else { next.textContent='Continue →'; next.disabled=false; }
+  if(window.OQ) OQ.step(n, id+' · step '+(n+1));
   if(n===pricePane){
     updatePrice(id);
     document.getElementById('ph-'+id).textContent =
@@ -678,6 +681,7 @@ function updatePrice(id){
   document.getElementById('ps-'+id).textContent=r.sub;
   const px=document.getElementById('px-'+id);
   px.innerHTML = (r.side && r.side>0) ? `<div class="a">${fmtGBP(r.side)}</div><div class="b">${r.sideLabel}</div>` : '';
+  if(window.OQ) OQ.price({service:id, price:r.main, config:r.sub});
 }
 function openSvc(id){
   document.getElementById('home').classList.add('off');

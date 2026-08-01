@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Oppodel — Funnel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#fff; --surface:#fafafa; --border:#e7e7e9; --line:#f0f0f2;
+      --text:#0c0c0e; --body:#45454d; --muted:#86868f; --good:#1f7a4d; --warn:#b4472e;
+    }
+    body { background:var(--bg); color:var(--text); font-family:'Jost',sans-serif; line-height:1.5; }
+    .wrap { max-width:1000px; margin:0 auto; padding:2.5rem 1.5rem 5rem; }
+
+    h1 { font-size:1.6rem; font-weight:500; letter-spacing:-.02em; }
+    .sub { font-size:.85rem; font-weight:300; color:var(--muted); margin-top:.35rem; }
+
+    .controls { display:flex; flex-wrap:wrap; gap:.6rem; margin:1.75rem 0 2.25rem; align-items:center; }
+    input, select {
+      font-family:'Jost',sans-serif; font-size:.85rem; font-weight:300;
+      border:1px solid var(--border); border-radius:9px; padding:.6rem .8rem;
+      background:var(--bg); color:var(--text); outline:none;
+    }
+    input:focus, select:focus { border-color:var(--text); }
+    button {
+      font-family:'Jost',sans-serif; font-size:.75rem; font-weight:500;
+      letter-spacing:.14em; text-transform:uppercase;
+      background:var(--text); color:#fff; border:none; border-radius:9px;
+      padding:.68rem 1.3rem; cursor:pointer;
+    }
+    button:hover { opacity:.86; }
+
+    .msg { font-size:.85rem; font-weight:300; color:var(--body); padding:1rem 0; }
+    .msg.err { color:var(--warn); }
+
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:.9rem; margin-bottom:2.5rem; }
+    .card { border:1px solid var(--border); border-radius:12px; padding:1.1rem 1.2rem; }
+    .card-k { font-size:.6rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .card-v { font-size:1.75rem; font-weight:500; letter-spacing:-.02em; margin-top:.35rem; }
+    .card-n { font-size:.72rem; font-weight:300; color:var(--muted); margin-top:.15rem; }
+
+    h2 { font-size:.66rem; font-weight:500; letter-spacing:.24em; text-transform:uppercase;
+         color:var(--muted); margin:2.5rem 0 1rem; }
+
+    .fun { display:flex; flex-direction:column; gap:.55rem; }
+    .frow { display:grid; grid-template-columns:170px 1fr 130px; gap:1rem; align-items:center; }
+    .fname { font-size:.85rem; font-weight:400; }
+    .fname span { color:var(--muted); font-size:.7rem; letter-spacing:.14em; margin-right:.5rem; }
+    .fbar { background:var(--surface); border-radius:6px; height:30px; overflow:hidden; }
+    .fbar i { display:block; height:100%; background:var(--text); border-radius:6px; }
+    .fmeta { font-size:.8rem; font-weight:300; color:var(--body); text-align:right; }
+    .fdrop { color:var(--warn); font-weight:400; }
+
+    table { width:100%; border-collapse:collapse; font-size:.85rem; font-weight:300; }
+    th { text-align:left; font-size:.6rem; font-weight:500; letter-spacing:.18em;
+         text-transform:uppercase; color:var(--muted); padding:0 0 .6rem; }
+    td { padding:.6rem 0; border-top:1px solid var(--line); }
+    td.n, th.n { text-align:right; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; }
+    @media (max-width:760px) {
+      .grid2 { grid-template-columns:1fr; gap:0; }
+      .frow { grid-template-columns:110px 1fr; }
+      .fmeta { grid-column:1/-1; text-align:left; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Funnel</h1>
+  <p class="sub">Where people get to in the quote journey, and where they leave.</p>
+
+  <div class="controls">
+    <input id="site" placeholder="Site (blank = all)" />
+    <select id="days">
+      <option value="7">Last 7 days</option>
+      <option value="30" selected>Last 30 days</option>
+      <option value="90">Last 90 days</option>
+      <option value="365">Last year</option>
+    </select>
+    <input id="token" type="password" placeholder="Access token" />
+    <button id="go">Load</button>
+  </div>
+
+  <div class="msg" id="msg">Enter your token and press Load.</div>
+  <div id="out" hidden>
+    <div class="cards" id="cards"></div>
+
+    <h2>Funnel</h2>
+    <div class="fun" id="funnel"></div>
+
+    <div class="grid2">
+      <div>
+        <h2>Traffic source</h2>
+        <table id="tSource"></table>
+      </div>
+      <div>
+        <h2>Device</h2>
+        <table id="tDevice"></table>
+      </div>
+      <div>
+        <h2>Service quoted</h2>
+        <table id="tService"></table>
+      </div>
+      <div>
+        <h2>Conversion by price</h2>
+        <table id="tBands"></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* token is remembered locally so you're not retyping it every visit */
+  try { $('token').value = localStorage.getItem('oq_token') || ''; } catch (e) {}
+  try { $('site').value  = localStorage.getItem('oq_site')  || ''; } catch (e) {}
+
+  $('go').addEventListener('click', load);
+  $('token').addEventListener('keydown', function (e) { if (e.key === 'Enter') load(); });
+
+  function load() {
+    var token = $('token').value.trim();
+    var site  = $('site').value.trim();
+    var days  = $('days').value;
+    if (!token) return say('Token required.', true);
+
+    try { localStorage.setItem('oq_token', token); localStorage.setItem('oq_site', site); } catch (e) {}
+
+    say('Loading…');
+    $('out').hidden = true;
+
+    var url = '/.netlify/functions/stats?days=' + days +
+              '&token=' + encodeURIComponent(token) +
+              (site ? '&site=' + encodeURIComponent(site) : '');
+
+    fetch(url)
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (!res.ok) return say(res.j.error || 'Request failed.', true);
+        render(res.j);
+      })
+      .catch(function () { say('Could not reach the stats function.', true); });
+  }
+
+  function say(t, isErr) {
+    var m = $('msg');
+    m.textContent = t;
+    m.className = 'msg' + (isErr ? ' err' : '');
+    m.hidden = false;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c];
+    });
+  }
+
+  function render(d) {
+    var t = d.totals;
+    if (!t.sessions) return say('No data yet for that period.');
+
+    $('msg').hidden = true;
+    $('out').hidden = false;
+
+    $('cards').innerHTML = [
+      card('Sessions', t.sessions, 'people who started'),
+      card('Saw a price', t.reachedPrice, t.quoteRate + '% of sessions'),
+      card('Leads', t.leads, t.leadRate + '% of sessions'),
+      card('Price → lead', t.closeRate + '%', 'of those who saw a price'),
+      card('Median quote', t.medianPrice != null ? '£' + t.medianPrice : '—', 'across priced sessions'),
+      card('Median time', t.medianSeconds != null ? t.medianSeconds + 's' : '—', 'on the page')
+    ].join('');
+
+    var max = Math.max.apply(null, d.funnel.map(function (f) { return f.reached; }).concat([1]));
+    $('funnel').innerHTML = d.funnel.map(function (f) {
+      return '<div class="frow">' +
+        '<div class="fname"><span>' + String(f.step).padStart(2, '0') + '</span>' + esc(f.name) + '</div>' +
+        '<div class="fbar"><i style="width:' + Math.max(1, (f.reached / max) * 100) + '%"></i></div>' +
+        '<div class="fmeta">' + f.reached + ' &middot; ' + f.pct + '%' +
+          (f.dropFromPrev > 0 ? ' <span class="fdrop">&minus;' + f.dropFromPrev + '%</span>' : '') +
+        '</div></div>';
+    }).join('');
+
+    table('tSource',  d.bySource,  'Source');
+    table('tDevice',  d.byDevice,  'Device');
+    table('tService', d.byService, 'Service');
+    table('tBands',   d.priceBands, 'Price band');
+  }
+
+  function card(k, v, n) {
+    return '<div class="card"><div class="card-k">' + esc(k) + '</div>' +
+           '<div class="card-v">' + esc(v) + '</div>' +
+           '<div class="card-n">' + esc(n) + '</div></div>';
+  }
+
+  function table(id, rows, label) {
+    var el = $(id);
+    if (!rows || !rows.length) { el.innerHTML = '<tr><td>No data</td></tr>'; return; }
+    el.innerHTML =
+      '<tr><th>' + esc(label) + '</th><th class="n">Sessions</th><th class="n">Leads</th><th class="n">Rate</th></tr>' +
+      rows.slice(0, 12).map(function (r) {
+        return '<tr><td>' + esc(r.key) + '</td><td class="n">' + r.sessions +
+               '</td><td class="n">' + r.leads + '</td><td class="n">' + r.leadRate + '%</td></tr>';
+      }).join('');
+  }
+</script>
+</body>
+</html>

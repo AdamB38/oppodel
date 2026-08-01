@@ -1,0 +1,9 @@
+{
+  "name": "oppodel-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Oppodel site — static pages plus serverless functions for funnel tracking",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

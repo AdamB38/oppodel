@@ -333,6 +333,7 @@ h2.step-t{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:17px;
 <div class="foot">Demo build by Oppodel · illustrative pricing only · not a live business</div>
 <div class="toast" id="toast"></div>
 
+<script src="../track/oq-track.js" data-site="demo-roofing" data-endpoint="/.netlify/functions/collect" defer></script>
 <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
 <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
@@ -493,6 +494,7 @@ document.getElementById('urgSeg').addEventListener('click', e=>{
 /* ═════════════ WIZARD ═════════════ */
 /* CTA — bubbles up to the Oppodel site to open the contact form */
 function oppodelContact(){
+  if(window.OQ) OQ.lead({service:'roofing-demo'});
   if(window.parent && window.parent!==window){
     window.parent.postMessage({type:'oppodel-contact'},'*');
   } else {
@@ -514,6 +516,7 @@ function goStep(n){
   document.getElementById('navNext').textContent=NEXT_LABEL[n];
   updateNav(); updateBadge();
   if(n===3) buildEstimate();
+  if(window.OQ) OQ.step(n, {1:'property & roof',2:'services',3:'estimate'}[n]);
 }
 function updateNav(){
   document.getElementById('navNext').disabled=(state.step===2 && !Object.keys(state.services).length);
@@ -555,6 +558,11 @@ function buildEstimate(){
     lines.map(([sv,o,p])=>`<div class="tot-line"><b>${sv.name}<span class="d">${sv.detail(state,o)}</span></b><span class="val">${money(p)}</span></div>`).join('')+
     (disc?`<div class="tot-line save"><b>Multi-job saving (−${Math.round(disc*100)}%)</b><span class="val">−${money(subtotal*disc)}</span></div>`:'');
   document.getElementById('totGrand').innerHTML=money(subtotal*(1-disc))+' <small>est.</small>';
+  if(window.OQ) OQ.price({
+    service: lines.map(([sv])=>sv.id).join('+') || 'none',
+    price: Math.round(subtotal*(1-disc)),
+    config: state.prop+' · '+state.shape+' · '+state.storeys+' storey · ~'+roofArea()+'m2'
+  });
   const P={terraced:'terraced',semi:'semi-detached',detached:'detached',bungalow:'bungalow'}[state.prop];
   document.getElementById('estSub').textContent =
     `${n} job${n===1?'':'s'} · ${P} · ${state.shape} roof · ${state.storeys} storey${state.storeys>1?'s':''} · ~${roofArea()}m²`;

@@ -6,6 +6,7 @@
 <meta name="format-detection" content="telephone=no">
 <title>Lawn Treatment — Instant Quote Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="../track/oq-track.js" data-site="demo-lawn-care" data-endpoint="/.netlify/functions/collect" defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -685,6 +686,7 @@ input[type=range]::-moz-range-thumb{
 // no webhooks, no analytics. Nothing leaves the browser.
 
 function oppodelContact(){
+  if (window.OQ) OQ.lead({ service: 'lawn-care-demo' });
   if (window.parent && window.parent !== window) {
     window.parent.postMessage({ type: 'oppodel-contact' }, '*');
   } else {
@@ -964,6 +966,8 @@ function goTo(n) {
     el.classList.toggle('done', i + 1 < n);
   });
 
+  if (window.OQ) OQ.step(n, STEP_NAMES_T[n] || String(n));
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -987,6 +991,13 @@ function populatePayment() {
     const monthly = PRICING[currentBand][currentPkg];
     document.getElementById('payMonthly').textContent = monthly;
     document.getElementById('payAnnual').textContent  = monthly * 12;
+    if (window.OQ) OQ.price({
+      service: 'treatment-' + currentPkg,
+      price:   monthly,
+      config:  PKG_LABELS[currentPkg] + ' · ' + BAND_LABELS[currentBand] + ' · per month'
+    });
+  } else if (isConsult && window.OQ) {
+    OQ.price({ service: 'treatment-consultation', price: null, config: '600m2+ · site visit' });
   }
 }
 

@@ -1,0 +1,9 @@
+# Static site — no build step. The functions directory is bundled by Netlify,
+# which installs the dependencies in package.json automatically.
+[build]
+  publish = "."
+  command = ""
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
