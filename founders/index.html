@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oppodel — Your customers quote their own Christmas lights</title>
+<meta name="description" content="The instant-quote calculator for Christmas light installers. Homeowners upload a photo, draw their lights, see the price and an HD AI preview — you get a pre-measured, pre-qualified lead." />
+<meta name="robots" content="index,follow" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Oppodel — Your customers quote their own Christmas lights" />
+<meta property="og:description" content="The instant-quote calculator for Christmas light installers. Homeowners upload a photo, draw their lights, see the price and an HD AI preview — you get a pre-measured, pre-qualified lead." />
+<meta property="og:image" content="https://oppodel-xmas.pages.dev/go-after1.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border-radius:0!important;}
+
+:root{
+  --ink:#101113;
+  --body:#4A4C52;
+  --muted:#82858C;
+  --gold:#B08D3E;
+  --gold-dk:#96762F;
+  --beige:#F4F1EA;
+  --line:#E4E2DC;
+  --line-soft:#EFEDE8;
+}
+
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+
+body{
+  background:#fff;
+  color:var(--ink);
+  font-family:"Inter",system-ui,-apple-system,sans-serif;
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+img{max-width:100%;display:block;}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+.narrow{max-width:820px;margin:0 auto;padding:0 24px;}
+
+/* ── type ── */
+h1,h2,h3{font-family:"Playfair Display",Georgia,serif;font-weight:500;letter-spacing:-.01em;line-height:1.15;}
+
+.eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);
+}
+
+/* ── top bar ── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px 24px;border-bottom:1px solid var(--line-soft);
+}
+.mark{font-family:"Playfair Display",serif;font-size:20px;font-weight:600;letter-spacing:.01em;}
+.toplink{
+  font-size:13px;font-weight:500;color:var(--ink);text-decoration:none;
+  border-bottom:1px solid var(--gold);padding-bottom:2px;white-space:nowrap;
+}
+.toplink:hover{color:var(--gold);}
+
+/* ── hero ── */
+.hero{padding:clamp(48px,9vw,96px) 0 clamp(40px,6vw,64px);text-align:center;}
+.hero h1{
+  font-size:clamp(30px,5.4vw,54px);
+  margin:20px auto 0;max-width:880px;
+}
+.hero .sub{
+  font-size:clamp(15px,1.7vw,17px);font-weight:300;color:var(--body);
+  max-width:62ch;margin:24px auto 0;line-height:1.75;
+}
+
+.btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px;}
+
+.btn{
+  display:inline-block;font-family:"Inter",sans-serif;font-size:14px;font-weight:600;
+  letter-spacing:.02em;padding:16px 30px;text-decoration:none;cursor:pointer;
+  border:1px solid var(--gold);transition:background .18s,color .18s;text-align:center;
+}
+.btn-gold{background:var(--gold);color:#fff;}
+.btn-gold:hover{background:var(--gold-dk);border-color:var(--gold-dk);}
+.btn-out{background:#fff;color:var(--ink);border-color:var(--ink);}
+.btn-out:hover{background:var(--ink);color:#fff;}
+
+.note{font-size:12.5px;color:var(--muted);margin-top:18px;letter-spacing:.02em;}
+
+/* ── before / after ── */
+.pair{
+  display:grid;grid-template-columns:1fr 1fr;gap:28px;
+  margin-top:clamp(40px,6vw,64px);text-align:left;
+}
+.shot img{width:100%;border:1px solid var(--line);}
+.shot .cap{
+  font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin-top:12px;line-height:1.6;
+}
+.shot .cap b{color:var(--gold);font-weight:600;}
+
+/* ── sections ── */
+section{padding:clamp(56px,8vw,96px) 0;}
+.sec-beige{background:var(--beige);}
+
+.sec-head{text-align:center;max-width:640px;margin:0 auto clamp(36px,5vw,56px);}
+.sec-head h2{font-size:clamp(24px,3.6vw,38px);margin-top:14px;}
+
+/* ── steps ── */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.step{background:#fff;padding:32px 28px 34px;}
+.step-n{
+  font-family:"Playfair Display",serif;font-size:34px;font-weight:400;
+  color:var(--gold);line-height:1;
+}
+.step h3{font-size:18px;margin:16px 0 10px;line-height:1.3;}
+.step p{font-size:14.5px;font-weight:300;color:var(--body);line-height:1.7;}
+
+/* ── inbox columns ── */
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.col{border-left:2px solid var(--gold);padding:4px 0 4px 20px;}
+.col h3{font-size:19px;margin-bottom:10px;}
+.col p{font-size:14.5px;font-weight:300;color:var(--body);line-height:1.7;}
+
+.wide{margin-top:clamp(40px,6vw,60px);}
+.wide img{width:100%;border:1px solid var(--line);}
+.wide .cap{
+  font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin-top:12px;line-height:1.6;
+}
+.wide .cap b{color:var(--gold);font-weight:600;}
+
+/* ── offer + form ── */
+.offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:start;}
+.offer h2{font-size:clamp(24px,3.4vw,34px);margin-top:14px;}
+.offer .gold-line{
+  font-size:16px;font-weight:600;color:var(--gold);
+  margin-top:14px;padding-bottom:22px;border-bottom:1px solid var(--line);
+}
+
+.checks{list-style:none;margin-top:24px;}
+.checks li{
+  display:flex;gap:14px;font-size:14.5px;font-weight:300;color:var(--body);
+  line-height:1.7;padding:13px 0;border-bottom:1px solid var(--line-soft);
+}
+.checks li:last-child{border-bottom:0;}
+.checks .tick{color:var(--gold);font-weight:600;flex-shrink:0;font-size:15px;line-height:1.6;}
+
+.smallprint{
+  font-size:13px;font-weight:300;color:var(--muted);line-height:1.75;
+  margin-top:24px;padding-top:22px;border-top:1px solid var(--line);
+}
+
+/* ── form ── */
+.formcard{border:1px solid var(--ink);padding:clamp(26px,3.4vw,36px);background:#fff;}
+.formcard h3{font-size:24px;}
+.formcard .lede{font-size:13.5px;font-weight:300;color:var(--muted);margin:8px 0 24px;}
+
+.field{margin-bottom:16px;}
+label{
+  display:block;font-size:11px;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink);margin-bottom:7px;
+}
+label .opt{color:var(--muted);font-weight:400;letter-spacing:.06em;text-transform:none;}
+
+input,select{
+  width:100%;font-family:"Inter",sans-serif;font-size:15px;font-weight:400;
+  color:var(--ink);background:#fff;border:1px solid var(--line);
+  padding:13px 14px;outline:none;transition:border-color .18s;
+  appearance:none;-webkit-appearance:none;
+}
+input::placeholder{color:#B4B6BC;}
+input:focus,select:focus{border-color:var(--gold);}
+
+select{
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23101113' stroke-width='1.5'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;cursor:pointer;
+}
+select:invalid{color:#B4B6BC;}
+
+.formcard button{
+  width:100%;margin-top:8px;font-family:"Inter",sans-serif;font-size:14.5px;font-weight:600;
+  letter-spacing:.02em;padding:17px;background:var(--gold);color:#fff;border:1px solid var(--gold);
+  cursor:pointer;transition:background .18s;
+}
+.formcard button:hover:not(:disabled){background:var(--gold-dk);border-color:var(--gold-dk);}
+.formcard button:disabled{opacity:.6;cursor:default;}
+
+.reassure{font-size:12px;font-weight:300;color:var(--muted);text-align:center;margin-top:14px;line-height:1.6;}
+
+.err{
+  display:none;font-size:13px;font-weight:400;color:#9B2C2C;
+  border:1px solid #E4C4C4;background:#FCF6F6;padding:12px 14px;margin-top:16px;line-height:1.6;
+}
+.err a{color:#9B2C2C;}
+.err.on{display:block;}
+
+/* success */
+.done{display:none;}
+.done.on{display:block;}
+.done .tickbig{font-size:26px;color:var(--gold);line-height:1;}
+.done h3{font-size:24px;margin:16px 0 14px;}
+.done p{font-size:14.5px;font-weight:300;color:var(--body);line-height:1.75;}
+
+/* ── faq ── */
+.faq{max-width:760px;margin:0 auto;border-top:1px solid var(--line);}
+.faq-item{border-bottom:1px solid var(--line);padding:26px 0;}
+.faq-item h3{font-size:19px;margin-bottom:10px;line-height:1.35;}
+.faq-item p{font-size:14.5px;font-weight:300;color:var(--body);line-height:1.75;}
+
+/* ── footer ── */
+footer{border-top:1px solid var(--line-soft);padding:34px 0;text-align:center;}
+footer p{font-size:12.5px;font-weight:300;color:var(--muted);letter-spacing:.03em;}
+
+/* ── mobile ── */
+@media(max-width:860px){
+  .offer-grid{grid-template-columns:1fr;gap:44px;}
+  .steps{grid-template-columns:1fr;}
+  .cols{grid-template-columns:1fr;gap:26px;}
+}
+
+@media(max-width:640px){
+  .wrap,.narrow{padding:0 20px;}
+  .topbar{padding:16px 20px;}
+  .mark{font-size:18px;}
+  .toplink{font-size:12.5px;}
+  .hero{padding:44px 0 36px;}
+  .hero h1{max-width:none;}
+  .btns{flex-direction:column;gap:10px;}
+  .btn{width:100%;padding:17px 24px;}
+  .pair{grid-template-columns:1fr;gap:26px;}
+  .step{padding:26px 22px 28px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── top bar ── -->
+<header class="topbar">
+  <span class="mark">Oppodel</span>
+  <a class="toplink" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Live demo &rarr;</a>
+</header>
+
+<!-- ── hero ── -->
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">For Christmas light installers &middot; 2026 season</div>
+    <h1>Your customers design, measure &amp; price their own display. You just install.</h1>
+    <p class="sub">Oppodel is an instant-quote calculator for your website. Homeowners upload a photo of their home, draw the lights they want, and see their price with an HD preview of their own house lit up &mdash; you get a pre-measured, pre-qualified lead. No more free-quote drives.</p>
+
+    <div class="btns">
+      <a class="btn btn-gold" href="#claim">Claim a founding spot &rarr;</a>
+      <a class="btn btn-out" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
+    </div>
+    <p class="note">25 founding spots &middot; 50% off first season</p>
+
+    <div class="pair">
+      <figure class="shot">
+        <img src="https://oppodel-xmas.pages.dev/go-before.jpg" alt="A homeowner's photo of their house with the front door tapped to set the scale" loading="lazy" />
+        <figcaption class="cap"><b>1 &middot; Their photo</b> &mdash; they tap their door so it can measure</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="https://oppodel-xmas.pages.dev/go-after1.jpg" alt="An HD render of the same house lit up with exactly the lights the customer drew" loading="lazy" />
+        <figcaption class="cap"><b>2 &middot; The HD render</b> &mdash; lights exactly where they drew, nothing extra</figcaption>
+      </figure>
+    </div>
+  </section>
+</div>
+
+<!-- ── how it works ── -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">How it works</div>
+      <h2>Three steps, no visit required</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <h3>They upload a photo &amp; tap their door</h3>
+        <p>The door is the tape measure &mdash; a standard door calibrates the whole photo. A satellite roof trace cross-checks the numbers.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <h3>They draw their lights</h3>
+        <p>Roofline, windows, railings &mdash; every run they draw shows live footage and a live price, from your rates.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <h3>They give details to see it lit up</h3>
+        <p>Name, phone, email, install timing, and whether they own the home &mdash; before the AI render generates. You never pay to impress a tire-kicker.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── what lands in your inbox ── -->
+<section class="sec-beige">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The lead</div>
+      <h2>What lands in your inbox</h2>
+    </div>
+
+    <div class="cols">
+      <div class="col">
+        <h3>Pre-measured</h3>
+        <p>Every run's footage, drawn on their photo &mdash; run by run, calibrated off their door and roofline.</p>
+      </div>
+      <div class="col">
+        <h3>Pre-qualified</h3>
+        <p>Install timing and property ownership answered before they ever see a price. Tire-kickers filter themselves out.</p>
+      </div>
+      <div class="col">
+        <h3>Pre-sold</h3>
+        <p>They've already seen their own house lit up in HD. The render does the closing &mdash; you do the install.</p>
+      </div>
+    </div>
+
+    <figure class="wide">
+      <img src="https://oppodel-xmas.pages.dev/go-after2.jpg" alt="A finished HD render showing five separate lighting runs a customer drew on their own house" loading="lazy" />
+      <figcaption class="cap"><b>Real output</b> &mdash; 5 runs drawn by the customer: roofline C9s, two windows, stair rail, candy-cane icicles</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ── offer + form ── -->
+<section id="claim">
+  <div class="wrap">
+    <div class="offer-grid">
+
+      <div class="offer">
+        <div class="eyebrow">Prelaunch offer</div>
+        <h2>Founding Installer &mdash; 25 spots</h2>
+        <p class="gold-line">50% off your first season</p>
+
+        <ul class="checks">
+          <li><span class="tick">&#10003;</span><span>50% off your first season, locked in writing</span></li>
+          <li><span class="tick">&#10003;</span><span>Metro priority &mdash; we cap installers per metro so your leads stay yours</span></li>
+          <li><span class="tick">&#10003;</span><span>Setup done for you &mdash; your prices, your branding, on your site in days</span></li>
+          <li><span class="tick">&#10003;</span><span>The past-job test &mdash; send a photo of a job you did last year and we'll send back your calculator quoting it, so you see the accuracy on YOUR work before paying a cent</span></li>
+          <li><span class="tick">&#10003;</span><span>Direct line to the founder &mdash; you're building this with us</span></li>
+        </ul>
+
+        <p class="smallprint">Straight talk: the measurement is a bidding estimate calibrated from the photo and satellite &mdash; your crew confirms final size before install, same as always. What changes is that you stop driving to houses that were never going to book.</p>
+      </div>
+
+      <div>
+        <div class="formcard">
+          <div id="formWrap">
+            <h3>Claim your spot</h3>
+            <p class="lede">Takes 30 seconds. No card, no commitment.</p>
+
+            <form id="foundersForm" name="founders" method="POST" data-netlify="true" netlify-honeypot="company-website" novalidate>
+              <input type="hidden" name="form-name" value="founders" />
+              <p style="display:none;"><label>Leave this empty <input name="company-website" /></label></p>
+
+              <div class="field">
+                <label for="f-name">First name</label>
+                <input id="f-name" name="name" type="text" autocomplete="given-name" required />
+              </div>
+
+              <div class="field">
+                <label for="f-company">Company <span class="opt">(optional)</span></label>
+                <input id="f-company" name="company" type="text" autocomplete="organization" />
+              </div>
+
+              <div class="field">
+                <label for="f-email">Email</label>
+                <input id="f-email" name="email" type="email" autocomplete="email" required />
+              </div>
+
+              <div class="field">
+                <label for="f-phone">Phone <span class="opt">(optional &mdash; for a faster reply)</span></label>
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+              </div>
+
+              <div class="field">
+                <label for="f-metro">Your metro / city</label>
+                <input id="f-metro" name="metro" type="text" placeholder="e.g. Dallas, TX" required />
+              </div>
+
+              <div class="field">
+                <label for="f-installs">Installs last season</label>
+                <select id="f-installs" name="installs" required>
+                  <option value="" disabled selected>Select one</option>
+                  <option>This is my first season</option>
+                  <option>1&ndash;25</option>
+                  <option>25&ndash;100</option>
+                  <option>100+</option>
+                </select>
+              </div>
+
+              <button type="submit" id="submitBtn">Claim founding spot &rarr;</button>
+              <p class="reassure">&#128274; We'll email you about the launch. No spam, unsubscribe anytime.</p>
+              <div class="err" id="formErr"></div>
+            </form>
+          </div>
+
+          <div class="done" id="doneMsg">
+            <div class="tickbig">&#10003;</div>
+            <h3>You're on the list</h3>
+            <p>Your spot is held. I'll personally email you within a day.</p>
+            <p style="margin-top:14px;">Want to jump the line? When my email arrives, reply with a photo of a job you installed last year &mdash; I'll send back your calculator quoting that exact house, so you can judge the accuracy on your own work.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── faq ── -->
+<section class="sec-beige">
+  <div class="narrow">
+    <div class="sec-head">
+      <div class="eyebrow">Honest answers</div>
+      <h2>The questions installers actually ask</h2>
+    </div>
+
+    <div class="faq">
+      <div class="faq-item">
+        <h3>How accurate is the measuring?</h3>
+        <p>It calibrates from their front door (a known size) and cross-checks against a satellite trace of their roof. It's a bidding estimate &mdash; accurate enough to price confidently, and your crew confirms final footage before install, exactly like you do today. Founding installers test it against their real past jobs before paying anything.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does the AI render show things the customer didn't buy?</h3>
+        <p>No &mdash; every render is checked by a second AI that compares it against exactly what the customer drew. Extra lights, wrong colours, or a wrong house get rejected and re-generated automatically.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does it get on my website?</h3>
+        <p>We set it up for you &mdash; as its own page on your domain or a button on your existing site, with your prices and branding. No tech skills needed on your end.</p>
+      </div>
+      <div class="faq-item">
+        <h3>When does it launch?</h3>
+        <p>September 2026, ahead of quote season. Founding installers onboard first, in the order they signed up.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What does it cost after the founding discount?</h3>
+        <p>Seasonal pricing that a single average job covers several times over. Founding installers lock 50% off their first season and get final pricing before committing &mdash; no card required to hold a spot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><p>Oppodel &middot; instant-quote calculators for holiday lighting pros</p></div>
+</footer>
+
+<script>
+(function () {
+  var form   = document.getElementById('foundersForm');
+  var btn    = document.getElementById('submitBtn');
+  var errBox = document.getElementById('formErr');
+
+  var LEAD_API = 'https://oppodel-scan.adambeer38.workers.dev/';
+
+  function showError(msg) {
+    errBox.innerHTML = msg;
+    errBox.classList.add('on');
+    btn.disabled = false;
+    btn.textContent = 'Claim founding spot →';
+  }
+
+  function succeed() {
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('doneMsg').classList.add('on');
+    document.getElementById('claim').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* Backup capture via Netlify Forms, so a lead is never lost if the
+     API is unreachable. Fires alongside the API call, not instead of it. */
+  function netlifyBackup(data) {
+    var body = new URLSearchParams();
+    body.append('form-name', 'founders');
+    Object.keys(data).forEach(function (k) { body.append(k, data[k] || ''); });
+    return fetch('/founders/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errBox.classList.remove('on');
+
+    var data = {
+      name:     document.getElementById('f-name').value.trim(),
+      company:  document.getElementById('f-company').value.trim(),
+      email:    document.getElementById('f-email').value.trim(),
+      phone:    document.getElementById('f-phone').value.trim(),
+      metro:    document.getElementById('f-metro').value.trim(),
+      installs: document.getElementById('f-installs').value
+    };
+
+    if (!data.name)  { showError('Please add your first name.'); document.getElementById('f-name').focus(); return; }
+    if (!data.email || data.email.indexOf('@') === -1) { showError('Please add a valid email address.'); document.getElementById('f-email').focus(); return; }
+    if (!data.metro) { showError('Please add your metro or city.'); document.getElementById('f-metro').focus(); return; }
+    if (!data.installs) { showError('Please choose how many installs you did last season.'); document.getElementById('f-installs').focus(); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Claiming your spot…';
+
+    var backup = netlifyBackup(data).then(function (r) { return r.ok; }).catch(function () { return false; });
+
+    fetch(LEAD_API, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ mode: 'interest', form: data })
+    })
+      .then(function (r) { return r.json().catch(function () { return {}; }); })
+      .then(function (j) {
+        if (j && j.ok) { succeed(); return; }
+        /* API reachable but unhappy — fall back to the Netlify capture */
+        return backup.then(function (saved) {
+          if (saved) succeed();
+          else showError('Something went wrong saving your spot. Email <a href="mailto:hello@oppodel.com">hello@oppodel.com</a> and I\'ll add you manually.');
+        });
+      })
+      .catch(function () {
+        return backup.then(function (saved) {
+          if (saved) succeed();
+          else showError('Something went wrong saving your spot. Email <a href="mailto:hello@oppodel.com">hello@oppodel.com</a> and I\'ll add you manually.');
+        });
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
