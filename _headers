@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------
+# Netlify response headers
+#
+# X-Robots-Tag carries the same "don't train on this" signal as
+# robots.txt, but at the HTTP level — some crawlers read one and
+# not the other. Like robots.txt, it is a request, not a wall.
+#
+# ⚠ DO NOT ADD A Content-Security-Policy HERE without whitelisting
+#   the ad and analytics hosts first. A CSP is the one header that
+#   silently kills the Meta Pixel, and it fails closed — the page
+#   looks fine while no conversions are recorded. If a CSP is ever
+#   needed, it must allow at minimum:
+#     script-src  https://connect.facebook.net
+#     img-src     https://www.facebook.com
+#     connect-src https://www.facebook.com https://graph.facebook.com
+#   Nothing below blocks the pixel: X-Robots-Tag is crawler-only,
+#   Referrer-Policy matches the browser default, and the
+#   Permissions-Policy entries do not cover advertising scripts.
+# ---------------------------------------------------------------
+
+/*
+  X-Robots-Tag: noai, noimageai
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+
+# funnel dashboard — never index, never archive
+/stats.html
+  X-Robots-Tag: noindex, nofollow, noarchive, noai, noimageai
+  Cache-Control: no-store
+
+# tracking script — no reason for a crawler to hold a copy
+/track/*
+  X-Robots-Tag: noindex, nofollow, noarchive, noai, noimageai
+
+# demos are the product — keep them out of AI indexes and out of
+# other people's iframes, but leave them reachable for visitors
+/demos/*
+  X-Robots-Tag: noai, noimageai, noarchive
+  X-Frame-Options: SAMEORIGIN
+
+# long-cache the images, they are content-stable
+/img/*
+  Cache-Control: public, max-age=31536000, immutable

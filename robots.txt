@@ -1,0 +1,136 @@
+# ---------------------------------------------------------------
+# Oppodel — crawler policy
+#
+# Search engines and link-preview bots are welcome. Bots that exist
+# to harvest content for AI training or "analysis" are not.
+#
+# This file is advisory. Well-behaved crawlers honour it; anything
+# determined to ignore it will ignore it. See _headers for the
+# X-Robots-Tag signals that go alongside this.
+# ---------------------------------------------------------------
+
+
+# ---- allowed: search engines ----
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+
+# ---- allowed: link previews (needed for ads and social) ----
+# facebookexternalhit renders the preview card for Meta ads.
+# Do not block it or paid traffic loses its thumbnail and title.
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+
+# ---- blocked: AI training and content harvesting ----
+User-agent: GPTBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Perplexity-User
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Meta-ExternalFetcher
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: Omgili
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: cohere-training-data-crawler
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+User-agent: Scrapy
+Disallow: /
+
+User-agent: magpie-crawler
+Disallow: /
+
+User-agent: peer39_crawler
+Disallow: /
+
+User-agent: TurnitinBot
+Disallow: /
+
+
+# ---- everything else: allowed, minus private paths ----
+User-agent: *
+Disallow: /stats.html
+Disallow: /track/
+Disallow: /.netlify/
+Allow: /
+
+Sitemap: https://oppodel.com/sitemap.xml
