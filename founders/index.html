@@ -262,6 +262,28 @@ h1, h2, h3 { font-weight: 500; letter-spacing: -.02em; line-height: 1.15; }
 }
 .example figcaption b { color: var(--text); font-weight: 500; }
 
+/* ---------- built around you ---------- */
+.bespoke {
+  margin-top: clamp(2.5rem, 5vw, 3.75rem);
+  padding-top: clamp(2.5rem, 5vw, 3.75rem);
+  border-top: 1px solid var(--border);
+}
+.bespoke-head { text-align: center; max-width: 640px; margin: 0 auto clamp(2rem, 4vw, 2.75rem); }
+.bespoke-head h3 { font-size: clamp(1.3rem, 3vw, 1.8rem); margin-top: .75rem; }
+.bespoke-head p {
+  font-size: .9rem; font-weight: 300; color: var(--body);
+  line-height: 1.75; margin-top: .85rem;
+}
+.bespoke-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; }
+.bes h4 {
+  font-size: .64rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold); padding-bottom: .7rem; margin-bottom: .85rem;
+  border-bottom: 1px solid var(--border);
+}
+.bes p { font-size: .85rem; font-weight: 300; color: var(--body); line-height: 1.7; }
+@media (max-width: 900px) { .bespoke-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem 1.8rem; } }
+@media (max-width: 560px) { .bespoke-grid { grid-template-columns: 1fr; } }
+
 /* ---------- inbox columns ---------- */
 .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
 
@@ -501,6 +523,33 @@ footer p {
            alt="The quote tool showing a brick house rendered with Christmas lights beside an itemised list of seven lighting runs and a seasonal price" />
       <figcaption><b>Real output</b> &mdash; seven runs the customer drew themselves: candy-cane C9s along the roofline, icicles across every window and the door surround. Priced live at $612 for the first season, $398 for seasons after.</figcaption>
     </figure>
+
+    <div class="bespoke">
+      <div class="bespoke-head">
+        <div class="eyebrow">Built around you</div>
+        <h3>It ships as your tool, not ours</h3>
+        <p>The screenshot above is a demo skin. What goes live on your site is built around your business &mdash; and we set the whole thing up for you.</p>
+      </div>
+
+      <div class="bespoke-grid">
+        <div class="bes">
+          <h4>Your pricing</h4>
+          <p>Your rates &mdash; per foot, per run, per bulb type &mdash; plus your minimums, your storey and access loading, and your seasons-after price. Every figure it quotes is one you set.</p>
+        </div>
+        <div class="bes">
+          <h4>Your branding</h4>
+          <p>Your logo, your colours, your fonts, on your own domain. A customer shouldn't be able to tell it wasn't built in-house.</p>
+        </div>
+        <div class="bes">
+          <h4>Your services</h4>
+          <p>Only what you actually sell. C9s, minis, icicles, wreaths, garland, trees, permanent lighting &mdash; the list is yours, and so is what you leave off it.</p>
+        </div>
+        <div class="bes">
+          <h4>Your changes</h4>
+          <p>Want a question added, a package renamed, a run type pulled, the wording softened? Say so and it gets changed. You're not filing a ticket into a queue.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
