@@ -151,6 +151,18 @@ h1, h2, h3 { font-weight: 500; letter-spacing: -.02em; line-height: 1.15; }
 .step h3 { font-size: 1.1rem; margin: .9rem 0 .6rem; line-height: 1.3; }
 .step p  { font-size: .88rem; font-weight: 300; color: var(--body); line-height: 1.7; }
 
+/* ---------- worked example ---------- */
+.example { margin-top: clamp(2rem, 4vw, 3.25rem); }
+.example img {
+  width: 100%; height: auto; display: block; background: #fff;
+  border: 1px solid var(--border); border-radius: 14px;
+}
+.example figcaption {
+  font-size: .8rem; font-weight: 300; color: var(--muted); line-height: 1.7;
+  margin: .95rem auto 0; text-align: center; max-width: 640px;
+}
+.example figcaption b { color: var(--text); font-weight: 500; }
+
 /* ---------- two-column exchange / fit blocks ---------- */
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
 
@@ -344,6 +356,12 @@ footer { border-top: 1px solid var(--line); padding: 2.25rem 0; }
         <p>Name, phone, email, install timing, and whether they own the home &mdash; before the AI render generates. You never pay to impress a tire-kicker.</p>
       </div>
     </div>
+
+    <figure class="example">
+      <img src="/img/example-quote.jpg" width="1281" height="872" loading="lazy"
+           alt="The quote tool showing a brick house rendered with Christmas lights beside an itemised list of seven lighting runs and a seasonal price" />
+      <figcaption><b>Real output</b> &mdash; seven runs the customer drew themselves: candy-cane C9s along the roofline, icicles across every window and the door surround. Priced live at $612 for the first season, $398 for seasons after.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -576,7 +594,7 @@ footer { border-top: 1px solid var(--line); padding: 2.25rem 0; }
      { type:'vimeo',   id:'123456789',   poster:'img/vsl-poster.jpg' }
      { type:'mp4',     id:'https://videodelivery.net/abc/manifest/video.mp4' }
    ───────────────────────────────────────────────────────────── */
-var VSL = { type: '', id: '', poster: '' };
+var VSL = { type: 'youtube', id: 'xLjdBp5U91o', poster: '' };
 
 (function () {
   var frame = document.getElementById('vslFrame');
