@@ -174,6 +174,35 @@ h1, h2, h3 { font-weight: 500; letter-spacing: -.02em; line-height: 1.15; }
 }
 .vsl-play svg { width: 17px; height: 17px; margin-left: 3px; }
 
+/* once a video is configured the frame becomes a click-to-play poster —
+   nothing loads from the video host until the visitor actually clicks */
+.vsl-frame.has-video { cursor: pointer; background: #0c0c0e; padding: 0; }
+
+.vsl-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.vsl-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(12,12,14,.28);
+  transition: background .2s;
+}
+.vsl-frame.has-video:hover .vsl-overlay { background: rgba(12,12,14,.14); }
+
+.vsl-btn {
+  width: 76px; height: 76px; border-radius: 50%;
+  background: #fff; border: 0; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: transform .18s;
+}
+.vsl-frame.has-video:hover .vsl-btn { transform: scale(1.06); }
+.vsl-btn svg { width: 21px; height: 21px; margin-left: 4px; }
+
+.vsl-frame iframe, .vsl-frame video {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;
+}
+
+@media (max-width: 640px) { .vsl-btn { width: 62px; height: 62px; } }
+
 .vsl-label {
   font-size: .64rem;
   font-weight: 500;
@@ -423,12 +452,7 @@ footer p {
     <p class="note">25 founding spots &middot; 50% off first season</p>
 
     <div class="vsl">
-      <div class="vsl-frame">
-        <div class="vsl-play">
-          <svg viewBox="0 0 12 14" fill="#0c0c0e" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l12 7-12 7z"/></svg>
-        </div>
-        <div class="vsl-label">Video walkthrough &mdash; coming soon</div>
-      </div>
+      <div class="vsl-frame" id="vslFrame"></div>
       <p class="vsl-cap">Two minutes: how a homeowner goes from photo to priced, rendered quote.</p>
     </div>
   </section>
@@ -610,6 +634,59 @@ footer p {
 </footer>
 
 <script>
+/* ─────────────────────────────────────────────────────────────
+   VSL — to switch the video on, fill this in and redeploy.
+
+     type   'youtube' | 'vimeo' | 'mp4' | '' (blank = placeholder)
+     id     YouTube/Vimeo ID, or the full URL for an mp4 file
+     poster optional still image shown before play (recommended)
+
+   Examples:
+     { type:'youtube', id:'dQw4w9WgXcQ', poster:'img/vsl-poster.jpg' }
+     { type:'vimeo',   id:'123456789',   poster:'img/vsl-poster.jpg' }
+     { type:'mp4',     id:'https://videodelivery.net/abc/manifest/video.mp4' }
+   ───────────────────────────────────────────────────────────── */
+var VSL = { type: '', id: '', poster: '' };
+
+(function () {
+  var frame = document.getElementById('vslFrame');
+  if (!frame) return;
+
+  var PLAY = '<svg viewBox="0 0 12 14" fill="#0c0c0e" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l12 7-12 7z"/></svg>';
+
+  /* nothing configured yet — keep the coming-soon placeholder */
+  if (!VSL.type || !VSL.id) {
+    frame.innerHTML =
+      '<div class="vsl-play">' + PLAY + '</div>' +
+      '<div class="vsl-label">Video walkthrough &mdash; coming soon</div>';
+    return;
+  }
+
+  frame.classList.add('has-video');
+  frame.innerHTML =
+    (VSL.poster ? '<img class="vsl-poster" src="' + VSL.poster + '" alt="" />' : '') +
+    '<div class="vsl-overlay"><button class="vsl-btn" type="button" aria-label="Play the walkthrough">' + PLAY + '</button></div>';
+
+  frame.addEventListener('click', function play() {
+    frame.removeEventListener('click', play);
+    var html;
+    if (VSL.type === 'youtube') {
+      html = '<iframe src="https://www.youtube-nocookie.com/embed/' + VSL.id +
+             '?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="Walkthrough" ' +
+             'allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    } else if (VSL.type === 'vimeo') {
+      html = '<iframe src="https://player.vimeo.com/video/' + VSL.id +
+             '?autoplay=1&title=0&byline=0&portrait=0" title="Walkthrough" ' +
+             'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+    } else {
+      html = '<video src="' + VSL.id + '" controls autoplay playsinline preload="none"' +
+             (VSL.poster ? ' poster="' + VSL.poster + '"' : '') + '></video>';
+    }
+    frame.classList.remove('has-video');
+    frame.innerHTML = html;
+  });
+})();
+
 (function () {
   var form   = document.getElementById('foundersForm');
   var btn    = document.getElementById('submitBtn');
