@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oppodel Estimates — Bespoke quoting systems for businesses</title>
-  <meta name="description" content="Oppodel Estimates builds bespoke instant-quote systems for trade and service businesses — priced live, on your site, around the clock." />
+  <title>Oppodel Quoting — Bespoke quoting systems for businesses</title>
+  <meta name="description" content="Oppodel Quoting builds bespoke instant-quote systems for trade and service businesses — priced live, on your site, around the clock." />
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <script src="track/oq-track.js" data-site="oppodel-site" data-endpoint="/.netlify/functions/collect" defer></script>
   <style>
@@ -771,7 +771,7 @@
       <path d="M 44.71 12.37 A 38 38 0 0 0 44.71 87.63" stroke="#0c0c0e" stroke-width="5" stroke-linecap="round"/>
       <circle cx="50" cy="50" r="7" fill="#0c0c0e"/>
     </svg>
-    <span class="topbar-word">Oppodel Estimates</span>
+    <span class="topbar-word">Oppodel Quoting</span>
     <nav class="topbar-nav">
       <a href="#work">Work</a>
       <a href="#how">How it works</a>
@@ -802,14 +802,12 @@
 
           <input type="email" name="email" placeholder="Email address" autocomplete="email" />
 
-          <select name="project-type" onchange="this.classList.toggle('filled', this.value !== '')">
-            <option value="" disabled selected>What do you need?</option>
-            <option>Instant quote system</option>
-            <option>Website or web app</option>
-            <option>Automation / scripts</option>
-            <option>Network or IT setup</option>
-            <option>Database / backend</option>
-            <option>Something else</option>
+          <select name="business-type" onchange="this.classList.toggle('filled', this.value !== '')">
+            <option value="" disabled selected>What business are you in?</option>
+            <option>Christmas Lights</option>
+            <option>Lawn Care</option>
+            <option>Exterior Cleaning</option>
+            <option>Other</option>
           </select>
 
           <textarea name="message" placeholder="Tell us about your business and what you'd want it to do..."></textarea>
@@ -1028,7 +1026,7 @@
 
   <footer>
     <div class="wrap footer-in">
-      <span>Oppodel Estimates</span>
+      <span>Oppodel Quoting</span>
       <span class="right"><a href="mailto:hello@oppodel.com">hello@oppodel.com</a></span>
     </div>
   </footer>
