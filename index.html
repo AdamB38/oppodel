@@ -192,32 +192,60 @@
       text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 4px 16px rgba(0,0,0,.3);
     }
 
-    .hero .form-card {
+    /* the hero asks for one thing only — the form itself lives at the
+       foot of the page, and this scrolls down to it */
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       margin-top: 2.25rem;
-      box-shadow: 0 10px 44px rgba(0,0,0,.35);
+      background: #fff;
+      color: var(--text);
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1.1rem 2.4rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 34px rgba(0,0,0,.35);
+      transition: opacity .18s, box-shadow .18s, transform .15s;
+    }
+
+    .hero-cta:hover  { opacity: .9; box-shadow: 0 14px 40px rgba(0,0,0,.42); }
+    .hero-cta:active { transform: scale(.99); }
+
+    .hero-note {
+      margin-top: 1.05rem;
+      font-size: .76rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.8);
+      text-shadow: 0 1px 2px rgba(0,0,0,.55);
     }
 
     /* narrow screens: the text spans the full width, so a left-to-right
        scrim does nothing — swap to a top-down one and pull the image so
        the price callouts sit below the copy rather than behind it */
     @media (max-width: 860px) {
-      .hero { min-height: auto; }
+      /* the copy alone no longer fills a full screen, so hold the hero
+         open enough for the night shot to still read as a photograph */
+      .hero { min-height: 82svh; }
       .hero-bg img { object-position: 72% 26%; }
-      /* heavier over the copy band at the top, easing off lower down so
-         the lit house and coloured lawn still read behind the form */
+      /* the form card used to shield the lower half of the image; with
+         only copy there now, hold the scrim heavy the whole way through
+         the text and button and let it lift again underneath them, so
+         the price callouts stop competing with the words */
       .hero-bg::after {
         background: linear-gradient(180deg,
-          rgba(6,8,14,.84) 0%,
-          rgba(6,8,14,.78) 26%,
-          rgba(6,8,14,.42) 52%,
-          rgba(6,8,14,.30) 100%);
+          rgba(6,8,14,.86) 0%,
+          rgba(6,8,14,.82) 38%,
+          rgba(6,8,14,.74) 66%,
+          rgba(6,8,14,.34) 100%);
       }
 
-      /* stacked layout — centre the hero copy. the form card keeps its
-         own left alignment so the fields and labels stay readable */
+      /* stacked layout — centre the hero copy */
       .hero-col { max-width: none; text-align: center; margin: 0 auto; }
       .hero .sub { margin-left: auto; margin-right: auto; }
-      .hero .form-card { margin-left: auto; margin-right: auto; }
     }
 
     /* ---------- form ---------- */
@@ -603,57 +631,81 @@
       letter-spacing: -.01em;
     }
 
-    /* ---------- closing cta ---------- */
+    /* ---------- closing cta / booking ---------- */
     .closing {
       border-top: 1px solid var(--line);
       background: var(--text);
       color: #fff;
-      padding: clamp(3rem, 7vw, 4.5rem) 0;
+      padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+      /* the top bar is sticky — stop it covering the heading when the
+         hero button scrolls the page down here */
+      scroll-margin-top: 70px;
     }
 
     .closing-in {
       display: flex;
-      align-items: center;
-      gap: 2rem;
+      align-items: flex-start;
+      gap: clamp(2rem, 5vw, 4rem);
       flex-wrap: wrap;
     }
+
+    .closing-copy { flex: 1 1 340px; }
 
     .closing-t {
       font-size: clamp(1.35rem, 3vw, 1.9rem);
       font-weight: 500;
       letter-spacing: -.02em;
       line-height: 1.25;
-      max-width: 520px;
+      max-width: 460px;
     }
 
     .closing-s {
       font-size: .9rem;
       font-weight: 300;
       color: rgba(255,255,255,.62);
-      margin-top: .7rem;
-      max-width: 460px;
+      margin-top: .9rem;
+      max-width: 440px;
       line-height: 1.7;
     }
 
-    .closing-btn {
-      margin-left: auto;
-      flex-shrink: 0;
-      display: inline-block;
-      background: #fff;
-      color: var(--text);
-      font-size: .76rem;
-      font-weight: 500;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 1rem 2rem;
-      border-radius: 10px;
-      transition: opacity .18s;
+    .closing .eyebrow { color: rgba(255,255,255,.5); }
+
+    /* what the call actually is, so nobody books blind */
+    .book-pts {
+      list-style: none;
+      margin-top: 1.9rem;
+      max-width: 380px;
     }
 
-    .closing-btn:hover { opacity: .87; }
+    .book-pts li {
+      display: flex;
+      align-items: flex-start;
+      gap: .7rem;
+      font-size: .86rem;
+      font-weight: 300;
+      line-height: 1.55;
+      color: rgba(255,255,255,.8);
+      padding: .62rem 0;
+      border-top: 1px solid rgba(255,255,255,.11);
+    }
 
-    @media (max-width: 700px) { .closing-btn { margin-left: 0; } }
+    .book-pts li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 5px;
+      height: 5px;
+      margin-top: .55rem;
+      border-radius: 50%;
+      background: rgba(255,255,255,.45);
+    }
+
+    .closing .form-card {
+      flex: 0 1 460px;
+      margin-top: 0;
+      box-shadow: 0 18px 50px rgba(0,0,0,.4);
+      /* the demo page still deep-links straight to #enquire */
+      scroll-margin-top: 70px;
+    }
 
     /* ---------- footer ---------- */
     footer {
@@ -690,7 +742,7 @@
     <nav class="topbar-nav">
       <a href="#work">Services</a>
       <a href="#how">How it works</a>
-      <a class="cta" href="#enquire">Book a demo</a>
+      <a class="cta" href="#book">Book a demo</a>
     </nav>
   </div>
 
@@ -705,31 +757,8 @@
       <h1 class="headline">Book jobs while you <em class="lit">sleep</em></h1>
       <p class="sub">Instant, accurate quotes on your own website &mdash; so customers get a price the moment they want one, and you get the lead.</p>
 
-      <div class="form-card" id="enquire">
-        <div class="form-title">Tell us what you need</div>
-        <form name="contact" method="POST" data-netlify="true">
-          <input type="hidden" name="form-name" value="contact" />
-          <div class="row">
-            <input type="text" name="first-name" placeholder="First name" autocomplete="given-name" />
-            <input type="text" name="last-name" placeholder="Last name" autocomplete="family-name" />
-          </div>
-
-          <input type="email" name="email" placeholder="Email address" autocomplete="email" />
-
-          <select name="business-type" onchange="this.classList.toggle('filled', this.value !== '')">
-            <option value="" disabled selected>What business are you in?</option>
-            <option>Christmas Lights</option>
-            <option>Lawn Care</option>
-            <option>Exterior Cleaning</option>
-            <option>Other</option>
-          </select>
-
-          <textarea name="message" placeholder="Tell us about your business and what you'd want it to do..."></textarea>
-
-          <button type="submit">Send enquiry</button>
-        </form>
-        <p class="form-note">No obligation &mdash; we'll come back to you with a straight answer.</p>
-      </div>
+      <a class="hero-cta" href="#book">Book a demo</a>
+      <p class="hero-note">20 minutes on Google Meet &mdash; no obligation.</p>
       </div>
     </div>
   </section>
@@ -903,13 +932,44 @@
     </div>
   </section>
 
-  <section class="closing">
+  <section class="closing" id="book">
     <div class="wrap closing-in">
-      <div>
-        <div class="closing-t">Want to see what this would look like for your business?</div>
-        <div class="closing-s">Tell us what you do and how you price it. We'll come back with a straight answer on whether it's worth building &mdash; no obligation either way.</div>
+      <div class="closing-copy">
+        <div class="eyebrow">Book a demo</div>
+        <div class="closing-t">See what this would look like for your business</div>
+        <div class="closing-s">Tell us what you do and how you price it. We'll walk you through a live quote flow running on your own numbers, then give you a straight answer on whether it's worth building &mdash; no obligation either way.</div>
+        <ul class="book-pts">
+          <li>20 minutes on Google Meet, camera optional</li>
+          <li>We send the Meet link by email, with a couple of times to pick from</li>
+          <li>No slides and no pressure &mdash; if it isn't a fit we'll say so</li>
+        </ul>
       </div>
-      <a class="closing-btn" href="#enquire">Book a demo</a>
+
+      <div class="form-card" id="enquire">
+        <div class="form-title">Request your demo</div>
+        <form name="contact" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="contact" />
+          <div class="row">
+            <input type="text" name="first-name" placeholder="First name" autocomplete="given-name" />
+            <input type="text" name="last-name" placeholder="Last name" autocomplete="family-name" />
+          </div>
+
+          <input type="email" name="email" placeholder="Email address" autocomplete="email" />
+
+          <select name="business-type" onchange="this.classList.toggle('filled', this.value !== '')">
+            <option value="" disabled selected>What business are you in?</option>
+            <option>Christmas Lights</option>
+            <option>Lawn Care</option>
+            <option>Exterior Cleaning</option>
+            <option>Other</option>
+          </select>
+
+          <textarea name="message" placeholder="Anything you'd like us to cover, and when you're usually free..."></textarea>
+
+          <button type="submit">Book my demo</button>
+        </form>
+        <p class="form-note">We'll email you a Google Meet link within one business day.</p>
+      </div>
     </div>
   </section>
 
