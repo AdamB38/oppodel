@@ -141,6 +141,12 @@
       text-shadow: 0 1px 3px rgba(0,0,0,.55);
     }
 
+    /* the wide tracking pushes this onto two lines on small phones —
+       ease it off just enough to keep the eyebrow on one line */
+    @media (max-width: 430px) {
+      .hero .eyebrow { font-size: .58rem; letter-spacing: .16em; }
+    }
+
     .headline {
       font-size: clamp(2rem, 5vw, 3.3rem);
       font-weight: 500;
@@ -707,7 +713,7 @@
 
     <div class="wrap hero-in">
       <div class="hero-col">
-      <div class="eyebrow">Quote Systems &middot; IT</div>
+      <div class="eyebrow">Instant quotes for home service pros</div>
       <h1 class="headline">Book jobs while you <em class="lit">sleep</em></h1>
       <p class="sub">Instant, accurate quotes on your own website &mdash; so customers get a price the moment they want one, and you get the lead.</p>
 
