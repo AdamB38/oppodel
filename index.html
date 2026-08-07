@@ -85,9 +85,10 @@
 
     /* ---------- layout ---------- */
     .wrap {
+      --wrap-pad: 1.5rem;
       max-width: 1080px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 var(--wrap-pad);
     }
 
     /* ---------- hero ---------- */
@@ -412,49 +413,25 @@
       color: var(--accent);
     }
 
-    /* right panel — holds the device mockup once it exists */
+    /* right panel — the product visual. The artwork carries its own dark
+       backdrop, so it floats centred rather than sitting in a frame; the
+       image keeps its natural 2.5:1 ratio and is never cropped. */
     .svc-visual {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: var(--surface);
-      min-height: 420px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      min-width: 0;
     }
 
-    .svc-visual img { max-width: 100%; height: auto; display: block; }
-
-    .svc-ph {
+    .svc-visual img {
       width: 100%;
-      height: 100%;
-      min-height: 360px;
-      border: 1px dashed #d5d5da;
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: .55rem;
-      text-align: center;
-      padding: 1.5rem;
-    }
-
-    .svc-ph-t {
-      font-size: .62rem;
-      font-weight: 600;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .svc-ph-s {
-      font-size: .82rem;
-      font-weight: 300;
-      color: var(--muted);
-      max-width: 34ch;
-      line-height: 1.6;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+      background: #050b12;
+      box-shadow:
+        0 18px 44px rgba(12,12,14,.18),
+        0 2px 6px rgba(12,12,14,.07);
     }
 
     /* per-service accent, picked up by the top rule, the italic phrase
@@ -465,8 +442,15 @@
 
     @media (max-width: 860px) {
       .svc-row { grid-template-columns: 1fr; gap: 1rem; }
-      .svc-visual { min-height: 300px; padding: 1.1rem; }
-      .svc-ph { min-height: 240px; }
+
+      /* the mockups lose their detail once they are down to the width of
+         a phone, so let them run full bleed and claim back the gutters */
+      .svc-visual {
+        margin-left: calc(-1 * var(--wrap-pad));
+        margin-right: calc(-1 * var(--wrap-pad));
+      }
+
+      .svc-visual img { border-radius: 0; box-shadow: none; }
     }
 
     /* ---------- how it works ---------- */
@@ -773,10 +757,9 @@
           <div class="svc-main-tag">Our main product</div>
         </div>
         <div class="svc-visual">
-          <div class="svc-ph">
-            <div class="svc-ph-t">Product visual</div>
-            <p class="svc-ph-s">Laptop and phone mockup of the Christmas lights quote flow &mdash; to be added.</p>
-          </div>
+          <img src="img/svc-christmas-lights.jpg" width="1400" height="560"
+               loading="lazy" decoding="async"
+               alt="Laptop and phone showing the Christmas lights quote flow &mdash; a house photo with light runs drawn along the rooflines, priced run by run." />
         </div>
       </div>
 
@@ -794,10 +777,9 @@
           </ul>
         </div>
         <div class="svc-visual">
-          <div class="svc-ph">
-            <div class="svc-ph-t">Product visual</div>
-            <p class="svc-ph-s">Laptop and phone mockup of the lawn care quote flow &mdash; to be added.</p>
-          </div>
+          <img src="img/svc-lawn-care.jpg" width="1400" height="560"
+               loading="lazy" decoding="async"
+               alt="Laptop and phone showing the lawn care quote flow &mdash; a lawn measured on a satellite map alongside the monthly price it produces." />
         </div>
       </div>
 
@@ -815,10 +797,9 @@
           </ul>
         </div>
         <div class="svc-visual">
-          <div class="svc-ph">
-            <div class="svc-ph-t">Product visual</div>
-            <p class="svc-ph-s">Laptop and phone mockup of the exterior cleaning quote flow &mdash; to be added.</p>
-          </div>
+          <img src="img/svc-exterior-cleaning.jpg" width="1400" height="560"
+               loading="lazy" decoding="async"
+               alt="Laptop and phone showing the exterior cleaning quote flow &mdash; driveway size options being picked, with the instant price shown on the phone." />
         </div>
       </div>
     </div>
