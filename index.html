@@ -274,6 +274,12 @@
 
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
 
+    /* half-width fields on a phone clip their own placeholders —
+       "Company name" loses its last letters — so stack them */
+    @media (max-width: 430px) {
+      .row { grid-template-columns: 1fr; }
+    }
+
     input, textarea, select {
       width: 100%;
       background: var(--bg);
@@ -327,6 +333,68 @@
       color: var(--muted);
       text-align: center;
       margin-top: .9rem;
+    }
+
+    /* confirmation tick — also carries the consent to be contacted */
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      margin-top: .55rem;
+      font-size: .78rem;
+      font-weight: 300;
+      line-height: 1.5;
+      color: var(--body);
+      cursor: pointer;
+    }
+
+    .check input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      margin-top: .1rem;
+      padding: 0;
+      border: 1px solid #c9c9d0;
+      border-radius: 5px;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+    }
+
+    .check input[type="checkbox"]::before {
+      content: '';
+      width: 9px;
+      height: 9px;
+      transform: scale(0);
+      transition: transform .12s ease-in-out;
+      box-shadow: inset 1em 1em var(--text);
+      clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    }
+
+    .check input[type="checkbox"]:checked::before { transform: scale(1); }
+
+    .check input[type="checkbox"]:focus-visible {
+      border-color: var(--text);
+      box-shadow: 0 0 0 3px rgba(12,12,14,.07);
+    }
+
+    /* the honeypot. off screen rather than display:none — a bot that
+       skips hidden inputs still finds this one and fills it in, which
+       is exactly what we want it to do */
+    .hp {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .form-warn {
+      margin-top: .8rem;
+      font-size: .76rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #a3341f;
     }
 
     /* ---------- work section ---------- */
@@ -947,14 +1015,26 @@
 
       <div class="form-card" id="enquire">
         <div class="form-title">Request your demo</div>
-        <form name="contact" method="POST" data-netlify="true">
+        <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="contact" />
+
+          <p class="hp" aria-hidden="true">
+            <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+          </p>
+
           <div class="row">
-            <input type="text" name="first-name" placeholder="First name" autocomplete="given-name" />
-            <input type="text" name="last-name" placeholder="Last name" autocomplete="family-name" />
+            <input type="text" name="first-name" placeholder="First name" aria-label="First name" autocomplete="given-name" required />
+            <input type="text" name="last-name" placeholder="Last name" aria-label="Last name" autocomplete="family-name" />
           </div>
 
-          <input type="email" name="email" placeholder="Email address" autocomplete="email" />
+          <input type="email" name="email" placeholder="Email address" aria-label="Email address" autocomplete="email" required />
+
+          <input type="tel" name="phone" placeholder="Phone number" aria-label="Phone number" autocomplete="tel" inputmode="tel" required />
+
+          <div class="row">
+            <input type="text" name="company" placeholder="Company name" aria-label="Company name" autocomplete="organization" required />
+            <input type="text" name="website" placeholder="Website" aria-label="Company website" autocomplete="url" inputmode="url" />
+          </div>
 
           <select name="business-type" onchange="this.classList.toggle('filled', this.value !== '')">
             <option value="" disabled selected>What business are you in?</option>
@@ -966,12 +1046,37 @@
 
           <textarea name="message" placeholder="Anything you'd like us to cover, and when you're usually free..."></textarea>
 
+          <label class="check">
+            <input type="checkbox" name="consent" value="yes" required />
+            <span>I'm a real person running a real business, and I'm happy to be contacted about this demo.</span>
+          </label>
+
           <button type="submit">Book my demo</button>
         </form>
+        <p class="form-warn" id="form-warn" hidden>That went through a little too quickly for us &mdash; give it a moment and press the button again.</p>
         <p class="form-note">We'll email you a Google Meet link within one business day.</p>
       </div>
     </div>
   </section>
+
+  <script>
+    /* Third layer of the spam handling, after the honeypot and the tick.
+       Nobody reads the page, fills six fields and submits inside three
+       seconds — a script that autofills and posts does. Fails open: if
+       this never runs, the form still submits normally. */
+    (function () {
+      var form = document.querySelector('#enquire form');
+      if (!form) return;
+      var opened = Date.now();
+      form.addEventListener('submit', function (e) {
+        if (Date.now() - opened < 3000) {
+          e.preventDefault();
+          var warn = document.getElementById('form-warn');
+          if (warn) warn.hidden = false;
+        }
+      });
+    })();
+  </script>
 
   <footer>
     <div class="wrap footer-in">
