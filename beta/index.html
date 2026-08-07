@@ -129,7 +129,25 @@ h1, h2, h3 { font-weight: 500; letter-spacing: -.02em; line-height: 1.15; }
 .vsl-frame iframe, .vsl-frame video {
   position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;
 }
-@media (max-width: 640px) { .vsl-btn { width: 62px; height: 62px; } }
+
+/* "tap for sound" prompt shown over a muted autoplay */
+.vsl-sound {
+  position: absolute; z-index: 2; top: .85rem; right: .85rem;
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: #fff; color: var(--text); border: 0; border-radius: 40px;
+  padding: .62rem 1.05rem;
+  font-family: 'Jost', sans-serif; font-size: .68rem; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,.28);
+  transition: transform .18s, opacity .18s;
+}
+.vsl-sound:hover { transform: scale(1.04); }
+.vsl-sound svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+@media (max-width: 640px) {
+  .vsl-btn { width: 62px; height: 62px; }
+  .vsl-sound { top: .6rem; right: .6rem; padding: .55rem .85rem; font-size: .62rem; }
+}
 .vsl-label {
   font-size: .64rem; font-weight: 500; letter-spacing: .26em; text-transform: uppercase;
   color: var(--muted); text-align: center; padding: 0 1.25rem;
@@ -643,13 +661,18 @@ footer { border-top: 1px solid var(--line); padding: 2.25rem 0; }
      { type:'vimeo',   id:'123456789',   poster:'img/vsl-poster.jpg' }
      { type:'mp4',     id:'https://videodelivery.net/abc/manifest/video.mp4' }
    ───────────────────────────────────────────────────────────── */
-var VSL = { type: 'youtube', id: 'xLjdBp5U91o', poster: '' };
+/* autoplay: true starts the video muted as soon as the page loads and
+   shows a "tap for sound" prompt. Browsers refuse to autoplay audio, so
+   muted-then-unmute is the only version of this that actually works.
+   Set autoplay:false to go back to click-to-play. */
+var VSL = { type: 'youtube', id: 'xLjdBp5U91o', poster: '', autoplay: true };
 
 (function () {
   var frame = document.getElementById('vslFrame');
   if (!frame) return;
 
-  var PLAY = '<svg viewBox="0 0 12 14" fill="#0c0c0e" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l12 7-12 7z"/></svg>';
+  var PLAY  = '<svg viewBox="0 0 12 14" fill="#0c0c0e" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l12 7-12 7z"/></svg>';
+  var SPKR  = '<svg viewBox="0 0 24 24" fill="none" stroke="#0c0c0e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M19 5a10 10 0 010 14"/></svg>';
 
   /* nothing configured yet — keep the coming-soon placeholder */
   if (!VSL.type || !VSL.id) {
@@ -659,6 +682,48 @@ var VSL = { type: 'youtube', id: 'xLjdBp5U91o', poster: '' };
     return;
   }
 
+  function embed(muted) {
+    var html;
+    if (VSL.type === 'youtube') {
+      html = '<iframe src="https://www.youtube-nocookie.com/embed/' + VSL.id +
+             '?autoplay=1&mute=' + (muted ? '1' : '0') +
+             '&playsinline=1&rel=0&modestbranding=1" title="Walkthrough" ' +
+             'allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    } else if (VSL.type === 'vimeo') {
+      html = '<iframe src="https://player.vimeo.com/video/' + VSL.id +
+             '?autoplay=1&muted=' + (muted ? '1' : '0') +
+             '&title=0&byline=0&portrait=0" title="Walkthrough" ' +
+             'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+    } else {
+      html = '<video src="' + VSL.id + '" controls autoplay playsinline' +
+             (muted ? ' muted' : '') +
+             (VSL.poster ? ' poster="' + VSL.poster + '"' : '') + '></video>';
+    }
+    frame.classList.remove('has-video');
+    frame.innerHTML = html;
+  }
+
+  /* someone who has asked for reduced motion should not get a video
+     starting on its own, and neither should a data-saver session */
+  var reduceMotion = window.matchMedia &&
+                     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData = navigator.connection && navigator.connection.saveData;
+
+  if (VSL.autoplay && !reduceMotion && !saveData) {
+    embed(true);
+
+    var sound = document.createElement('button');
+    sound.className = 'vsl-sound';
+    sound.type = 'button';
+    sound.innerHTML = SPKR + '<span>Tap for sound</span>';
+    sound.addEventListener('click', function () {
+      embed(false);           /* reloads unmuted, from the start */
+    });
+    frame.appendChild(sound);
+    return;
+  }
+
+  /* click-to-play fallback */
   frame.classList.add('has-video');
   frame.innerHTML =
     (VSL.poster ? '<img class="vsl-poster" src="' + VSL.poster + '" alt="" />' : '') +
@@ -666,21 +731,7 @@ var VSL = { type: 'youtube', id: 'xLjdBp5U91o', poster: '' };
 
   frame.addEventListener('click', function play() {
     frame.removeEventListener('click', play);
-    var html;
-    if (VSL.type === 'youtube') {
-      html = '<iframe src="https://www.youtube-nocookie.com/embed/' + VSL.id +
-             '?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="Walkthrough" ' +
-             'allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
-    } else if (VSL.type === 'vimeo') {
-      html = '<iframe src="https://player.vimeo.com/video/' + VSL.id +
-             '?autoplay=1&title=0&byline=0&portrait=0" title="Walkthrough" ' +
-             'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
-    } else {
-      html = '<video src="' + VSL.id + '" controls autoplay playsinline preload="none"' +
-             (VSL.poster ? ' poster="' + VSL.poster + '"' : '') + '></video>';
-    }
-    frame.classList.remove('has-video');
-    frame.innerHTML = html;
+    embed(false);
   });
 })();
 
