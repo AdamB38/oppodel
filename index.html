@@ -122,7 +122,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, rgba(8,10,16,.6) 0%, rgba(8,10,16,.32) 48%, rgba(8,10,16,.04) 80%);
+      background: linear-gradient(90deg, rgba(8,10,16,.68) 0%, rgba(8,10,16,.42) 46%, rgba(8,10,16,.05) 80%);
     }
 
     .hero-in { position: relative; z-index: 1; width: 100%; }
@@ -152,6 +152,27 @@
       text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 6px 24px rgba(0,0,0,.35);
     }
 
+    /* "sleep" — warm filament glow, as if the lights are on */
+    .headline .lit {
+      font-style: normal;
+      color: #FFF4DE;
+      text-shadow:
+        0 0 6px  rgba(255,214,150,.75),
+        0 0 18px rgba(255,190,110,.55),
+        0 0 42px rgba(255,170,70,.35),
+        0 1px 2px rgba(0,0,0,.45);
+      animation: filament 5.5s ease-in-out infinite;
+    }
+
+    @keyframes filament {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: .93; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .headline .lit { animation: none; }
+    }
+
     .sub {
       font-size: clamp(.95rem, 1.6vw, 1.06rem);
       font-weight: 300;
@@ -167,9 +188,18 @@
       box-shadow: 0 10px 44px rgba(0,0,0,.35);
     }
 
-    @media (max-width: 640px) {
+    /* narrow screens: the text spans the full width, so a left-to-right
+       scrim does nothing — swap to a top-down one and pull the image so
+       the price callouts sit below the copy rather than behind it */
+    @media (max-width: 860px) {
       .hero { min-height: auto; }
-      .hero-bg img { object-position: 62% 40%; }
+      .hero-bg img { object-position: 72% 26%; }
+      .hero-bg::after {
+        background: linear-gradient(180deg,
+          rgba(8,10,16,.80) 0%,
+          rgba(8,10,16,.62) 38%,
+          rgba(8,10,16,.46) 100%);
+      }
     }
 
     /* ---------- form ---------- */
@@ -758,7 +788,7 @@
     <div class="wrap hero-in">
       <div class="hero-col">
       <div class="eyebrow">Quote Systems &middot; IT</div>
-      <h1 class="headline">Bespoke quoting systems for businesses</h1>
+      <h1 class="headline">Books jobs while you <em class="lit">sleep</em></h1>
       <p class="sub">Instant, accurate quotes on your own website &mdash; so customers get a price the moment they want one, and you get the lead.</p>
 
       <div class="form-card" id="enquire">
@@ -1011,16 +1041,15 @@
       var day  = document.querySelector('.hero-bg .day');
       var hero = document.querySelector('.hero');
       if (!day || !hero) return;
-      var ticking = false;
+      /* written directly rather than batched through requestAnimationFrame:
+         opacity only costs a composite, and an rAF guard can latch on if a
+         frame never arrives, which silently freezes the fade for good */
       function update() {
-        ticking = false;
         var range = Math.max(240, hero.offsetHeight * 0.6);
         var p = Math.min(1, Math.max(0, window.scrollY / range));
         day.style.opacity = p;
       }
-      window.addEventListener('scroll', function () {
-        if (!ticking) { ticking = true; requestAnimationFrame(update); }
-      }, { passive: true });
+      window.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
       update();
     })();
