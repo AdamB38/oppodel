@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Quotal — Your customers quote their own Christmas lights</title>
-<meta name="description" content="The instant-estimate calculator for Christmas light installers. Homeowners upload a photo, draw their lights, see the price and an HD AI preview — you get a pre-measured, pre-qualified lead." />
+<meta name="description" content="A bespoke instant-estimate calculator, built around your business — your rates, your packages, your branding. Homeowners upload a photo, draw their lights, and see the price with an HD AI preview of their own house lit up." />
 <meta name="robots" content="index,follow" />
 
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://oppodel.com/founders" />
 <meta property="og:title" content="Quotal — Your customers quote their own Christmas lights" />
-<meta property="og:description" content="The instant-estimate calculator for Christmas light installers. Homeowners upload a photo, draw their lights, see the price and an HD AI preview — you get a pre-measured, pre-qualified lead." />
+<meta property="og:description" content="A bespoke instant-estimate calculator, built around your business — your rates, your packages, your branding. Homeowners upload a photo, draw their lights, and see the price with an HD AI preview of their own house lit up." />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -138,7 +138,39 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 .bespoke-head h3 { font-size: clamp(1.35rem, 3vw, 1.85rem); margin-top: .8rem; }
 .bespoke-head p { font-size: 1rem; color: var(--muted); line-height: 1.7; margin-top: .9rem; }
 
+/* template vs yours — the argument the setup fee has to win.
+   "Yours" is marked by the Surface fill and a Filament label, never a
+   Filament border: the spec rules that out. */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+
+.cmp { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.7rem 1.6rem 1.8rem; }
+.cmp.yours { background: var(--surface); }
+
+.cmp-h { padding-bottom: .9rem; margin-bottom: 1.1rem; border-bottom: 1px solid var(--line); }
+
+.cmp ul { list-style: none; display: flex; flex-direction: column; gap: .85rem; }
+.cmp li { font-size: .9375rem; line-height: 1.6; padding-left: 1.5rem; position: relative; }
+.cmp.theirs li { color: var(--muted); }
+.cmp.theirs li::before { content: '\00d7'; position: absolute; left: 0; color: var(--muted); }
+.cmp.yours li { color: var(--bone); opacity: .92; }
+.cmp.yours li::before { content: '\2713'; position: absolute; left: 0; color: var(--filament); }
+
+/* ---------- who built it ---------- */
+.builder { max-width: 780px; margin: 0 auto; }
+.builder p { font-size: 1rem; color: var(--muted); line-height: 1.8; }
+.builder p + p { margin-top: 1.05rem; }
+.builder p strong { color: var(--bone); font-weight: 600; }
+
+.builder-pts { list-style: none; margin-top: 1.7rem; border-top: 1px solid var(--line); }
+.builder-pts li {
+  display: flex; gap: .85rem; font-size: .9375rem; color: var(--bone); opacity: .86;
+  line-height: 1.7; padding: .85rem 0; border-bottom: 1px solid var(--line);
+}
+.builder-pts .tick { color: var(--filament); flex-shrink: 0; line-height: 1.6; }
+
 .bespoke-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; }
+
+@media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
 .bes h4 {
   font-family: var(--f-mono); font-size: .75rem; font-weight: 500;
   letter-spacing: .16em; text-transform: uppercase; color: var(--filament);
@@ -257,7 +289,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   <section class="hero">
     <span class="eyebrow">For Christmas light installers &middot; 2026 season</span>
     <h1>Your customers design, measure &amp; price their own display. You just install.</h1>
-    <p class="sub">Quotal is an instant-estimate calculator for your website. Homeowners upload a photo of their home, draw the lights they want, and see their price with an HD preview of their own house lit up &mdash; you get a pre-measured, pre-qualified lead. No more free-quote drives.</p>
+    <p class="sub">Quotal builds you your own instant-estimate calculator &mdash; your rates, your packages, your branding, on your domain. Homeowners upload a photo of their home, draw the lights they want, and see their price with an HD preview of their own house lit up. You get a pre-measured, pre-qualified lead instead of another drive-out.</p>
 
     <div class="btns">
       <a class="btn btn-solid" href="#claim">Claim a founding spot &rarr;</a>
@@ -304,37 +336,64 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       <figcaption><b>Real output</b> &mdash; seven runs the customer drew themselves: candy-cane C9s along the roofline, icicles across every window and the door surround. Priced live at $612 for the first season, $398 for seasons after.</figcaption>
     </figure>
 
-    <div class="bespoke">
-      <div class="bespoke-head">
-        <span class="eyebrow quiet">Built around you</span>
-        <h3>It ships as your tool, not ours</h3>
-        <p>The screenshot above is a demo skin. What goes live on your site is built around your business &mdash; and we set the whole thing up for you.</p>
-      </div>
+  </div>
+</section>
 
-      <div class="bespoke-grid">
-        <div class="bes">
-          <h4>Your pricing</h4>
-          <p>Your rates &mdash; per foot, per run, per bulb type &mdash; plus your minimums, your story and access loading, and your seasons-after price. Every figure it quotes is one you set.</p>
-        </div>
-        <div class="bes">
-          <h4>Your branding</h4>
-          <p>Your logo, your colors, your fonts, on your own domain. A customer shouldn't be able to tell it wasn't built in-house.</p>
-        </div>
-        <div class="bes">
-          <h4>Your services</h4>
-          <p>Only what you actually sell. C9s, minis, icicles, wreaths, garland, trees, permanent lighting &mdash; the list is yours, and so is what you leave off it.</p>
-        </div>
-        <div class="bes">
-          <h4>Your changes</h4>
-          <p>Want a question added, a package renamed, a run type pulled, the wording softened? Say so and it gets changed. You're not filing a ticket into a queue.</p>
-        </div>
+<!-- ---------- the bespoke argument — this is what the setup fee buys ---------- -->
+<section id="bespoke">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Built for you, not configured by you</span>
+      <h2>Nobody hands you a login and wishes you luck</h2>
+      <p>The screenshot above is a demo skin. What goes on your site is a calculator built around your business from scratch &mdash; and the $1,500 setup is that build. It isn't a signup fee.</p>
+    </div>
+
+    <div class="compare">
+      <div class="cmp theirs">
+        <div class="cmp-h"><span class="eyebrow quiet">An off-the-shelf tool</span></div>
+        <ul>
+          <li>Their pricing logic, with your rates poured into it</li>
+          <li>Their question set, whether it fits how you sell or not</li>
+          <li>A widget that looks like a widget on your page</li>
+          <li>You configure it, on your own time, in August</li>
+          <li>Something's wrong? File a ticket and join the queue</li>
+        </ul>
+      </div>
+      <div class="cmp yours">
+        <div class="cmp-h"><span class="eyebrow">Yours, built</span></div>
+        <ul>
+          <li>Your pricing logic, written down the way you actually quote</li>
+          <li>Only the questions you'd ask on a driveway</li>
+          <li>Your branding, your domain &mdash; indistinguishable from in-house</li>
+          <li>We build it with you and hand it over working</li>
+          <li>Something's wrong? Tell the person who built it</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bespoke-grid">
+      <div class="bes">
+        <h4>Your pricing</h4>
+        <p>Your rates &mdash; per foot, per run, per bulb type &mdash; plus your minimums, your story and access loading, and your seasons-after price. Every figure it quotes is one you set.</p>
+      </div>
+      <div class="bes">
+        <h4>Your branding</h4>
+        <p>Your logo, your colors, your fonts, on your own domain. A customer shouldn't be able to tell it wasn't built in-house.</p>
+      </div>
+      <div class="bes">
+        <h4>Your services</h4>
+        <p>Only what you actually sell. C9s, minis, icicles, wreaths, garland, trees, permanent lighting &mdash; the list is yours, and so is what you leave off it.</p>
+      </div>
+      <div class="bes">
+        <h4>Your changes</h4>
+        <p>Want a question added, a package renamed, a run type pulled, the wording softened? Say so and it gets changed. You're not filing a ticket into a queue.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ---------- what lands in your inbox ---------- -->
-<section>
+<section class="band">
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow quiet">The lead</span>
@@ -358,6 +417,28 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   </div>
 </section>
 
+<!-- ---------- who builds it — the credibility behind "bespoke" ---------- -->
+<section>
+  <div class="narrow">
+    <div class="sec-head">
+      <span class="eyebrow quiet">Who builds it</span>
+      <h2>Built by an installer, not a random SaaS kid</h2>
+    </div>
+
+    <div class="builder">
+      <p>I've hung Christmas lights myself &mdash; <strong>enough ladder time to know the hard part isn't the install, it's everything before it.</strong> The driving. The measuring. The quotes that go quiet.</p>
+      <p>Since then I've built quoting systems for home-service businesses, and the same complaint came up every single time: too much of the week disappears into pricing jobs that were never going to book.</p>
+      <p>That's why these are built one at a time rather than sold as a template. Pricing a roofline isn't a form &mdash; it's the judgement calls you make without thinking, about access, about height, about which customers are worth the drive. <strong>Getting those into software takes someone who has made them on a ladder in November.</strong></p>
+
+      <ul class="builder-pts">
+        <li><span class="tick">&#10003;</span><span>Built in collaboration with real Christmas light installers</span></li>
+        <li><span class="tick">&#10003;</span><span>Designed to plug into your existing workflow, not replace your whole CRM</span></li>
+        <li><span class="tick">&#10003;</span><span>You deal with the person who builds it, start to finish</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ---------- offer + form ---------- -->
 <section id="claim" class="band">
   <div class="wrap">
@@ -371,7 +452,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
           <div class="price-row">
             <span class="price-lab">Setup</span>
             <span class="price-fig">$1,500</span>
-            <span class="price-sub">one-time, built with you</span>
+            <span class="price-sub">one-time &mdash; this is the build, not a signup fee</span>
           </div>
           <div class="price-row">
             <span class="price-lab">Then</span>
@@ -390,7 +471,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
         <ul class="checks">
           <li><span class="tick">&#10003;</span><span>Your $100 a month is locked in writing &mdash; it never rises for as long as you stay, and it goes up for everyone who comes after you</span></li>
           <li><span class="tick">&#10003;</span><span>Metro priority &mdash; we cap installers per metro so your leads stay yours</span></li>
-          <li><span class="tick">&#10003;</span><span>Setup done for you &mdash; your prices, your branding, on your site in days</span></li>
+          <li><span class="tick">&#10003;</span><span>Built for you from scratch &mdash; your pricing logic, your packages, your branding, live on your own domain in days</span></li>
           <li><span class="tick">&#10003;</span><span>The past-job test &mdash; send a photo of a job you did last year and we'll send back your calculator quoting it, so you see the accuracy on YOUR work before paying a cent</span></li>
           <li><span class="tick">&#10003;</span><span>Direct line to the founder &mdash; you're building this with us</span></li>
         </ul>
