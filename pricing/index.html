@@ -8,7 +8,7 @@
 <meta name="robots" content="index,follow" />
 
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://oppodel.com/founders" />
+<meta property="og:url" content="https://oppodel.com/pricing" />
 <meta property="og:title" content="Quotal — Your customers quote their own Christmas lights" />
 <meta property="og:description" content="A bespoke instant-estimate calculator, built around your business — your rates, your packages, your branding. Homeowners upload a photo, draw their lights, and see the price with an HD AI preview of their own house lit up." />
 <meta name="twitter:card" content="summary_large_image" />
@@ -292,10 +292,10 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
     <p class="sub">Quotal builds you your own instant-estimate calculator &mdash; your rates, your packages, your branding, on your domain. Homeowners upload a photo of their home, draw the lights they want, and see their price with an HD preview of their own house lit up. You get a pre-measured, pre-qualified lead instead of another drive-out.</p>
 
     <div class="btns">
-      <a class="btn btn-solid" href="#claim">Claim a founding spot &rarr;</a>
+      <a class="btn btn-solid" href="#pricing">See pricing &rarr;</a>
       <a class="btn btn-out" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
     </div>
-    <p class="note">25 FOUNDING SPOTS &middot; $1,500 SETUP + $100/MONTH</p>
+    <p class="note">$1,500 TO BUILD IT &middot; $100 A MONTH TO RUN IT</p>
 
     <div class="vsl">
       <div class="vsl-frame" id="vslFrame"></div>
@@ -440,13 +440,13 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 </section>
 
 <!-- ---------- offer + form ---------- -->
-<section id="claim" class="band">
+<section id="pricing" class="band">
   <div class="wrap">
     <div class="offer-grid">
 
       <div class="offer">
-        <span class="eyebrow quiet">Prelaunch offer</span>
-        <h2>Founding Installer &mdash; 25 spots</h2>
+        <span class="eyebrow quiet">Pricing</span>
+        <h2>One build fee, one monthly. That's the whole thing.</h2>
 
         <div class="pricing">
           <div class="price-row">
@@ -465,15 +465,15 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
           </div>
 
           <p class="price-note">One average job covers your entire year of monthly fees. Book two through it and the whole thing has paid for itself.</p>
-          <p class="price-terms">NO CARD REQUIRED TO HOLD A SPOT</p>
+          <p class="price-terms">NO CARD TO ENQUIRE &middot; FULL TERMS IN WRITING BEFORE ANYTHING IS CHARGED</p>
         </div>
 
         <ul class="checks">
-          <li><span class="tick">&#10003;</span><span>Your $100 a month is locked in writing &mdash; it never rises for as long as you stay, and it goes up for everyone who comes after you</span></li>
-          <li><span class="tick">&#10003;</span><span>Metro priority &mdash; we cap installers per metro so your leads stay yours</span></li>
           <li><span class="tick">&#10003;</span><span>Built for you from scratch &mdash; your pricing logic, your packages, your branding, live on your own domain in days</span></li>
           <li><span class="tick">&#10003;</span><span>The past-job test &mdash; send a photo of a job you did last year and we'll send back your calculator quoting it, so you see the accuracy on YOUR work before paying a cent</span></li>
-          <li><span class="tick">&#10003;</span><span>Direct line to the founder &mdash; you're building this with us</span></li>
+          <li><span class="tick">&#10003;</span><span>Metro priority &mdash; we cap installers per metro so your leads stay yours</span></li>
+          <li><span class="tick">&#10003;</span><span>Hosting, support and changes through the season &mdash; your rates move, the calculator moves with them</span></li>
+          <li><span class="tick">&#10003;</span><span>No add-ons and no per-quote fees &mdash; the $100 is the whole monthly</span></li>
         </ul>
 
         <p class="smallprint">Straight talk: the measurement is a bidding estimate calibrated from the photo and satellite &mdash; your crew confirms final size before install, same as always. What changes is that you stop driving to houses that were never going to book.</p>
@@ -482,10 +482,13 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       <div>
         <div class="card formcard">
           <div id="formWrap">
-            <h3>Claim your spot</h3>
+            <h3>Start your build</h3>
             <p class="lede">Takes 30 seconds. No card, no commitment.</p>
 
-            <form id="foundersForm" name="founders" method="POST" data-netlify="true" netlify-honeypot="company-website" novalidate>
+            <!-- The Netlify form name stays "founders" on purpose. It is a
+                 dashboard label, never shown to a visitor, and renaming it
+                 would split this page's lead history across two forms. -->
+            <form id="pricingForm" name="founders" method="POST" data-netlify="true" netlify-honeypot="company-website" novalidate>
               <input type="hidden" name="form-name" value="founders" />
               <p class="hp" aria-hidden="true"><label>Leave this empty <input name="company-website" tabindex="-1" autocomplete="off" /></label></p>
 
@@ -525,16 +528,16 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
                 </select>
               </div>
 
-              <button class="btn btn-solid" type="submit" id="submitBtn">Claim founding spot &rarr;</button>
-              <p class="reassure">We'll email you about the launch. No spam, unsubscribe anytime.</p>
+              <button class="btn btn-solid" type="submit" id="submitBtn">Start my build &rarr;</button>
+              <p class="reassure">We'll come back to you within one business day. No spam, unsubscribe anytime.</p>
               <div class="err" id="formErr"></div>
             </form>
           </div>
 
           <div class="done" id="doneMsg">
-            <h3>You're on the list &#10003;</h3>
-            <p>Your spot is held. I'll personally email you within a day.</p>
-            <p style="margin-top:.9rem;">Want to jump the line? When my email arrives, reply with a photo of a job you installed last year &mdash; I'll send back your calculator quoting that exact house, so you can judge the accuracy on your own work.</p>
+            <h3>That's in &#10003;</h3>
+            <p>I'll go through your site and your numbers myself, then email you within a day.</p>
+            <p style="margin-top:.9rem;">Want to move faster? When my email arrives, reply with a photo of a job you installed last year &mdash; I'll send back your calculator quoting that exact house, so you can judge the accuracy on your own work before you commit to anything.</p>
           </div>
         </div>
       </div>
@@ -554,7 +557,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
     <div class="faq">
       <div class="faq-item">
         <h3>How accurate is the measuring?</h3>
-        <p>It calibrates from their front door (a known size) and cross-checks against a satellite trace of their roof. It's a bidding estimate &mdash; accurate enough to price confidently, and your crew confirms final footage before install, exactly like you do today. Founding installers test it against their real past jobs before paying anything.</p>
+        <p>It calibrates from their front door (a known size) and cross-checks against a satellite trace of their roof. It's a bidding estimate &mdash; accurate enough to price confidently, and your crew confirms final footage before install, exactly like you do today. You test it against your own real past jobs before paying anything.</p>
       </div>
       <div class="faq-item">
         <h3>Does the AI render show things the customer didn't buy?</h3>
@@ -566,15 +569,19 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       </div>
       <div class="faq-item">
         <h3>When does it launch?</h3>
-        <p>September 2026, ahead of quote season. Founding installers onboard first, in the order they signed up.</p>
+        <p>September 2026, ahead of quote season. Builds run in the order enquiries come in, and a build takes days rather than weeks &mdash; but quote season starts in October, so the earlier you start the more of the season you get.</p>
       </div>
       <div class="faq-item">
         <h3>What does it cost?</h3>
-        <p>$1,500 to set up, then $100 a month for twelve months &mdash; $2,700 for your first year, all in. At a typical job value, one booked job covers the entire year of monthly fees. Founding installers lock that $100 rate for as long as they stay; it rises for everyone who signs up after the first 25.</p>
+        <p>$1,500 to build it, then $100 a month for twelve months &mdash; $2,700 for your first year, all in. At a typical job value, one booked job covers the entire year of monthly fees. There are no add-ons, no per-quote charges and no setup extras: the two numbers on this page are the two numbers.</p>
       </div>
       <div class="faq-item">
-        <h3>Do I pay anything to hold a spot?</h3>
-        <p>No. No card is taken to claim one of the 25 spots. You'll have the full terms in writing before anything is charged, and you can walk away at that point.</p>
+        <h3>Why is there a build fee at all?</h3>
+        <p>Because you're not being handed a login. The $1,500 is the work of turning how you actually price a roofline &mdash; your rates, your minimums, your access and height loading, the calls you make without thinking &mdash; into something a homeowner can use on their phone at 11pm. A template doesn't need a build fee because nobody built anything.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Do I pay anything to enquire?</h3>
+        <p>No. No card is taken and nothing is charged for getting in touch. You'll have the full terms in writing before anything is due, and you can walk away at that point.</p>
       </div>
     </div>
   </div>
@@ -674,7 +681,7 @@ var VSL = { type: 'youtube', id: 'xdpwKsdZrAA', poster: '', autoplay: true };
 })();
 
 (function () {
-  var form   = document.getElementById('foundersForm');
+  var form   = document.getElementById('pricingForm');
   var btn    = document.getElementById('submitBtn');
   var errBox = document.getElementById('formErr');
 
@@ -684,13 +691,13 @@ var VSL = { type: 'youtube', id: 'xdpwKsdZrAA', poster: '', autoplay: true };
     errBox.innerHTML = msg;
     errBox.classList.add('on');
     btn.disabled = false;
-    btn.textContent = 'Claim founding spot →';
+    btn.textContent = 'Start my build →';
   }
 
   function succeed() {
     document.getElementById('formWrap').style.display = 'none';
     document.getElementById('doneMsg').classList.add('on');
-    document.getElementById('claim').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   /* Backup capture via Netlify Forms, so a lead is never lost if the
@@ -699,7 +706,7 @@ var VSL = { type: 'youtube', id: 'xdpwKsdZrAA', poster: '', autoplay: true };
     var body = new URLSearchParams();
     body.append('form-name', 'founders');
     Object.keys(data).forEach(function (k) { body.append(k, data[k] || ''); });
-    return fetch('/founders/', {
+    return fetch('/pricing/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: body.toString()
@@ -725,7 +732,7 @@ var VSL = { type: 'youtube', id: 'xdpwKsdZrAA', poster: '', autoplay: true };
     if (!data.installs) { showError('Please choose how many installs you did last season.'); document.getElementById('f-installs').focus(); return; }
 
     btn.disabled = true;
-    btn.textContent = 'Claiming your spot…';
+    btn.textContent = 'Sending…';
 
     var backup = netlifyBackup(data).then(function (r) { return r.ok; }).catch(function () { return false; });
 
@@ -740,13 +747,13 @@ var VSL = { type: 'youtube', id: 'xdpwKsdZrAA', poster: '', autoplay: true };
         /* API reachable but unhappy — fall back to the Netlify capture */
         return backup.then(function (saved) {
           if (saved) succeed();
-          else showError('Something went wrong saving your spot. Email <a href="mailto:hello@oppodel.com">hello@oppodel.com</a> and I\'ll add you manually.');
+          else showError('Something went wrong sending that. Email <a href="mailto:hello@oppodel.com">hello@oppodel.com</a> and I\'ll pick it up manually.');
         });
       })
       .catch(function () {
         return backup.then(function (saved) {
           if (saved) succeed();
-          else showError('Something went wrong saving your spot. Email <a href="mailto:hello@oppodel.com">hello@oppodel.com</a> and I\'ll add you manually.');
+          else showError('Something went wrong sending that. Email <a href="mailto:hello@oppodel.com">hello@oppodel.com</a> and I\'ll pick it up manually.');
         });
       });
   });

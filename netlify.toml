@@ -8,17 +8,34 @@
 [functions]
   node_bundler = "esbuild"
 
-# /beta is retired — the founding-installer offer on /founders is the only
-# live offer. 302 rather than 301 on purpose: this is reversible, and a 301
-# gets cached hard by browsers. Switch to 301 once you're sure.
+# /beta and /founders are both retired; /pricing is the offer page. Sent
+# straight to /pricing rather than chaining /beta -> /founders -> /pricing,
+# which would cost every visitor an extra round trip.
+#
+# 302 rather than 301 on purpose: these are reversible, and a 301 gets
+# cached hard by the browser. Switch to 301 once you're sure.
+#
+# Live ads may still point at either path — both keep working.
 [[redirects]]
   from = "/beta"
-  to = "/founders"
+  to = "/pricing"
   status = 302
   force = true
 
 [[redirects]]
   from = "/beta/*"
-  to = "/founders"
+  to = "/pricing"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/founders"
+  to = "/pricing"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/founders/*"
+  to = "/pricing"
   status = 302
   force = true
