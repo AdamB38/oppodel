@@ -2,7 +2,11 @@
 <!--
   DEMO VIDEO COPY - "BrightSide Exterior Cleaning" (fictional company, fictional 07700 900xxx number).
   All integrations stripped: no EmailJS, no webhook, no licence lock. Booking shows a
-  cosmetic success state only. Built by Adam @ Oppodel for demonstration recordings.
+  cosmetic success state only. Built by Adam @ Quotal for demonstration recordings.
+
+  NOTE: this demo is still modelled on a UK business — pounds, en-GB number
+  formatting, postcodes, storeys, bungalows and conservatories, and UK price
+  points. It needs real US rates before it is shown to a US prospect.
 -->
 <html lang="en">
 <head>
@@ -168,7 +172,7 @@ body::before{content:"";position:fixed;top:0;left:0;right:0;height:5px;backgroun
 .oppo{text-align:center;padding:10px 0 0;font-size:9px;color:#AAB2BE;letter-spacing:0.1em;width:100%;}
 .oppo a{color:var(--navy);text-decoration:none;}
 .oppo a:hover{color:var(--blue);text-decoration:underline;}
-/* ── demo strip + Oppodel CTA ── */
+/* ── demo strip + Quotal CTA ── */
 .demo-strip{width:100%;max-width:860px;background:#111;color:rgba(255,255,255,0.72);
   font-size:10.5px;line-height:1.5;text-align:center;padding:9px 18px;margin-top:5px;}
 .demo-strip b{color:#fff;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;font-size:9.5px;}
@@ -269,7 +273,7 @@ body::before{content:"";position:fixed;top:0;left:0;right:0;height:5px;backgroun
   <div class="foot">
     <span>BrightSide Exterior Cleaning · fictional company used for demonstration</span>
     <span><b>07700 900 440</b></span>
-    <div class="oppo">Demo build by <a href="https://oppodel.com" target="_blank" rel="noopener"><b>Oppodel</b></a> · illustrative pricing only · not a live business</div>
+    <div class="oppo">Demo build by <a href="https://oppodel.com" target="_blank" rel="noopener"><b>Quotal</b></a> · illustrative pricing only · not a live business</div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -278,10 +282,13 @@ body::before{content:"";position:fixed;top:0;left:0;right:0;height:5px;backgroun
 /* Public demo build — every integration is removed, not just disabled.
    No email, no webhooks, no analytics, no storage. Nothing leaves the browser. */
 
-/* CTA — bubbles up to the Oppodel site to open the enquiry form */
-function oppodelContact(){
+/* CTA — bubbles up to the Quotal site to open the enquiry form.
+   Both message types are sent so an embedding page written against the
+   old 'oppodel-contact' name keeps working. */
+function quotalContact(){
   if(window.OQ) OQ.lead({service:'exterior-cleaning-demo'});
   if(window.parent && window.parent!==window){
+    window.parent.postMessage({type:'quotal-contact'},'*');
     window.parent.postMessage({type:'oppodel-contact'},'*');
   } else {
     window.location.href='../index.html#enquire';
@@ -572,7 +579,7 @@ SERVICES.forEach(sv=>{
     <div class="op-cta">
       <div class="op-cta-t">Like what you see?</div>
       <div class="op-cta-s">This is a demo. We build these properly &mdash; your services, your pricing, your branding, wired into wherever you want the leads to land.</div>
-      <button class="op-cta-b" type="button" onclick="oppodelContact()">Get in touch</button>
+      <button class="op-cta-b" type="button" onclick="quotalContact()">Get in touch</button>
     </div>`;
   views.appendChild(div);
 });

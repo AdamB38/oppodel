@@ -7,3 +7,18 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# /beta is retired — the founding-installer offer on /founders is the only
+# live offer. 302 rather than 301 on purpose: this is reversible, and a 301
+# gets cached hard by browsers. Switch to 301 once you're sure.
+[[redirects]]
+  from = "/beta"
+  to = "/founders"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/beta/*"
+  to = "/founders"
+  status = 302
+  force = true

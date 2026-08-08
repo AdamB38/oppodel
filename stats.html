@@ -4,66 +4,73 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Oppodel — Funnel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <title>Quotal — Funnel</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/quotal.css">
+
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg:#fff; --surface:#fafafa; --border:#e7e7e9; --line:#f0f0f2;
-      --text:#0c0c0e; --body:#45454d; --muted:#86868f; --good:#1f7a4d; --warn:#b4472e;
+    :root { --warn: #E5A0A0; }
+
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+    h1 { font-size: 2rem; }
+    .sub { font-size: .9375rem; color: var(--muted); margin-top: .5rem; }
+
+    .controls { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.85rem 0 2.25rem; align-items: center; }
+    .controls input, .controls select { width: auto; flex: 0 1 auto; font-size: .9375rem; padding: .6rem .85rem; }
+    .controls button { flex: none; padding: .68rem 1.4rem; }
+
+    .msg { font-size: .9375rem; color: var(--muted); padding: 1rem 0; }
+    .msg.err { color: var(--warn); }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: .9rem; margin-bottom: 2.5rem; }
+    .card { padding: 1.15rem 1.25rem; }
+
+    .card-k {
+      font-family: var(--f-mono); font-size: .6875rem; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
     }
-    body { background:var(--bg); color:var(--text); font-family:'Jost',sans-serif; line-height:1.5; }
-    .wrap { max-width:1000px; margin:0 auto; padding:2.5rem 1.5rem 5rem; }
-
-    h1 { font-size:1.6rem; font-weight:500; letter-spacing:-.02em; }
-    .sub { font-size:.85rem; font-weight:300; color:var(--muted); margin-top:.35rem; }
-
-    .controls { display:flex; flex-wrap:wrap; gap:.6rem; margin:1.75rem 0 2.25rem; align-items:center; }
-    input, select {
-      font-family:'Jost',sans-serif; font-size:.85rem; font-weight:300;
-      border:1px solid var(--border); border-radius:9px; padding:.6rem .8rem;
-      background:var(--bg); color:var(--text); outline:none;
+    /* the numbers are the point — display face, tabular, filament */
+    .card-v {
+      font-family: var(--f-display); font-weight: 800; letter-spacing: -.045em;
+      font-variant-numeric: tabular-nums; font-size: 1.9rem;
+      color: var(--filament); margin-top: .4rem; line-height: 1;
     }
-    input:focus, select:focus { border-color:var(--text); }
-    button {
-      font-family:'Jost',sans-serif; font-size:.75rem; font-weight:500;
-      letter-spacing:.14em; text-transform:uppercase;
-      background:var(--text); color:#fff; border:none; border-radius:9px;
-      padding:.68rem 1.3rem; cursor:pointer;
+    .card-n { font-size: .8125rem; color: var(--muted); margin-top: .4rem; }
+
+    h2 {
+      font-family: var(--f-mono); font-size: .75rem; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--muted); margin: 2.5rem 0 1rem;
     }
-    button:hover { opacity:.86; }
 
-    .msg { font-size:.85rem; font-weight:300; color:var(--body); padding:1rem 0; }
-    .msg.err { color:var(--warn); }
+    .fun { display: flex; flex-direction: column; gap: .55rem; }
+    .frow { display: grid; grid-template-columns: 180px 1fr 140px; gap: 1rem; align-items: center; }
+    .fname { font-size: .9375rem; color: var(--bone); }
+    .fname span { font-family: var(--f-mono); color: var(--muted); font-size: .75rem; letter-spacing: .14em; margin-right: .55rem; }
+    .fbar { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); height: 30px; overflow: hidden; }
+    .fbar i { display: block; height: 100%; background: var(--filament); opacity: .85; }
+    .fmeta { font-family: var(--f-mono); font-size: .8125rem; font-variant-numeric: tabular-nums; color: var(--muted); text-align: right; }
+    .fdrop { color: var(--warn); }
 
-    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:.9rem; margin-bottom:2.5rem; }
-    .card { border:1px solid var(--border); border-radius:12px; padding:1.1rem 1.2rem; }
-    .card-k { font-size:.6rem; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
-    .card-v { font-size:1.75rem; font-weight:500; letter-spacing:-.02em; margin-top:.35rem; }
-    .card-n { font-size:.72rem; font-weight:300; color:var(--muted); margin-top:.15rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+    th {
+      text-align: left; font-family: var(--f-mono); font-size: .6875rem; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding: 0 0 .65rem;
+    }
+    td { padding: .65rem 0; border-top: 1px solid var(--line); color: var(--bone); }
+    td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
 
-    h2 { font-size:.66rem; font-weight:500; letter-spacing:.24em; text-transform:uppercase;
-         color:var(--muted); margin:2.5rem 0 1rem; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    .tbl-scroll { overflow-x: auto; }
 
-    .fun { display:flex; flex-direction:column; gap:.55rem; }
-    .frow { display:grid; grid-template-columns:170px 1fr 130px; gap:1rem; align-items:center; }
-    .fname { font-size:.85rem; font-weight:400; }
-    .fname span { color:var(--muted); font-size:.7rem; letter-spacing:.14em; margin-right:.5rem; }
-    .fbar { background:var(--surface); border-radius:6px; height:30px; overflow:hidden; }
-    .fbar i { display:block; height:100%; background:var(--text); border-radius:6px; }
-    .fmeta { font-size:.8rem; font-weight:300; color:var(--body); text-align:right; }
-    .fdrop { color:var(--warn); font-weight:400; }
-
-    table { width:100%; border-collapse:collapse; font-size:.85rem; font-weight:300; }
-    th { text-align:left; font-size:.6rem; font-weight:500; letter-spacing:.18em;
-         text-transform:uppercase; color:var(--muted); padding:0 0 .6rem; }
-    td { padding:.6rem 0; border-top:1px solid var(--line); }
-    td.n, th.n { text-align:right; }
-    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; }
-    @media (max-width:760px) {
-      .grid2 { grid-template-columns:1fr; gap:0; }
-      .frow { grid-template-columns:110px 1fr; }
-      .fmeta { grid-column:1/-1; text-align:left; }
+    @media (max-width: 760px) {
+      .grid2 { grid-template-columns: 1fr; gap: 0; }
+      .frow { grid-template-columns: 110px 1fr; }
+      .fmeta { grid-column: 1 / -1; text-align: left; }
     }
   </style>
 </head>
@@ -73,15 +80,15 @@
   <p class="sub">Where people get to in the quote journey, and where they leave.</p>
 
   <div class="controls">
-    <input id="site" placeholder="Site (blank = all)" />
-    <select id="days">
+    <input id="site" placeholder="Site (blank = all)" aria-label="Site" />
+    <select id="days" aria-label="Period">
       <option value="7">Last 7 days</option>
       <option value="30" selected>Last 30 days</option>
       <option value="90">Last 90 days</option>
       <option value="365">Last year</option>
     </select>
-    <input id="token" type="password" placeholder="Access token" />
-    <button id="go">Load</button>
+    <input id="token" type="password" placeholder="Access token" aria-label="Access token" />
+    <button class="btn btn-solid" id="go">Load</button>
   </div>
 
   <div class="msg" id="msg">Enter your token and press Load.</div>
@@ -94,19 +101,19 @@
     <div class="grid2">
       <div>
         <h2>Traffic source</h2>
-        <table id="tSource"></table>
+        <div class="tbl-scroll"><table id="tSource"></table></div>
       </div>
       <div>
         <h2>Device</h2>
-        <table id="tDevice"></table>
+        <div class="tbl-scroll"><table id="tDevice"></table></div>
       </div>
       <div>
         <h2>Service quoted</h2>
-        <table id="tService"></table>
+        <div class="tbl-scroll"><table id="tService"></table></div>
       </div>
       <div>
         <h2>Conversion by price</h2>
-        <table id="tBands"></table>
+        <div class="tbl-scroll"><table id="tBands"></table></div>
       </div>
     </div>
   </div>
@@ -171,7 +178,7 @@
       card('Saw a price', t.reachedPrice, t.quoteRate + '% of sessions'),
       card('Leads', t.leads, t.leadRate + '% of sessions'),
       card('Price → lead', t.closeRate + '%', 'of those who saw a price'),
-      card('Median quote', t.medianPrice != null ? '£' + t.medianPrice : '—', 'across priced sessions'),
+      card('Median quote', t.medianPrice != null ? '$' + t.medianPrice : '—', 'across priced sessions'),
       card('Median time', t.medianSeconds != null ? t.medianSeconds + 's' : '—', 'on the page')
     ].join('');
 

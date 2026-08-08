@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------
-# Oppodel — crawler policy
+# Quotal — crawler policy
 #
 # Search engines and link-preview bots are welcome. Bots that exist
 # to harvest content for AI training or "analysis" are not.
