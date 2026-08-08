@@ -158,10 +158,41 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 .offer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
 .offer h2 { font-size: clamp(1.6rem, 3.4vw, 2.2rem); margin-top: .85rem; }
 
-.offer .lead-line {
+/* ---------- price block ----------
+   The line items stay bone and only the first-year total runs Filament,
+   so the section has one focal point rather than three competing ones. */
+.pricing { margin-top: 1rem; padding-top: 1.3rem; border-top: 1px solid var(--line); }
+
+.price-row, .price-total { display: flex; align-items: baseline; flex-wrap: wrap; gap: .3rem .8rem; padding: .55rem 0; }
+.price-total { margin-top: .55rem; padding-top: 1.1rem; border-top: 1px solid var(--line); }
+
+.price-lab {
+  font-family: var(--f-mono); font-size: .75rem; font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
+  flex: 0 0 6.5rem;
+}
+
+.price-fig {
   font-family: var(--f-display); font-weight: 800; letter-spacing: -.045em;
-  font-size: 1.6rem; color: var(--filament);
-  margin-top: .9rem; padding-bottom: 1.4rem; border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums; font-size: 1.7rem; line-height: 1;
+  color: var(--bone);
+}
+.price-total .price-fig { font-size: 2.5rem; color: var(--filament); }
+
+.price-sub { font-size: .9375rem; color: var(--muted); }
+
+.price-note {
+  font-size: .9375rem; color: var(--bone); opacity: .84;
+  line-height: 1.65; margin-top: 1.1rem;
+}
+
+.price-terms {
+  font-family: var(--f-mono); font-size: .75rem; letter-spacing: .1em;
+  color: var(--muted); margin-top: .9rem; line-height: 1.7;
+}
+
+@media (max-width: 420px) {
+  .price-lab { flex: 0 0 100%; }
 }
 
 .checks { list-style: none; margin-top: 1.5rem; }
@@ -232,7 +263,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       <a class="btn btn-solid" href="#claim">Claim a founding spot &rarr;</a>
       <a class="btn btn-out" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
     </div>
-    <p class="note">25 FOUNDING SPOTS &middot; 50% OFF FIRST SEASON</p>
+    <p class="note">25 FOUNDING SPOTS &middot; $1,500 SETUP + $100/MONTH</p>
 
     <div class="vsl">
       <div class="vsl-frame" id="vslFrame"></div>
@@ -333,12 +364,31 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
     <div class="offer-grid">
 
       <div class="offer">
-        <span class="eyebrow">Prelaunch offer</span>
+        <span class="eyebrow quiet">Prelaunch offer</span>
         <h2>Founding Installer &mdash; 25 spots</h2>
-        <p class="lead-line">50% off your first season</p>
+
+        <div class="pricing">
+          <div class="price-row">
+            <span class="price-lab">Setup</span>
+            <span class="price-fig">$1,500</span>
+            <span class="price-sub">one-time, built with you</span>
+          </div>
+          <div class="price-row">
+            <span class="price-lab">Then</span>
+            <span class="price-fig">$100</span>
+            <span class="price-sub">a month, for 12 months</span>
+          </div>
+          <div class="price-total">
+            <span class="price-lab">First year</span>
+            <span class="price-fig">$2,700</span>
+          </div>
+
+          <p class="price-note">One average job covers your entire year of monthly fees. Book two through it and the whole thing has paid for itself.</p>
+          <p class="price-terms">NO CARD REQUIRED TO HOLD A SPOT</p>
+        </div>
 
         <ul class="checks">
-          <li><span class="tick">&#10003;</span><span>50% off your first season, locked in writing</span></li>
+          <li><span class="tick">&#10003;</span><span>Your $100 a month is locked in writing &mdash; it never rises for as long as you stay, and it goes up for everyone who comes after you</span></li>
           <li><span class="tick">&#10003;</span><span>Metro priority &mdash; we cap installers per metro so your leads stay yours</span></li>
           <li><span class="tick">&#10003;</span><span>Setup done for you &mdash; your prices, your branding, on your site in days</span></li>
           <li><span class="tick">&#10003;</span><span>The past-job test &mdash; send a photo of a job you did last year and we'll send back your calculator quoting it, so you see the accuracy on YOUR work before paying a cent</span></li>
@@ -438,8 +488,12 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
         <p>September 2026, ahead of quote season. Founding installers onboard first, in the order they signed up.</p>
       </div>
       <div class="faq-item">
-        <h3>What does it cost after the founding discount?</h3>
-        <p>Seasonal pricing that a single average job covers several times over. Founding installers lock 50% off their first season and get final pricing before committing &mdash; no card required to hold a spot.</p>
+        <h3>What does it cost?</h3>
+        <p>$1,500 to set up, then $100 a month for twelve months &mdash; $2,700 for your first year, all in. At a typical job value, one booked job covers the entire year of monthly fees. Founding installers lock that $100 rate for as long as they stay; it rises for everyone who signs up after the first 25.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Do I pay anything to hold a spot?</h3>
+        <p>No. No card is taken to claim one of the 25 spots. You'll have the full terms in writing before anything is charged, and you can walk away at that point.</p>
       </div>
     </div>
   </div>
