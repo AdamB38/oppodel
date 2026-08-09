@@ -18,6 +18,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/quotal.css">
 
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1205377681780627');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></noscript>
+
 <style>
 section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 
@@ -695,9 +711,9 @@ var VSL = { type: 'youtube', id: 'zD13zgvxeVc', poster: '', autoplay: true };
   }
 
   function succeed() {
-    document.getElementById('formWrap').style.display = 'none';
-    document.getElementById('doneMsg').classList.add('on');
-    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    /* Redirect rather than the inline message, so the Meta custom
+       conversion (URL contains "thank-you") fires on every lead path. */
+    window.location.href = '/thank-you/';
   }
 
   /* Backup capture via Netlify Forms, so a lead is never lost if the

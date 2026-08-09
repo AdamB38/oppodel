@@ -30,6 +30,11 @@
   X-Robots-Tag: noindex, nofollow, noarchive, noai, noimageai
   Cache-Control: no-store
 
+# conversion page — reachable only by submitting a form; indexing it
+# would let search visitors fire the Lead conversion without leading
+/thank-you/*
+  X-Robots-Tag: noindex, nofollow, noarchive, noai, noimageai
+
 # tracking script — no reason for a crawler to hold a copy
 /track/*
   X-Robots-Tag: noindex, nofollow, noarchive, noai, noimageai

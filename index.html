@@ -19,6 +19,22 @@
 
   <script src="track/oq-track.js" data-site="oppodel-site" data-endpoint="/.netlify/functions/collect" defer></script>
 
+  <!-- Meta Pixel -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window,document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1205377681780627');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></noscript>
+
   <style>
     /* ---------- hero ---------- */
     .hero {
@@ -563,7 +579,9 @@
 
       <div class="card form-card" id="enquire">
         <div class="form-title"><span class="eyebrow quiet">Request your demo</span></div>
-        <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+        <!-- action="/thank-you/" — Netlify redirects there on success, which
+             fires the Meta custom conversion (URL contains "thank-you") -->
+        <form name="contact" method="POST" action="/thank-you/" data-netlify="true" data-netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="contact" />
 
           <p class="hp" aria-hidden="true">
