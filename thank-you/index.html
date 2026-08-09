@@ -74,17 +74,28 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
   <ul class="steps-mini">
     <li><span class="n">01</span><span>I review your site, your services and your metro before I reply &mdash; the email you get is written for your business, not a template.</span></li>
     <li><span class="n">02</span><span>We book 25 minutes on Google Meet, at a time shown in your timezone.</span></li>
-    <li><span class="n">03</span><span>We chart how you price from real past jobs &mdash; and if it isn't worth automating, I'll tell you straight.</span></li>
+    <li><span class="n">03</span><span>A straight conversation about your business and whether this is worth building for it &mdash; no slides, and if it isn't a fit I'll say so.</span></li>
   </ul>
 
   <!-- When the booking link exists, it goes right here as the primary CTA:
        <a class="btn btn-solid" href="CALENDLY_URL">Book your time now</a> -->
 
   <div class="card jump">
-    <h2>Want to jump the line?</h2>
-    <p>Email me a photo of a job you installed last year, plus what you charged. I'll send back your own calculator quoting that exact house &mdash; before we ever get on a call. Judge the accuracy on your work, not my word.</p>
-    <a class="btn btn-solid" href="mailto:hello@quotal.org?subject=Past-job%20test&body=Photo%20of%20the%20job%20attached.%0AWhat%20I%20charged%3A%20%0ACity%2FState%3A%20">Send a past job</a>
+    <h2>While you wait</h2>
+    <p>Try the tool your customers would use. Upload a photo of a house, draw the lights, and watch the price build live &mdash; it's the fastest way to see what we'd be talking about.</p>
+    <a class="btn btn-solid" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
   </div>
+
+  <script>
+  /* Same DemoClick event as the pricing page, so demo interest is
+     counted wherever the click happens. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="oppodel-xmas.pages.dev"]');
+    if (!a) return;
+    if (window.fbq) fbq('trackCustom', 'DemoClick');
+    if (window.OQ && OQ.event) OQ.event('demo-click');
+  });
+  </script>
 
   <p class="back"><a href="/">&larr; BACK TO QUOTAL.ORG</a></p>
 </main>
