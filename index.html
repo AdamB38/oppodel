@@ -694,6 +694,8 @@
       if (!form) return;
       var opened = Date.now();
       var fallback = false;
+      var phoneEl = form.querySelector('input[name="phone"]');
+      if (phoneEl) phoneEl.addEventListener('input', function () { phoneEl.setCustomValidity(''); });
       form.addEventListener('submit', function (e) {
         if (fallback) return;                       /* native retry path */
         if (Date.now() - opened < 3000) {
@@ -701,6 +703,20 @@
           var warn = document.getElementById('form-warn');
           if (warn) warn.hidden = false;
           return;
+        }
+        /* Normalise US phones to E.164 (+1XXXXXXXXXX) so the SMS
+           automation can dial the submitted value as-is. */
+        if (phoneEl) {
+          var digits = phoneEl.value.replace(/\D/g, '');
+          if (digits.length === 11 && digits.charAt(0) === '1') digits = digits.slice(1);
+          if (digits.length !== 10) {
+            e.preventDefault();
+            phoneEl.setCustomValidity('Please enter a 10-digit US phone number, e.g. (214) 555-0134');
+            phoneEl.reportValidity();
+            return;
+          }
+          phoneEl.setCustomValidity('');
+          phoneEl.value = '+1' + digits;
         }
         if (!window.fetch || !form.checkValidity()) return;
         e.preventDefault();
