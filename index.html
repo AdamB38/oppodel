@@ -636,20 +636,49 @@
   </footer>
 
   <script>
-    /* Third layer of the spam handling, after the honeypot and the tick.
-       Nobody reads the page, fills six fields and submits inside three
-       seconds — a script that autofills and posts does. Fails open: if
-       this never runs, the form still submits normally. */
+    /* Spam gate + submit handling.
+
+       The 3-second gate is the third spam layer after the honeypot and
+       the tick — nobody reads the page and fills six fields that fast.
+
+       The AJAX submit exists for conversion tracking: Netlify answers a
+       native form POST with the success page CONTENT at the posted URL
+       (HTTP 200, no redirect), so the address bar never contains
+       "thank-you" and the Meta custom conversion misses. Posting via
+       fetch and then really navigating fixes that. Fails open: if fetch
+       is unavailable or errors, the native POST still records the lead
+       and shows the thank-you content — only the URL-based conversion
+       is missed on that degraded path. */
     (function () {
       var form = document.querySelector('#enquire form');
       if (!form) return;
       var opened = Date.now();
+      var fallback = false;
       form.addEventListener('submit', function (e) {
+        if (fallback) return;                       /* native retry path */
         if (Date.now() - opened < 3000) {
           e.preventDefault();
           var warn = document.getElementById('form-warn');
           if (warn) warn.hidden = false;
+          return;
         }
+        if (!window.fetch || !form.checkValidity()) return;
+        e.preventDefault();
+        var btn = form.querySelector('button[type="submit"]');
+        if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+        var body = new URLSearchParams(new FormData(form)).toString();
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body
+        }).then(function (r) {
+          if (r.ok) { window.location.href = '/thank-you/'; return; }
+          throw new Error('bad status');
+        }).catch(function () {
+          fallback = true;                          /* let the browser do it */
+          if (btn) { btn.disabled = false; }
+          form.submit();
+        });
       });
     })();
   </script>
