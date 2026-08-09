@@ -100,7 +100,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 .vsl-sound {
   position: absolute; z-index: 2; top: .85rem; right: .85rem;
   display: inline-flex; align-items: center; gap: .5rem;
-  background: var(--filament); color: var(--ink); border: 0; border-radius: var(--r);
+  background: var(--filament); color: var(--on-accent); border: 0; border-radius: var(--r);
   padding: .6rem 1rem;
   font-family: var(--f-body); font-size: .875rem; font-weight: 600;
   cursor: pointer; transition: transform .18s;
@@ -133,6 +133,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 
 /* ---------- worked example ---------- */
 .example { margin-top: clamp(2rem, 4vw, 3.25rem); }
+.example-tag { text-align: center; margin-bottom: .85rem; }
 .example img {
   width: 100%; height: auto; display: block;
   background: var(--ink);
@@ -169,7 +170,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 .cmp.theirs li { color: var(--muted); }
 .cmp.theirs li::before { content: '\00d7'; position: absolute; left: 0; color: var(--muted); }
 .cmp.yours li { color: var(--bone); opacity: .92; }
-.cmp.yours li::before { content: '\2713'; position: absolute; left: 0; color: var(--filament); }
+.cmp.yours li::before { content: '\2713'; position: absolute; left: 0; color: var(--amber-text); }
 
 /* ---------- who built it ---------- */
 .builder { max-width: 780px; margin: 0 auto; }
@@ -182,14 +183,14 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   display: flex; gap: .85rem; font-size: .9375rem; color: var(--bone); opacity: .86;
   line-height: 1.7; padding: .85rem 0; border-bottom: 1px solid var(--line);
 }
-.builder-pts .tick { color: var(--filament); flex-shrink: 0; line-height: 1.6; }
+.builder-pts .tick { color: var(--amber-text); flex-shrink: 0; line-height: 1.6; }
 
 .bespoke-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6rem; }
 
 @media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
 .bes h4 {
   font-family: var(--f-mono); font-size: .75rem; font-weight: 500;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--filament);
+  letter-spacing: .16em; text-transform: uppercase; color: var(--amber-text);
   padding-bottom: .75rem; margin-bottom: .9rem; border-bottom: 1px solid var(--line);
 }
 .bes p { font-size: .9375rem; color: var(--muted); line-height: 1.7; }
@@ -225,7 +226,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   font-variant-numeric: tabular-nums; font-size: 1.7rem; line-height: 1;
   color: var(--bone);
 }
-.price-total .price-fig { font-size: 2.5rem; color: var(--filament); }
+.price-total .price-fig { font-size: 2.5rem; color: var(--bone); }
 
 .price-sub { font-size: .9375rem; color: var(--muted); }
 
@@ -250,7 +251,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   padding: .85rem 0; border-bottom: 1px solid var(--line);
 }
 .checks li:last-child { border-bottom: 0; }
-.checks .tick { color: var(--filament); flex-shrink: 0; line-height: 1.6; }
+.checks .tick { color: var(--amber-text); flex-shrink: 0; line-height: 1.6; }
 
 .smallprint {
   font-size: .9375rem; color: var(--muted); line-height: 1.75;
@@ -291,8 +292,8 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 <!-- ---------- top bar ---------- -->
 <header class="topbar">
   <svg class="mark" viewBox="12.5 14.5 91 91" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="54" cy="54" r="32" stroke="#F7F3E9" stroke-width="15"/>
-    <path d="M70 74 L94 98" stroke="#F7F3E9" stroke-width="15" stroke-linecap="round"/>
+    <circle cx="54" cy="54" r="32" stroke="#0A1119" stroke-width="15"/>
+    <path d="M70 74 L94 98" stroke="#0A1119" stroke-width="15" stroke-linecap="round"/>
   </svg>
   <a class="topbar-word" href="/">Quotal</a>
   <nav class="topbar-nav">
@@ -347,9 +348,10 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
     </div>
 
     <figure class="example">
+      <div class="example-tag"><span class="chip">Example &mdash; our demo skin, not your brand</span></div>
       <img src="/img/example-quote.jpg" width="1281" height="872" loading="lazy"
            alt="The quote tool showing a brick house rendered with Christmas lights beside an itemized list of seven lighting runs and a seasonal price" />
-      <figcaption><b>Real output</b> &mdash; seven runs the customer drew themselves: candy-cane C9s along the roofline, icicles across every window and the door surround. Priced live at $612 for the first season, $398 for seasons after.</figcaption>
+      <figcaption><b>Real output, demo skin</b> &mdash; seven runs the customer drew themselves: candy-cane C9s along the roofline, icicles across every window and the door surround. Priced live at $612 for the first season, $398 for seasons after. <b>Yours won't look like this &mdash; it'll look like your company:</b> your logo, your colors, your products and your rates, built from scratch.</figcaption>
     </figure>
 
   </div>

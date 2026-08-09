@@ -1,25 +1,35 @@
 /* ===================================================================
-   Quotal — brand tokens and shared UI
+   Quotal — brand tokens and shared UI  ·  LIGHT THEME
    Every page links this before its own <style> block, so page-level
-   rules always win. Change a colour or a face here and it changes
-   everywhere; that is the whole point of this file existing.
-   Spec: Brand Pack for Quotal / Quotal Brand Spec.md
+   rules always win.
+
+   NOTE ON NAMES: the site began dark, and the token names kept their
+   original jobs when the theme flipped — --ink is the PAGE GROUND
+   (now Warm White) and --bone is the TEXT colour (now Ink). Renaming
+   every reference across six pages risked more than it bought.
+
+   Light-surface rules from the brand kit:
+   - Filament (#F2A93C) is a FILL, never text — amber text uses
+     --amber-text (#8A5510), the only amber that passes on light.
+   - Prices and big numbers run ink on light, not amber.
+   - Glows are a dark-surface device; none here.
    =================================================================== */
 
 :root {
   /* ---- colour ---- */
-  --ink:      #0A1119;   /* ground — every marketing surface sits on this */
-  --surface:  #111A25;   /* cards on ink */
-  --line:     #1D2836;   /* borders, dividers, input strokes */
-  --bone:     #F7F3E9;   /* warm white — body text on dark */
-  --filament: #F2A93C;   /* the price and the action. nothing else. */
-  --muted:    #7C8896;   /* secondary and label text */
-  --booked:   #3E8E6B;   /* success / booked state only */
+  --ink:      #F7F3E9;   /* page ground — warm white */
+  --surface:  #FFFFFF;   /* cards */
+  --line:     #D9D2C2;   /* borders, dividers, input strokes */
+  --bone:     #111A24;   /* primary text — ink */
+  --filament: #F2A93C;   /* fills only: buttons, bars, tints */
+  --amber-text: #8A5510; /* amber as TEXT on light — 5.6:1 */
+  --muted:    #5E6A78;   /* secondary and label text — ≥4.5:1 on ground */
+  --booked:   #2F7A5B;   /* success / booked state only */
+  --on-accent: #0A1119;  /* text on filament fills */
 
-  /* Filament at low alpha, for focus rings and tints. Never as text. */
-  --filament-ring: rgba(242,169,60,.22);
-  --filament-tint: rgba(242,169,60,.16);
-  --bone-30:       rgba(247,243,233,.30);
+  --filament-ring: rgba(242,169,60,.35);
+  --filament-tint: rgba(242,169,60,.14);
+  --bone-30:       rgba(17,26,36,.35);
 
   /* ---- type ---- */
   --f-display: 'Bricolage Grotesque', 'Archivo', system-ui, sans-serif;
@@ -45,7 +55,7 @@ body {
   overflow-x: hidden;
 }
 
-::selection { background: var(--filament); color: var(--ink); }
+::selection { background: var(--filament); color: var(--on-accent); }
 
 /* ---------- type scale ---------- */
 
@@ -59,14 +69,14 @@ h1, h2, h3, h4 {
 h1 { font-weight: 800; letter-spacing: -.045em; }
 h2, h3, h4 { font-weight: 600; letter-spacing: -.03em; }
 
-/* mono label — 13px, uppercase, wide. Filament or Muted, nothing else. */
+/* mono label — 13px, uppercase, wide. Amber-text or Muted, nothing else. */
 .eyebrow {
   font-family: var(--f-mono);
   font-size: .8125rem;
   font-weight: 500;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--filament);
+  color: var(--amber-text);
 }
 .eyebrow.quiet { color: var(--muted); }
 
@@ -74,19 +84,19 @@ h2, h3, h4 { font-weight: 600; letter-spacing: -.03em; }
   .eyebrow { font-size: .72rem; letter-spacing: .14em; }
 }
 
-/* prices — Bricolage 800, figures that line up */
+/* prices — Bricolage 800, figures that line up. Ink on light. */
 .price {
   font-family: var(--f-display);
   font-weight: 800;
   letter-spacing: -.045em;
   font-variant-numeric: tabular-nums;
-  color: var(--filament);
+  color: var(--bone);
 }
 
 a { color: var(--bone); }
 
 :focus-visible {
-  outline: 2px solid var(--filament);
+  outline: 2px solid var(--amber-text);
   outline-offset: 2px;
 }
 
@@ -116,7 +126,7 @@ a { color: var(--bone); }
   align-items: center;
   gap: .7rem;
   padding: .95rem 1.5rem;
-  background: rgba(10,17,25,.88);
+  background: rgba(247,243,233,.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
@@ -156,8 +166,8 @@ a { color: var(--bone); }
 .topbar-nav a:hover { color: var(--bone); }
 
 .topbar-nav a.cta {
-  color: var(--filament);
-  border-bottom: 1px solid var(--filament);
+  color: var(--amber-text);
+  border-bottom: 1px solid var(--amber-text);
   padding-bottom: 2px;
 }
 .topbar-nav a.cta:hover { color: var(--bone); border-bottom-color: var(--bone); }
@@ -190,7 +200,7 @@ a { color: var(--bone); }
 /* primary — filament fill, ink text. The one thing on the screen. */
 .btn-solid {
   background: var(--filament);
-  color: var(--ink);
+  color: var(--on-accent);
   border-color: var(--filament);
 }
 .btn-solid:hover { opacity: .88; }
@@ -218,10 +228,11 @@ a { color: var(--bone); }
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   padding: 1.9rem 1.75rem;
+  box-shadow: 0 1px 2px rgba(17,26,36,.04), 0 8px 24px rgba(17,26,36,.05);
 }
 
-/* inside a band the card needs the darker fill to separate */
-.band .card { background: var(--ink); }
+/* inside a band (white) the card needs the warm ground to separate */
+.band .card { background: var(--ink); box-shadow: none; }
 
 /* ---------- forms ---------- */
 
@@ -235,7 +246,7 @@ label {
   color: var(--muted);
   margin-bottom: .5rem;
 }
-label .opt { text-transform: none; letter-spacing: .04em; color: var(--muted); opacity: .8; }
+label .opt { text-transform: none; letter-spacing: .04em; color: var(--muted); opacity: .85; }
 
 input, select, textarea {
   width: 100%;
@@ -243,7 +254,7 @@ input, select, textarea {
   font-size: 1rem;
   font-weight: 400;
   color: var(--bone);
-  background: var(--ink);
+  background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r);
   padding: .85rem 1rem;
@@ -261,19 +272,20 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 3px var(--filament-ring);
 }
 
-/* a card sits on --surface, so its inputs need the darker ink well to read */
-.card input, .card select, .card textarea { background: var(--ink); }
+/* a card on the warm ground keeps white input wells; a card inside a
+   band is itself warm, so white wells still read there too */
+.card input, .card select, .card textarea { background: var(--surface); }
 
 select {
   color: var(--muted);
   cursor: pointer;
   padding-right: 2.4rem;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%237C8896' stroke-width='1.5'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%236E7987' stroke-width='1.5'/></svg>");
   background-repeat: no-repeat;
   background-position: right 1rem center;
 }
 select.filled { color: var(--bone); }
-select option { background: var(--ink); color: var(--bone); }
+select option { background: var(--surface); color: var(--bone); }
 
 textarea { min-height: 96px; }
 
@@ -301,7 +313,7 @@ textarea { min-height: 96px; }
   padding: 0;
   border: 1px solid var(--line);
   border-radius: var(--r);
-  background: var(--ink);
+  background: var(--surface);
   cursor: pointer;
   display: grid;
   place-content: center;
@@ -334,21 +346,21 @@ textarea { min-height: 96px; }
 .err {
   display: none;
   font-size: .875rem;
-  color: #E5A0A0;
-  border: 1px solid #45262A;
-  background: #1A1114;
+  color: #8B2F2F;
+  border: 1px solid #E8D2D2;
+  background: #FCF7F7;
   border-radius: var(--r);
   padding: .8rem .95rem;
   margin-top: 1rem;
   line-height: 1.6;
 }
-.err a { color: #E5A0A0; }
+.err a { color: #8B2F2F; }
 .err.on { display: block; }
 
 .done { display: none; }
 .done.on { display: block; }
 
-/* ---------- status chip — mono 12px, 16% tint of its own colour ---------- */
+/* ---------- status chip — mono 12px, 14% tint of filament ---------- */
 
 .chip {
   display: inline-flex;
@@ -361,11 +373,11 @@ textarea { min-height: 96px; }
   text-transform: uppercase;
   border-radius: var(--r);
   padding: .38rem .7rem;
-  color: var(--filament);
+  color: var(--amber-text);
   background: var(--filament-tint);
 }
-.chip.booked { color: var(--booked); background: rgba(62,142,107,.16); }
-.chip.quiet  { color: var(--muted);  background: rgba(124,136,150,.16); }
+.chip.booked { color: var(--booked); background: rgba(47,122,91,.14); }
+.chip.quiet  { color: var(--muted);  background: rgba(110,121,135,.14); }
 
 /* ---------- footer ---------- */
 

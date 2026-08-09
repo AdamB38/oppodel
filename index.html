@@ -36,39 +36,19 @@
   src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></noscript>
 
   <style>
-    /* ---------- hero ---------- */
+    /* ---------- hero — light ground, the night lives in the framed
+       screenshots below it ---------- */
     .hero {
       position: relative;
-      overflow: hidden;
       display: flex;
       align-items: center;
-      min-height: 100svh;
+      min-height: 74svh;
       padding: clamp(3rem, 8vw, 5.5rem) 0 clamp(3rem, 7vw, 5rem);
-      background: linear-gradient(165deg, #0A1119 0%, #111A25 55%, #17222F 100%);
-    }
-
-    .hero-bg { position: absolute; inset: 0; }
-
-    .hero-bg img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 66% 40%;   /* keeps the priced house right of the text */
-    }
-
-    /* left-side scrim for text contrast — the photo is already a night
-       shot, so this only needs to deepen it toward the ink, not crush it */
-    .hero-bg::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(10,17,25,.86) 0%, rgba(10,17,25,.62) 46%, rgba(10,17,25,.08) 78%);
+      background: linear-gradient(180deg, #FDFBF7 0%, #F7F3E9 55%, #F2EBDC 100%);
     }
 
     .hero-in { position: relative; z-index: 1; width: 100%; }
-    .hero-col { max-width: 580px; }
+    .hero-col { max-width: 620px; }
 
     .hero .eyebrow { display: block; margin-bottom: 1.5rem; }
 
@@ -78,13 +58,14 @@
       margin: 0;
     }
 
-    /* "sleep" — the filament is on */
+    /* "sleep" — the filament is on. Amber-text for contrast on light;
+       the filament itself supplies the glow. */
     .headline .lit {
       font-style: normal;
-      color: var(--filament);
+      color: var(--amber-text);
       text-shadow:
-        0 0 10px rgba(242,169,60,.55),
-        0 0 34px rgba(242,169,60,.32);
+        0 0 12px rgba(242,169,60,.6),
+        0 0 34px rgba(242,169,60,.35);
       animation: filament 5.5s ease-in-out infinite;
     }
 
@@ -96,8 +77,8 @@
     .sub {
       font-size: clamp(1rem, 1.6vw, 1.125rem);
       color: var(--bone);
-      opacity: .82;
-      max-width: 500px;
+      opacity: .78;
+      max-width: 520px;
       margin: 1.35rem 0 0;
       line-height: 1.65;
     }
@@ -111,17 +92,7 @@
     }
 
     @media (max-width: 860px) {
-      .hero { min-height: 84svh; }
-      .hero-bg img { object-position: 72% 26%; }
-      /* stacked: a left-to-right scrim does nothing, so go top-down and
-         let the photo breathe again below the copy */
-      .hero-bg::after {
-        background: linear-gradient(180deg,
-          rgba(10,17,25,.92) 0%,
-          rgba(10,17,25,.86) 38%,
-          rgba(10,17,25,.76) 66%,
-          rgba(10,17,25,.30) 100%);
-      }
+      .hero { min-height: 64svh; }
       .hero-col { max-width: none; text-align: center; }
       .hero .sub { margin-left: auto; margin-right: auto; }
       .hero-actions { justify-content: center; }
@@ -183,7 +154,7 @@
       text-transform: uppercase;
       color: var(--muted);
     }
-    .svc-lead .svc-badge { color: var(--filament); }
+    .svc-lead .svc-badge { color: var(--amber-text); }
 
     .svc-title {
       font-size: 1.4rem;
@@ -375,7 +346,7 @@
       margin-top: .85rem;
       font-size: .875rem;
       line-height: 1.5;
-      color: #E5A0A0;
+      color: #8B2F2F;
     }
   </style>
 </head>
@@ -383,8 +354,8 @@
 
   <header class="topbar">
     <svg class="mark" viewBox="12.5 14.5 91 91" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="54" cy="54" r="32" stroke="#F7F3E9" stroke-width="15"/>
-      <path d="M70 74 L94 98" stroke="#F7F3E9" stroke-width="15" stroke-linecap="round"/>
+      <circle cx="54" cy="54" r="32" stroke="#0A1119" stroke-width="15"/>
+      <path d="M70 74 L94 98" stroke="#0A1119" stroke-width="15" stroke-linecap="round"/>
     </svg>
     <span class="topbar-word">Quotal</span>
     <nav class="topbar-nav">
@@ -396,10 +367,6 @@
   </header>
 
   <section class="hero">
-    <div class="hero-bg" aria-hidden="true">
-      <img src="img/hero-night.jpg" alt="" onerror="this.style.display='none'" />
-    </div>
-
     <div class="wrap hero-in">
       <div class="hero-col">
         <span class="eyebrow">Instant estimates for Christmas light pros</span>
@@ -420,7 +387,7 @@
       <div class="sec-head">
         <span class="eyebrow quiet">What we build</span>
         <h2>One system, shaped to your trade</h2>
-        <p>The same measuring and pricing core sits behind both of these. What changes is how the property gets sized, what you sell, and what the homeowner sees at the end. Every build runs on your rates and your branding.</p>
+        <p>The same measuring and pricing core sits behind both of these. What changes is how the property gets sized, what you sell, and what the homeowner sees at the end. The screens below are our demo skin &mdash; <strong>every build is made from scratch in your branding, on your rates.</strong></p>
       </div>
 
       <!-- Christmas lights — the lead product -->
@@ -477,7 +444,7 @@
       <div class="flow">
         <div class="fstep">
           <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#F2A93C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9.5 12h5M9.5 15.5h5M12 10.5v6.5"/>
             </svg>
           </div>
@@ -490,7 +457,7 @@
 
         <div class="fstep">
           <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#F2A93C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>
             </svg>
           </div>
@@ -503,7 +470,7 @@
 
         <div class="fstep">
           <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#F2A93C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/>
               <path d="M8.4 6h7.2M7 8.2l3.7 7.6M17 8.2l-3.7 7.6"/>
             </svg>
@@ -517,8 +484,8 @@
 
         <div class="fstep">
           <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#F2A93C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="#F2A93C"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="#B86F14"/>
             </svg>
           </div>
           <div class="fstep-c">
@@ -530,7 +497,7 @@
 
         <div class="fstep">
           <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#F2A93C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 19h16"/><path d="M4 15.5l5-5 3.5 3.5L20 6"/><path d="M15.5 6H20v4.5"/>
             </svg>
           </div>
