@@ -47,8 +47,72 @@
       background: linear-gradient(180deg, #FDFBF7 0%, #F7F3E9 55%, #F2EBDC 100%);
     }
 
-    .hero-in { position: relative; z-index: 1; width: 100%; }
+    .hero-in {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
     .hero-col { max-width: 620px; }
+
+    /* ---------- hero VSL ---------- */
+    .hero-media { min-width: 0; }
+
+    .vsl-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(17,26,36,.05), 0 14px 34px rgba(17,26,36,.08);
+    }
+
+    .vsl-frame.has-video { cursor: pointer; }
+    .vsl-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    .vsl-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(10,17,25,.34);
+      transition: background .2s;
+    }
+    .vsl-frame.has-video:hover .vsl-overlay { background: rgba(10,17,25,.16); }
+
+    .vsl-btn {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: var(--filament); border: 0; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform .18s;
+    }
+    .vsl-frame.has-video:hover .vsl-btn { transform: scale(1.06); }
+    .vsl-btn svg { width: 19px; height: 19px; margin-left: 4px; }
+
+    .vsl-frame iframe, .vsl-frame video {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;
+    }
+
+    .vsl-sound {
+      position: absolute; z-index: 2; top: .75rem; right: .75rem;
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--filament); color: var(--on-accent); border: 0; border-radius: var(--r);
+      padding: .55rem .9rem;
+      font-family: var(--f-body); font-size: .8125rem; font-weight: 600;
+      cursor: pointer; transition: transform .18s;
+    }
+    .vsl-sound:hover { transform: scale(1.04); }
+    .vsl-sound svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    .vsl-cap {
+      font-size: .875rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: .8rem;
+      line-height: 1.5;
+    }
 
     .hero .eyebrow { display: block; margin-bottom: 1.5rem; }
 
@@ -91,11 +155,15 @@
       color: var(--muted);
     }
 
-    @media (max-width: 860px) {
-      .hero { min-height: 64svh; }
+    @media (max-width: 900px) {
+      /* stacked: copy first, video below it */
+      .hero { min-height: 0; }
+      .hero-in { grid-template-columns: minmax(0, 1fr); gap: 2.25rem; }
       .hero-col { max-width: none; text-align: center; }
       .hero .sub { margin-left: auto; margin-right: auto; }
       .hero-actions { justify-content: center; }
+      .vsl-btn { width: 58px; height: 58px; }
+      .vsl-sound { top: .55rem; right: .55rem; padding: .5rem .8rem; font-size: .78rem; }
     }
 
     @media (max-width: 560px) {
@@ -379,6 +447,11 @@
         </div>
         <p class="hero-note">20 minutes on Google Meet &mdash; no obligation.</p>
       </div>
+
+      <div class="hero-media">
+        <div class="vsl-frame" id="vslFrame"></div>
+        <p class="vsl-cap">Two minutes: how a homeowner goes from photo to priced, rendered quote.</p>
+      </div>
     </div>
   </section>
 
@@ -646,6 +719,52 @@
           if (btn) { btn.disabled = false; }
           form.submit();
         });
+      });
+    })();
+
+    /* Hero VSL — click-to-play on purpose: an autoplaying iframe here
+       would cost the homepage its load speed and fight the headline.
+       The poster is the video's own YouTube thumbnail. Set
+       autoplay:true to match the pricing page's behaviour instead. */
+    (function () {
+      var VSL = { type: 'youtube', id: 'EJKc-09czHU', poster: 'https://i.ytimg.com/vi/EJKc-09czHU/maxresdefault.jpg', autoplay: false };
+      var frame = document.getElementById('vslFrame');
+      if (!frame) return;
+
+      var PLAY = '<svg viewBox="0 0 12 14" fill="#0A1119" xmlns="http://www.w3.org/2000/svg"><path d="M0 0l12 7-12 7z"/></svg>';
+      var SPKR = '<svg viewBox="0 0 24 24" fill="none" stroke="#0A1119" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M19 5a10 10 0 010 14"/></svg>';
+
+      function embed(muted) {
+        frame.classList.remove('has-video');
+        frame.innerHTML =
+          '<iframe src="https://www.youtube-nocookie.com/embed/' + VSL.id +
+          '?autoplay=1&mute=' + (muted ? '1' : '0') +
+          '&playsinline=1&rel=0&modestbranding=1" title="Walkthrough" ' +
+          'allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+      }
+
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var saveData = navigator.connection && navigator.connection.saveData;
+
+      if (VSL.autoplay && !reduceMotion && !saveData) {
+        embed(true);
+        var sound = document.createElement('button');
+        sound.className = 'vsl-sound';
+        sound.type = 'button';
+        sound.innerHTML = SPKR + '<span>Tap for sound</span>';
+        sound.addEventListener('click', function () { embed(false); });
+        frame.appendChild(sound);
+        return;
+      }
+
+      frame.classList.add('has-video');
+      frame.innerHTML =
+        '<img class="vsl-poster" src="' + VSL.poster + '" alt="Video: how a homeowner quotes their own Christmas lights" />' +
+        '<div class="vsl-overlay"><button class="vsl-btn" type="button" aria-label="Play the walkthrough">' + PLAY + '</button></div>';
+
+      frame.addEventListener('click', function play() {
+        frame.removeEventListener('click', play);
+        embed(false);
       });
     })();
   </script>

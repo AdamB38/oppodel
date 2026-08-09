@@ -528,8 +528,8 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
               </div>
 
               <div class="field">
-                <label for="f-phone">Phone <span class="opt">(optional &mdash; for a faster reply)</span></label>
-                <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+                <label for="f-phone">Phone <span class="opt">(we text, we don't spam-call)</span></label>
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
               </div>
 
               <div class="field">
@@ -748,6 +748,7 @@ var VSL = { type: 'youtube', id: 'EJKc-09czHU', poster: 'https://i.ytimg.com/vi/
 
     if (!data.name)  { showError('Please add your first name.'); document.getElementById('f-name').focus(); return; }
     if (!data.email || data.email.indexOf('@') === -1) { showError('Please add a valid email address.'); document.getElementById('f-email').focus(); return; }
+    if (!data.phone) { showError('Please add your phone number — the fastest replies go by text.'); document.getElementById('f-phone').focus(); return; }
     if (!data.metro) { showError('Please add your metro or city.'); document.getElementById('f-metro').focus(); return; }
     if (!data.installs) { showError('Please choose how many installs you did last season.'); document.getElementById('f-installs').focus(); return; }
 
