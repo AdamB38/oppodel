@@ -18,6 +18,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/quotal.css">
 
+<script src="/track/oq-track.js" data-site="oppodel-site" data-endpoint="/.netlify/functions/collect" defer></script>
+
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s)
@@ -776,6 +778,16 @@ var VSL = { type: 'youtube', id: 'EJKc-09czHU', poster: 'https://i.ytimg.com/vi/
       });
   });
 })();
+
+/* Demo clicks — recorded as a Meta custom event (retargetable audience:
+   people interested enough to try it) and in the funnel dashboard. The
+   links open in a new tab, so the events flush without a race. */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href*="oppodel-xmas.pages.dev"]');
+  if (!a) return;
+  if (window.fbq) fbq('trackCustom', 'DemoClick');
+  if (window.OQ && OQ.event) OQ.event('demo-click');
+});
 </script>
 
 </body>
