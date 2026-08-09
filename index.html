@@ -619,17 +619,22 @@
 
       <div class="card form-card" id="enquire">
         <div class="form-title"><span class="eyebrow quiet">Request your demo</span></div>
-        <!-- action="/thank-you/" — Netlify redirects there on success, which
-             fires the Meta custom conversion (URL contains "thank-you") -->
-        <form name="contact" method="POST" action="/thank-you/" data-netlify="true" data-netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="contact" />
+        <!-- Same Netlify form name as the pricing page on purpose: every
+             lead on the site lands in ONE bucket ("founders"), so the
+             email/SMS automation triggered on it covers all of them.
+             The hidden source field says which page the lead came from. -->
+        <form name="founders" method="POST" action="/thank-you/" data-netlify="true" data-netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="founders" />
+          <input type="hidden" name="source" value="homepage" />
 
           <p class="hp" aria-hidden="true">
             <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
           </p>
 
           <div class="row">
-            <input type="text" name="first-name" placeholder="First name" aria-label="First name" autocomplete="given-name" required />
+            <!-- field is "name" to match the pricing form, so the
+                 automation's {name} mapping works for every lead -->
+            <input type="text" name="name" placeholder="First name" aria-label="First name" autocomplete="given-name" required />
             <input type="text" name="last-name" placeholder="Last name" aria-label="Last name" autocomplete="family-name" />
           </div>
 
