@@ -133,4 +133,4 @@ Disallow: /track/
 Disallow: /.netlify/
 Allow: /
 
-Sitemap: https://oppodel.com/sitemap.xml
+Sitemap: https://quotal.org/sitemap.xml

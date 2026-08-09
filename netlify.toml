@@ -8,6 +8,35 @@
 [functions]
   node_bundler = "esbuild"
 
+# Domain move: quotal.org is the brand's home. Every oppodel.com URL
+# 301s to its exact twin on quotal.org — old links, printed QRs and any
+# drafted ads all keep working. These are hard 301s (the move is
+# permanent), unlike the reversible page-level 302s further down.
+# mkmexteriors.oppodel.com is a SEPARATE Netlify site and is untouched.
+[[redirects]]
+  from = "https://oppodel.com/*"
+  to = "https://quotal.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.oppodel.com/*"
+  to = "https://quotal.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://oppodel.com/*"
+  to = "https://quotal.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.oppodel.com/*"
+  to = "https://quotal.org/:splat"
+  status = 301
+  force = true
+
 # /beta and /founders are both retired; /pricing is the offer page. Sent
 # straight to /pricing rather than chaining /beta -> /founders -> /pricing,
 # which would cost every visitor an extra round trip.
