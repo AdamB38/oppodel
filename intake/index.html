@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your pricing — Quotal build intake</title>
+<meta name="robots" content="noindex,nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* Self-contained on purpose: this page also gets emailed as an
+   attachment, so it can't depend on the site stylesheet. */
+:root{
+  --ink:#F7F3E9; --surface:#FFFFFF; --line:#D9D2C2; --bone:#111A24;
+  --filament:#F2A93C; --amber:#8A5510; --muted:#5E6A78; --on:#0A1119;
+  --f-display:'Bricolage Grotesque','Archivo',system-ui,sans-serif;
+  --f-body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --r:3px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--bone);font-family:var(--f-body);line-height:1.55;-webkit-font-smoothing:antialiased}
+
+.bar{position:sticky;top:0;z-index:50;background:rgba(247,243,233,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);padding:.8rem 1.5rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.bar svg{width:24px;height:24px;flex-shrink:0}
+.bar-word{font-family:var(--f-display);font-weight:800;font-size:1.1rem;letter-spacing:-.045em}
+.bar-status{margin-left:auto;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;color:var(--muted)}
+
+.wrap{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+h1{font-family:var(--f-display);font-weight:800;letter-spacing:-.045em;font-size:clamp(1.9rem,5vw,2.6rem);line-height:1.08;margin:.7rem 0 0}
+.lede{font-size:1.05rem;color:var(--muted);line-height:1.7;margin-top:1rem;max-width:60ch}
+.lede b{color:var(--bone)}
+
+h2{font-family:var(--f-display);font-weight:600;letter-spacing:-.03em;font-size:1.3rem;margin:0 0 .3rem}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:1.6rem 1.5rem;margin-top:1.1rem}
+.sec-note{font-size:.9rem;color:var(--muted);margin-bottom:1.1rem;line-height:1.6}
+
+label{display:block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin:1rem 0 .3rem}
+label .hint{text-transform:none;letter-spacing:.02em;color:var(--muted);opacity:.85;font-family:var(--f-body);font-size:.8rem}
+input,textarea,select{width:100%;font-family:var(--f-body);font-size:1rem;color:var(--bone);background:var(--surface);
+  border:1px solid var(--line);border-radius:var(--r);padding:.7rem .85rem;outline:none;transition:border-color .15s,box-shadow .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--filament);box-shadow:0 0 0 3px rgba(242,169,60,.3)}
+input::placeholder,textarea::placeholder{color:#A9B0BA}
+textarea{min-height:84px;resize:vertical;line-height:1.6}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 1rem}
+@media(max-width:620px){.two,.three{grid-template-columns:1fr}}
+
+/* product rate rows */
+.prow{display:grid;grid-template-columns:1fr 7.5rem 9rem;gap:.6rem;align-items:center;
+  padding:.5rem 0;border-bottom:1px solid #EFEAE0}
+.prow:last-of-type{border-bottom:0}
+.prow-name{font-size:.94rem}
+.prow-name small{display:block;color:var(--muted);font-size:.78rem;line-height:1.4}
+.prow input{padding:.5rem .6rem;font-size:.94rem}
+.prow-head{display:grid;grid-template-columns:1fr 7.5rem 9rem;gap:.6rem;
+  font-family:var(--f-mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  padding-bottom:.5rem;border-bottom:1px solid var(--line);margin-bottom:.2rem}
+@media(max-width:620px){
+  .prow{grid-template-columns:1fr;gap:.3rem;padding:.8rem 0}
+  .prow-head{display:none}
+  /* 16px minimum: anything smaller makes iOS Safari zoom in on focus,
+     which on a 57-field form is unusable */
+  .prow input{margin-bottom:.1rem;font-size:16px}
+}
+
+.callout{border-left:3px solid var(--filament);background:#FDF6E8;padding:.85rem 1rem;border-radius:0 var(--r) var(--r) 0;
+  font-size:.92rem;line-height:1.65;margin-top:1rem}
+.callout b{color:var(--bone)}
+
+.actions{position:sticky;bottom:0;background:rgba(247,243,233,.96);backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);padding:1rem 1.5rem;margin:2rem -1.5rem -5rem;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.btn{font-family:var(--f-body);font-size:.94rem;font-weight:600;padding:.8rem 1.4rem;border:1px solid transparent;
+  border-radius:var(--r);cursor:pointer;transition:opacity .15s,border-color .15s}
+.btn-solid{background:var(--filament);color:var(--on);border-color:var(--filament)}
+.btn-solid:hover{opacity:.88}
+.btn-out{background:transparent;color:var(--bone);border-color:rgba(17,26,36,.35)}
+.btn-out:hover{border-color:var(--bone)}
+.btn-quiet{background:none;border:0;color:var(--muted);font-size:.85rem;cursor:pointer;padding:.5rem}
+.btn-quiet:hover{color:var(--bone)}
+.saved{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;color:var(--muted);margin-left:auto}
+
+footer{text-align:center;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;color:var(--muted);
+  padding:3rem 1.5rem 1.5rem}
+footer a{color:var(--amber);text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <svg viewBox="12.5 14.5 91 91" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="54" cy="54" r="32" stroke="#0A1119" stroke-width="15"/>
+    <path d="M70 74 L94 98" stroke="#0A1119" stroke-width="15" stroke-linecap="round"/>
+  </svg>
+  <span class="bar-word">Quotal</span>
+  <span class="bar-status" id="autosave">SAVES AS YOU TYPE</span>
+</div>
+
+<div class="wrap">
+
+  <span class="eyebrow">Build intake</span>
+  <h1>Your pricing, so we can write it down properly.</h1>
+  <p class="lede">This is everything we need to build your calculator. <b>Skip anything you don't sell — blank means "we don't offer this."</b> Rough numbers are fine; we tune them together before it goes live. It saves as you type, so you can stop and come back.</p>
+
+  <!-- 1 -->
+  <div class="sec">
+    <h2>1. The basics</h2>
+    <p class="sec-note">Where this goes live and who it belongs to.</p>
+    <div class="two">
+      <div><label>Company name</label><input data-f="Company" placeholder="Ridgeview Holiday Lighting"></div>
+      <div><label>Your name</label><input data-f="Contact name" placeholder="Marcus"></div>
+    </div>
+    <div class="two">
+      <div><label>Email</label><input data-f="Email" type="email" placeholder="marcus@ridgeview.com"></div>
+      <div><label>Phone</label><input data-f="Phone" placeholder="(214) 555-0134"></div>
+    </div>
+    <div class="two">
+      <div><label>Your website</label><input data-f="Website" placeholder="ridgeviewlighting.com"></div>
+      <div><label>Where should the calculator live? <span class="hint">page on your site, or its own link</span></label><input data-f="Calculator location" placeholder="ridgeviewlighting.com/quote"></div>
+    </div>
+    <label>Service area <span class="hint">— zips, cities, or "X miles from Y"</span></label>
+    <input data-f="Service area" placeholder="30 miles from Frisco TX — or list your zips">
+  </div>
+
+  <!-- 2 -->
+  <div class="sec">
+    <h2>2. How you price</h2>
+    <p class="sec-note">The one question everything else hangs off. Pick whichever is closest to how you actually quote.</p>
+    <label>Your pricing method</label>
+    <select data-f="Pricing method">
+      <option value="">Choose one…</option>
+      <option>Per linear foot</option>
+      <option>Per bulb / per socket</option>
+      <option>Package tiers (small / medium / large house)</option>
+      <option>Per foot for some things, flat rate for others</option>
+      <option>Mostly by eye — I'd struggle to write it as a formula</option>
+    </select>
+    <div class="callout">
+      <b>If you picked "mostly by eye" — that's fine, and common.</b> Send us 5 past jobs instead (photo + what you charged) and we'll work the formula out from those on a call. That's often more accurate than what people write down anyway.
+    </div>
+    <label>Anything about your pricing that isn't obvious? <span class="hint">the calls you make without thinking</span></label>
+    <textarea data-f="Pricing notes" placeholder="e.g. I add 15% if there's no ladder access to the back. Anything under $600 I usually decline in December."></textarea>
+  </div>
+
+  <!-- 3 -->
+  <div class="sec">
+    <h2>3. Your rates</h2>
+    <p class="sec-note">Only fill in what you sell. Leave the rest blank. Unit examples: per ft, per bulb, each, per window.</p>
+
+    <div class="prow-head"><div>Product</div><div>Your rate</div><div>Unit / minimum</div></div>
+
+    <div class="prow"><div class="prow-name">C9 roofline <small>the standard run</small></div>
+      <input data-f="C9 roofline rate" placeholder="$6.50"><input data-f="C9 roofline unit" placeholder="per ft"></div>
+    <div class="prow"><div class="prow-name">Mini lights</div>
+      <input data-f="Mini lights rate" placeholder="$4.00"><input data-f="Mini lights unit" placeholder="per ft"></div>
+    <div class="prow"><div class="prow-name">Icicle lights</div>
+      <input data-f="Icicle rate" placeholder="$7.00"><input data-f="Icicle unit" placeholder="per ft"></div>
+    <div class="prow"><div class="prow-name">Windows <small>outlined or framed</small></div>
+      <input data-f="Windows rate" placeholder="$45"><input data-f="Windows unit" placeholder="per window"></div>
+    <div class="prow"><div class="prow-name">Railings, columns, posts</div>
+      <input data-f="Railings rate" placeholder="$8.00"><input data-f="Railings unit" placeholder="per ft"></div>
+    <div class="prow"><div class="prow-name">Ridge / peaks / gables</div>
+      <input data-f="Ridge rate" placeholder="$7.50"><input data-f="Ridge unit" placeholder="per ft"></div>
+    <div class="prow"><div class="prow-name">Wreaths <small>note sizes if they differ</small></div>
+      <input data-f="Wreath rate" placeholder="$95"><input data-f="Wreath unit" placeholder="each, 24in"></div>
+    <div class="prow"><div class="prow-name">Garland</div>
+      <input data-f="Garland rate" placeholder="$18"><input data-f="Garland unit" placeholder="per ft"></div>
+    <div class="prow"><div class="prow-name">Trees &amp; bushes</div>
+      <input data-f="Trees/bushes rate" placeholder="$85"><input data-f="Trees/bushes unit" placeholder="per bush"></div>
+    <div class="prow"><div class="prow-name">Pathway / ground stakes</div>
+      <input data-f="Pathway rate" placeholder="$12"><input data-f="Pathway unit" placeholder="per stake"></div>
+    <div class="prow"><div class="prow-name">Permanent lighting <small>if you install it</small></div>
+      <input data-f="Permanent lighting rate" placeholder="$28"><input data-f="Permanent lighting unit" placeholder="per ft"></div>
+
+    <label>Anything else you sell that isn't listed?</label>
+    <textarea data-f="Other products" placeholder="Roof stars, inflatables, mega trees, timers, custom fabrication…"></textarea>
+
+    <label>Do colors or bulb types change the price? <span class="hint">warm white vs multicolor vs candy cane</span></label>
+    <textarea data-f="Colour/bulb pricing" placeholder="e.g. all colors same price — or candy cane +$1/ft because of the extra sockets"></textarea>
+  </div>
+
+  <!-- 4 -->
+  <div class="sec">
+    <h2>4. Adjustments</h2>
+    <p class="sec-note">The things that move a price up or down once you've seen the house.</p>
+    <div class="three">
+      <div><label>Job minimum</label><input data-f="Job minimum" placeholder="$650"></div>
+      <div><label>2-story</label><input data-f="2-story loading" placeholder="+20%"></div>
+      <div><label>3-story</label><input data-f="3-story loading" placeholder="+40%"></div>
+    </div>
+    <div class="two">
+      <div><label>Steep or difficult roof</label><input data-f="Steep roof surcharge" placeholder="+15%"></div>
+      <div><label>Hard access / no ladder room</label><input data-f="Access surcharge" placeholder="+$150"></div>
+    </div>
+    <div class="two">
+      <div><label>Travel beyond your area</label><input data-f="Travel surcharge" placeholder="+$2/mile past 30 miles"></div>
+      <div><label>Rush / late-season booking</label><input data-f="Rush surcharge" placeholder="+10% after Nov 15"></div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="sec">
+    <h2>5. Repeat customers</h2>
+    <p class="sec-note">Most installers charge less after the first season. This is often the difference between a quote that converts and one that doesn't.</p>
+    <div class="two">
+      <div><label>Seasons-after price</label><input data-f="Seasons-after price" placeholder="65% of first season"></div>
+      <div><label>Do you show it on the first quote? <span class="hint">it usually helps</span></label>
+        <select data-f="Show repeat price"><option value="">Choose…</option><option>Yes — show both prices</option><option>No — first season only</option><option>Not sure, advise me</option></select></div>
+    </div>
+    <label>What changes for a repeat customer? <span class="hint">same lights re-hung, new bulbs, etc.</span></label>
+    <textarea data-f="Repeat customer terms" placeholder="Same set re-hung, we replace failed bulbs free, price locked 3 years…"></textarea>
+  </div>
+
+  <!-- 6 -->
+  <div class="sec">
+    <h2>6. What the price includes</h2>
+    <p class="sec-note">So the calculator says the same thing you'd say on a driveway.</p>
+    <label>Included in every job <span class="hint">list what's covered</span></label>
+    <textarea data-f="What's included" placeholder="Install, takedown in January, storage until next year, mid-season service calls, bulb replacement…"></textarea>
+    <div class="two">
+      <div><label>Who owns the lights?</label>
+        <select data-f="Light ownership"><option value="">Choose…</option><option>We do — it's a rental/service</option><option>Customer buys them in year one</option><option>Both, depending on the package</option></select></div>
+      <div><label>Deposit to book</label><input data-f="Deposit" placeholder="50% or $300"></div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="sec">
+    <h2>7. Season &amp; capacity</h2>
+    <p class="sec-note">So the calculator never books a date you can't work.</p>
+    <div class="two">
+      <div><label>Install season runs</label><input data-f="Install window" placeholder="Oct 1 – Dec 15"></div>
+      <div><label>Takedown runs</label><input data-f="Takedown window" placeholder="Jan 2 – Jan 31"></div>
+    </div>
+    <div class="two">
+      <div><label>Last date you'll take a booking</label><input data-f="Booking cutoff" placeholder="Dec 10"></div>
+      <div><label>Roughly how many jobs can you do?</label><input data-f="Season capacity" placeholder="120 installs a season"></div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="sec">
+    <h2>8. Where the leads go</h2>
+    <div class="two">
+      <div><label>Email for new quote alerts</label><input data-f="Lead email" placeholder="office@ridgeview.com"></div>
+      <div><label>Mobile for text alerts</label><input data-f="Lead phone" placeholder="(214) 555-0134"></div>
+    </div>
+    <label>CRM or software you already use <span class="hint">we plug into it rather than replace it</span></label>
+    <input data-f="CRM" placeholder="Jobber / Housecall Pro / spreadsheet / nothing yet">
+  </div>
+
+  <!-- 9 -->
+  <div class="sec">
+    <h2>9. Your branding</h2>
+    <p class="sec-note">A customer shouldn't be able to tell it wasn't built in-house.</p>
+    <div class="two">
+      <div><label>Brand colors <span class="hint">hex codes if you have them</span></label><input data-f="Brand colours" placeholder="#0A3D2E and gold"></div>
+      <div><label>Font, if you have one</label><input data-f="Font" placeholder="whatever's on our trucks"></div>
+    </div>
+    <label>Tone of voice</label>
+    <select data-f="Tone"><option value="">Choose…</option><option>Friendly and casual</option><option>Professional and straight</option><option>Premium / high-end</option><option>Match my current website</option></select>
+    <div class="callout"><b>Logo:</b> attach it to the email when you send this — highest resolution you have, ideally PNG with a transparent background. A photo of your truck door works if that's all there is.</div>
+  </div>
+
+  <!-- 10 -->
+  <div class="sec">
+    <h2>10. Anything else</h2>
+    <label>What would make this a win for you? <span class="hint">and anything we haven't asked about</span></label>
+    <textarea data-f="Notes" placeholder="Stop losing December leads to whoever quotes first. Also we hate quoting apartment complexes — can it turn those away?"></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-solid" id="copyBtn" type="button">Copy everything</button>
+    <button class="btn btn-out" id="dlBtn" type="button">Download as file</button>
+    <button class="btn-quiet" id="clearBtn" type="button">Clear form</button>
+    <span class="saved" id="savedAt">Not saved yet</span>
+  </div>
+
+</div>
+
+<footer>
+  QUESTIONS? <a href="mailto:hello@quotal.org">HELLO@QUOTAL.ORG</a>
+</footer>
+
+<script>
+(function () {
+  var KEY = 'quotal-intake-v1';
+  var fields = [].slice.call(document.querySelectorAll('[data-f]'));
+
+  function stamp() {
+    var d = new Date();
+    document.getElementById('savedAt').textContent =
+      'Saved ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function save() {
+    var out = {};
+    fields.forEach(function (el) { if (el.value.trim()) out[el.dataset.f] = el.value.trim(); });
+    try { localStorage.setItem(KEY, JSON.stringify(out)); stamp(); } catch (e) {}
+  }
+
+  function restore() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+      fields.forEach(function (el) { if (saved[el.dataset.f]) el.value = saved[el.dataset.f]; });
+      if (Object.keys(saved).length) stamp();
+    } catch (e) {}
+  }
+
+  /* Grouped plain-text export — readable enough to work straight from. */
+  function build() {
+    var groups = [], current = null;
+    document.querySelectorAll('.sec').forEach(function (sec) {
+      current = { title: sec.querySelector('h2').textContent.trim(), rows: [] };
+      sec.querySelectorAll('[data-f]').forEach(function (el) {
+        if (el.value.trim()) current.rows.push(el.dataset.f + ': ' + el.value.trim());
+      });
+      if (current.rows.length) groups.push(current);
+    });
+    var name = (document.querySelector('[data-f="Company"]') || {}).value || 'Unnamed company';
+    var txt = 'QUOTAL BUILD INTAKE — ' + name.trim() +
+              '\nSubmitted ' + new Date().toLocaleDateString() + '\n';
+    groups.forEach(function (g) {
+      txt += '\n' + g.title.toUpperCase() + '\n' + g.rows.map(function (r) { return '  ' + r; }).join('\n') + '\n';
+    });
+    txt += '\n(Blank fields mean "we don\'t offer this".)\n';
+    return txt;
+  }
+
+  fields.forEach(function (el) { el.addEventListener('input', save); });
+
+  document.getElementById('copyBtn').addEventListener('click', function () {
+    var self = this, txt = build();
+    function done() { self.textContent = 'Copied ✓'; setTimeout(function () { self.textContent = 'Copy everything'; }, 1800); }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(txt).then(done).catch(fallback);
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = txt; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) { alert('Copy failed — use Download instead.'); }
+      document.body.removeChild(ta);
+    }
+  });
+
+  document.getElementById('dlBtn').addEventListener('click', function () {
+    var name = ((document.querySelector('[data-f="Company"]') || {}).value || 'quotal-intake')
+      .trim().replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+    var blob = new Blob([build()], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name + '-pricing.txt';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', function () {
+    if (!confirm('Clear everything you\'ve typed? This can\'t be undone.')) return;
+    fields.forEach(function (el) { el.value = ''; });
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    document.getElementById('savedAt').textContent = 'Cleared';
+  });
+
+  restore();
+})();
+</script>
+
+</body>
+</html>

@@ -35,6 +35,11 @@
 /thank-you/*
   X-Robots-Tag: noindex, nofollow, noarchive, noai, noimageai
 
+# build intake — sent by link to customers who've already said yes,
+# never a landing page and never indexed
+/intake/*
+  X-Robots-Tag: noindex, nofollow, noarchive, noai, noimageai
+
 # tracking script — no reason for a crawler to hold a copy
 /track/*
   X-Robots-Tag: noindex, nofollow, noarchive, noai, noimageai
