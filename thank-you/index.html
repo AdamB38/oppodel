@@ -39,6 +39,14 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
 .ty .lede { font-size: 1.0625rem; color: var(--bone); opacity: .84; line-height: 1.7; margin-top: 1.2rem; max-width: 54ch; }
 .ty .lede b { color: var(--bone); }
 
+/* Booking is the highest-intent moment on the site — it gets the
+   primary button, above the what-happens-next list. */
+.book { margin-top: 2.25rem; }
+.book .eyebrow { display: block; margin-bottom: .55rem; }
+.book h2 { font-size: 1.4rem; margin-bottom: .6rem; }
+.book p { font-size: .9375rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.3rem; }
+.book .btn { width: 100%; max-width: 20rem; }
+
 .jump { margin-top: 2.5rem; }
 .jump h2 { font-size: 1.25rem; margin-bottom: .7rem; }
 .jump p { font-size: .9375rem; color: var(--muted); line-height: 1.7; }
@@ -71,14 +79,18 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
   <h1>That's in.</h1>
   <p class="lede">I'll personally go through your website and your numbers, then email you from <b>hello@quotal.org</b> within one business day &mdash; worth checking spam the first time, then it'll behave.</p>
 
+  <div class="card book">
+    <span class="eyebrow">Next step</span>
+    <h2>Pick a time that suits you</h2>
+    <p>30 minutes on Google Meet, shown in your own timezone. Grab a slot now and you skip the back&#8209;and&#8209;forth entirely &mdash; or wait for my email, whichever you prefer.</p>
+    <a class="btn btn-solid" id="bookBtn" href="https://calendly.com/hello-quotal/30min" target="_blank" rel="noopener">Book your time &rarr;</a>
+  </div>
+
   <ul class="steps-mini">
-    <li><span class="n">01</span><span>I review your site, your services and your metro before I reply &mdash; the email you get is written for your business, not a template.</span></li>
-    <li><span class="n">02</span><span>We book 25 minutes on Google Meet, at a time shown in your timezone.</span></li>
+    <li><span class="n">01</span><span>Before we talk I go through your website, your services and your metro &mdash; so we're not starting from scratch.</span></li>
+    <li><span class="n">02</span><span>Thirty minutes on Google Meet, camera optional, whenever suits you.</span></li>
     <li><span class="n">03</span><span>A straight conversation about your business and whether this is worth building for it &mdash; no slides, and if it isn't a fit I'll say so.</span></li>
   </ul>
-
-  <!-- When the booking link exists, it goes right here as the primary CTA:
-       <a class="btn btn-solid" href="CALENDLY_URL">Book your time now</a> -->
 
   <div class="card jump">
     <h2>While you wait</h2>
@@ -87,13 +99,22 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
   </div>
 
   <script>
-  /* Same DemoClick event as the pricing page, so demo interest is
-     counted wherever the click happens. */
+  /* Demo interest, counted wherever the click happens. */
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href*="oppodel-xmas.pages.dev"]');
     if (!a) return;
     if (window.fbq) fbq('trackCustom', 'DemoClick');
     if (window.OQ && OQ.event) OQ.event('demo-click');
+  });
+
+  /* Self-booking is the strongest intent signal in the funnel — a lead
+     who books themselves needs no chasing. Tracked separately so the
+     split between self-bookers and wait-for-the-email leads is visible. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="calendly.com"]');
+    if (!a) return;
+    if (window.fbq) fbq('trackCustom', 'BookingClick');
+    if (window.OQ && OQ.event) OQ.event('booking-click');
   });
   </script>
 
