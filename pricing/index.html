@@ -724,10 +724,15 @@ var VSL = { type: 'youtube', id: 'EJKc-09czHU', poster: 'https://i.ytimg.com/vi/
     var body = new URLSearchParams();
     body.append('form-name', 'founders');
     Object.keys(data).forEach(function (k) { body.append(k, data[k] || ''); });
+    /* keepalive matters here: succeed() navigates to /thank-you/ as soon as
+       the WORKER answers, and a normal in-flight fetch is killed by that
+       navigation. That race is why the 11 Aug lead reached the worker but
+       never reached Netlify. keepalive lets the request outlive the page. */
     return fetch('/pricing/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: body.toString()
+      body: body.toString(),
+      keepalive: true
     });
   }
 

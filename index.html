@@ -626,6 +626,13 @@
         <form name="founders" method="POST" action="/thank-you/" data-netlify="true" data-netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="founders" />
           <input type="hidden" name="source" value="homepage" />
+          <!-- Netlify builds ONE schema per form name, and it built the
+               "founders" schema from this page. Without these two declared
+               here, metro and installs — sent by the pricing form and the
+               two best qualifying fields we have — are silently dropped.
+               Left empty: this form doesn't ask for them. -->
+          <input type="hidden" name="metro" value="" />
+          <input type="hidden" name="installs" value="" />
 
           <p class="hp" aria-hidden="true">
             <label>Leave this field empty: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
