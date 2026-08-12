@@ -519,8 +519,8 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
               </div>
 
               <div class="field">
-                <label for="f-company">Company <span class="opt">(optional)</span></label>
-                <input id="f-company" name="company" type="text" autocomplete="organization" />
+                <label for="f-company">Company</label>
+                <input id="f-company" name="company" type="text" autocomplete="organization" required />
               </div>
 
               <div class="field">
@@ -546,6 +546,38 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
                   <option>1&ndash;25</option>
                   <option>25&ndash;100</option>
                   <option>100+</option>
+                </select>
+              </div>
+
+              <!-- Qualifying fields. "website" is safe as a name here: the
+                   worker's honeypot is body.website at the TOP level, and
+                   these post nested under body.form. Facebook page is
+                   explicitly allowed — most leads so far have no website,
+                   and that is a reason to buy, not a disqualifier. -->
+              <div class="field">
+                <label for="f-website">Website or Facebook page</label>
+                <input id="f-website" name="website" type="text" placeholder="facebook.com/yourbusiness &mdash; or 'none'" autocomplete="url" required />
+              </div>
+
+              <div class="field">
+                <label for="f-jobvalue">Average job value last season</label>
+                <select id="f-jobvalue" name="jobvalue" required onchange="this.classList.toggle('filled', this.value !== '')">
+                  <option value="" disabled selected>Select one</option>
+                  <option>Under $500</option>
+                  <option>$500&ndash;$1,000</option>
+                  <option>$1,000&ndash;$2,000</option>
+                  <option>$2,000+</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="f-timing">When would you want this live?</label>
+                <select id="f-timing" name="timing" required onchange="this.classList.toggle('filled', this.value !== '')">
+                  <option value="" disabled selected>Select one</option>
+                  <option>As soon as possible</option>
+                  <option>Before October</option>
+                  <option>Sometime this season</option>
+                  <option>Just looking ahead to next year</option>
                 </select>
               </div>
 
@@ -779,7 +811,10 @@ var VSL = { type: 'youtube', id: 'EJKc-09czHU', poster: 'https://i.ytimg.com/vi/
       email:    document.getElementById('f-email').value.trim(),
       phone:    document.getElementById('f-phone').value.trim(),
       metro:    document.getElementById('f-metro').value.trim(),
-      installs: document.getElementById('f-installs').value
+      installs: document.getElementById('f-installs').value,
+      website:  document.getElementById('f-website').value.trim(),
+      jobvalue: document.getElementById('f-jobvalue').value,
+      timing:   document.getElementById('f-timing').value
     };
 
     if (!data.name)  { showError('Please add your first name.'); document.getElementById('f-name').focus(); return; }
@@ -790,8 +825,12 @@ var VSL = { type: 'youtube', id: 'EJKc-09czHU', poster: 'https://i.ytimg.com/vi/
     if (digits.length === 11 && digits.charAt(0) === '1') digits = digits.slice(1);
     if (digits.length !== 10) { showError('Please enter a 10-digit US phone number, e.g. (214) 555-0134 — the fastest replies go by text.'); document.getElementById('f-phone').focus(); return; }
     data.phone = '+1' + digits;
+    if (!data.company) { showError('Please add your company name.'); document.getElementById('f-company').focus(); return; }
     if (!data.metro) { showError('Please add your metro or city.'); document.getElementById('f-metro').focus(); return; }
     if (!data.installs) { showError('Please choose how many installs you did last season.'); document.getElementById('f-installs').focus(); return; }
+    if (!data.website) { showError('Please add your website or Facebook page — if you have neither, just put "none".'); document.getElementById('f-website').focus(); return; }
+    if (!data.jobvalue) { showError('Please choose your average job value.'); document.getElementById('f-jobvalue').focus(); return; }
+    if (!data.timing) { showError('Please choose when you\'d want this live.'); document.getElementById('f-timing').focus(); return; }
 
     btn.disabled = true;
     btn.textContent = 'Sending…';
