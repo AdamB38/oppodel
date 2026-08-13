@@ -34,32 +34,123 @@ fbq('track', 'Lead');
 src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></noscript>
 
 <style>
-.ty { max-width: 640px; margin: 0 auto; padding: clamp(3.5rem, 10vw, 6.5rem) 1.5rem 4rem; }
-.ty h1 { font-size: clamp(2.2rem, 6vw, 3.2rem); margin-top: 1rem; }
-.ty .lede { font-size: 1.0625rem; color: var(--bone); opacity: .84; line-height: 1.7; margin-top: 1.2rem; max-width: 54ch; }
-.ty .lede b { color: var(--bone); }
+.ty { max-width: 1180px; margin: 0 auto; padding: clamp(1.75rem, 4vw, 2.75rem) 1.5rem 4rem; }
 
-/* Booking is the highest-intent moment on the site — it gets the
-   primary button, above the what-happens-next list. */
-.book { margin-top: 2.25rem; }
-.book .eyebrow { display: block; margin-bottom: .55rem; }
-.book h2 { font-size: 1.4rem; margin-bottom: .6rem; }
-.book p { font-size: .9375rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.3rem; }
-.book .btn { width: 100%; max-width: 20rem; }
-
-.jump { margin-top: 2.5rem; }
-.jump h2 { font-size: 1.25rem; margin-bottom: .7rem; }
-.jump p { font-size: .9375rem; color: var(--muted); line-height: 1.7; }
-.jump .btn { margin-top: 1.25rem; }
-
-.steps-mini { list-style: none; margin-top: 2.25rem; border-top: 1px solid var(--line); }
-.steps-mini li {
-  display: flex; gap: .85rem; font-size: .9375rem; color: var(--bone); opacity: .84;
-  line-height: 1.6; padding: .8rem 0; border-bottom: 1px solid var(--line);
+.ty-head { max-width: 46rem; }
+.ty-head h1 { font-size: clamp(2.1rem, 5.5vw, 3rem); margin-top: .55rem; }
+.ty-head .lede {
+  font-size: 1.0625rem; color: var(--bone); opacity: .84;
+  line-height: 1.65; margin-top: .75rem; max-width: 56ch;
 }
-.steps-mini .n { font-family: var(--f-mono); font-size: .75rem; color: var(--amber-text); flex-shrink: 0; padding-top: .15rem; }
+.ty-head .lede b { color: var(--bone); opacity: 1; }
 
-.back { margin-top: 2.25rem; }
+/* Two columns on desktop: the video explains, the calendar converts.
+   Calendar gets the wider track — an internally-scrolling Calendly is
+   the fastest way to lose a booking. */
+.ty-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 2.25rem;
+  align-items: start;
+}
+@media (min-width: 980px) {
+  .ty-grid { grid-template-columns: 1fr 1.05fr; gap: 2.5rem; }
+}
+
+.col h2 { font-size: 1.25rem; margin-bottom: .5rem; }
+.col .sub { font-size: .9375rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+
+/* ---------- video ---------- */
+
+.vid {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--bone);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.vid iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* Autoplay is only ever allowed MUTED — no browser will start a video
+   with sound at a first-time visitor. So it starts muted and this bar
+   offers the sound, and seeks back to 0 so nobody misses the opening. */
+.soundbar {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  font-family: var(--f-body);
+  font-size: .9375rem;
+  font-weight: 600;
+  color: var(--on-accent);
+  background: var(--filament);
+  border: 0;
+  border-top: 1px solid var(--filament);
+  padding: .8rem 1rem;
+  cursor: pointer;
+  width: 100%;
+  transition: opacity .18s;
+}
+.soundbar:hover { opacity: .9; }
+.soundbar[hidden] { display: none; }
+.soundbar svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* A 16:9 video is only ~184px tall at phone width — the full label
+   wraps to two lines and eats a third of the frame. Drop the tail. */
+@media (max-width: 620px) {
+  .soundbar { font-size: .875rem; padding: .6rem .75rem; }
+  .sb-long { display: none; }
+}
+
+.vid-note {
+  font-family: var(--f-mono);
+  font-size: .75rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: .7rem;
+}
+
+/* ---------- calendar ---------- */
+
+.cal-card { padding: 1.4rem 1.25rem 1.25rem; }
+.calendly-inline-widget {
+  min-width: 280px;
+  height: 940px;
+  border-radius: var(--r);
+  overflow: hidden;
+}
+@media (min-width: 980px) {
+  .calendly-inline-widget { height: 720px; }
+}
+
+.cal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .9rem;
+}
+
+.cal-note {
+  font-size: .875rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: .8rem;
+}
+.cal-note b { color: var(--bone); font-weight: 600; }
+
+/* ---------- demo, below the fold on purpose ---------- */
+
+.demo { margin-top: 2.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
+.demo .txt { flex: 1 1 22rem; }
+.demo h3 { font-size: 1.0625rem; margin-bottom: .35rem; }
+.demo p { font-size: .9375rem; color: var(--muted); line-height: 1.65; }
+
+.back { margin-top: 2.5rem; }
 .back a { font-family: var(--f-mono); font-size: .8125rem; letter-spacing: .1em; color: var(--muted); text-decoration: none; }
 .back a:hover { color: var(--bone); }
 </style>
@@ -75,51 +166,149 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
 </header>
 
 <main class="ty">
-  <span class="eyebrow">Request received</span>
-  <h1>That's in.</h1>
-  <p class="lede">I'll personally go through your website and your numbers, then email you from <b>hello@quotal.org</b> within one business day &mdash; worth checking spam the first time, then it'll behave.</p>
 
-  <div class="card book">
-    <span class="eyebrow">Next step</span>
-    <h2>Pick a time that suits you</h2>
-    <p>30 minutes on Google Meet, shown in your own timezone. Grab a slot now and you skip the back&#8209;and&#8209;forth entirely &mdash; or wait for my email, whichever you prefer.</p>
-    <a class="btn btn-solid" id="bookBtn" href="https://calendly.com/hello-quotal/30min" target="_blank" rel="noopener">Book your time &rarr;</a>
+  <div class="ty-head">
+    <span class="eyebrow">Request received</span>
+    <h1>That's in.</h1>
+    <p class="lede">Watch the two&#8209;minute video, then <b>grab a time that suits you</b> &mdash; and we skip the back&#8209;and&#8209;forth entirely.</p>
   </div>
 
-  <ul class="steps-mini">
-    <li><span class="n">01</span><span>Before we talk I go through your website, your services and your metro &mdash; so we're not starting from scratch.</span></li>
-    <li><span class="n">02</span><span>Thirty minutes on Google Meet, camera optional, whenever suits you.</span></li>
-    <li><span class="n">03</span><span>A straight conversation about your business and whether this is worth building for it &mdash; no slides, and if it isn't a fit I'll say so.</span></li>
-  </ul>
+  <div class="ty-grid">
 
-  <div class="card jump">
-    <h2>While you wait</h2>
-    <p>Try the tool your customers would use. Upload a photo of a house, draw the lights, and watch the price build live &mdash; it's the fastest way to see what we'd be talking about.</p>
-    <a class="btn btn-solid" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
+    <!-- ---------- video ---------- -->
+    <section class="col">
+      <h2>Watch this first</h2>
+      <p class="sub">Two minutes. What it does, why it isn't generic software, and exactly how a build runs.</p>
+
+      <div class="vid">
+        <div id="ytPlayer"></div>
+        <button class="soundbar" id="soundBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a7 7 0 0 1 0 14.14"></path>
+          </svg>
+          Tap for sound<span class="sb-long"> &mdash; starts from the beginning</span>
+        </button>
+      </div>
+      <p class="vid-note">Adam &middot; Founder, Quotal</p>
+    </section>
+
+    <!-- ---------- calendar ---------- -->
+    <section class="col">
+      <h2>Pick a time</h2>
+      <p class="sub">Shown in your timezone, not mine. Grab whatever suits &mdash; evenings and weekends included.</p>
+
+      <div class="card cal-card">
+        <div class="calendly-inline-widget"
+             data-url="https://calendly.com/hello-quotal/30min?hide_gdpr_banner=1&background_color=ffffff&text_color=111a24&primary_color=8a5510"></div>
+      </div>
+
+      <div class="cal-meta">
+        <span class="chip quiet">30 minutes</span>
+        <span class="chip quiet">Google Meet</span>
+        <span class="chip">One build per metro</span>
+      </div>
+      <p class="cal-note">Bring a rough idea of last season and what you'd charge for a standard job &mdash; that's the whole of the prep. You'll leave the call knowing what your own pricing looks like built out. I'll email you from <b>hello@quotal.org</b> either way; worth checking spam the first time.</p>
+    </section>
+
   </div>
 
-  <script>
-  /* Demo interest, counted wherever the click happens. */
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href*="oppodel-xmas.pages.dev"]');
-    if (!a) return;
-    if (window.fbq) fbq('trackCustom', 'DemoClick');
-    if (window.OQ && OQ.event) OQ.event('demo-click');
-  });
-
-  /* Self-booking is the strongest intent signal in the funnel — a lead
-     who books themselves needs no chasing. Tracked separately so the
-     split between self-bookers and wait-for-the-email leads is visible. */
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href*="calendly.com"]');
-    if (!a) return;
-    if (window.fbq) fbq('trackCustom', 'BookingClick');
-    if (window.OQ && OQ.event) OQ.event('booking-click');
-  });
-  </script>
+  <!-- ---------- demo ---------- -->
+  <div class="card demo">
+    <div class="txt">
+      <h3>While you're deciding</h3>
+      <p>Try the tool your customers would use &mdash; upload a photo of a house, draw the lights, watch the price build live.</p>
+    </div>
+    <a class="btn btn-out" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
+  </div>
 
   <p class="back"><a href="/">&larr; BACK TO QUOTAL.ORG</a></p>
 </main>
+
+<!-- ---------- Calendly ---------- -->
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+<!-- ---------- YouTube ---------- -->
+<script src="https://www.youtube.com/iframe_api" async></script>
+<script>
+(function () {
+  var player = null;
+  var btn = document.getElementById('soundBtn');
+  var poll = null;
+
+  /* The IFrame API calls this on the window by name — it can't be scoped. */
+  window.onYouTubeIframeAPIReady = function () {
+    player = new YT.Player('ytPlayer', {
+      videoId: '8cYTTJxndv0',
+      playerVars: {
+        autoplay: 1,
+        mute: 1,          /* required — muted is the only autoplay any browser allows */
+        playsinline: 1,   /* without this iOS takes the video fullscreen */
+        rel: 0,
+        modestbranding: 1
+      },
+      events: {
+        onReady: function (e) { e.target.mute(); e.target.playVideo(); watchMute(); },
+        onStateChange: function (e) {
+          if (e.data === YT.PlayerState.PLAYING && window.fbq) fbq('trackCustom', 'VSLPlay');
+          if (e.data === YT.PlayerState.ENDED && window.fbq)   fbq('trackCustom', 'VSLComplete');
+        }
+      }
+    });
+  };
+
+  /* They may unmute with YouTube's own control instead of the bar —
+     drop the bar when that happens so it isn't sat there lying. */
+  function watchMute() {
+    poll = setInterval(function () {
+      if (!player || typeof player.isMuted !== 'function') return;
+      if (!player.isMuted()) { btn.hidden = true; clearInterval(poll); }
+    }, 600);
+  }
+
+  btn.addEventListener('click', function () {
+    if (!player) return;
+    player.unMute();
+    player.seekTo(0, true);   /* back to the top — the opening is the whole point */
+    player.playVideo();
+    btn.hidden = true;
+    if (poll) clearInterval(poll);
+    if (window.fbq) fbq('trackCustom', 'VSLUnmute');
+    if (window.OQ && OQ.event) OQ.event('vsl-unmute');
+  });
+})();
+</script>
+
+<!-- ---------- tracking ---------- -->
+<script>
+/* Calendly is an iframe now, so a click handler can't see inside it.
+   It posts its own events to the parent instead — and these are better
+   than the old link-click signal, because event_scheduled is an actual
+   booking rather than an intention to look at the calendar. */
+window.addEventListener('message', function (e) {
+  if (e.origin !== 'https://calendly.com') return;
+  if (!e.data || typeof e.data.event !== 'string') return;
+
+  if (e.data.event === 'calendly.date_and_time_selected') {
+    if (window.fbq) fbq('trackCustom', 'BookingStarted');
+    if (window.OQ && OQ.event) OQ.event('booking-started');
+  }
+
+  if (e.data.event === 'calendly.event_scheduled') {
+    if (window.fbq) { fbq('trackCustom', 'BookingComplete'); fbq('track', 'Schedule'); }
+    if (window.OQ && OQ.event) OQ.event('booking-complete');
+  }
+});
+
+/* Demo interest, wherever the click happens. */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href*="oppodel-xmas.pages.dev"]');
+  if (!a) return;
+  if (window.fbq) fbq('trackCustom', 'DemoClick');
+  if (window.OQ && OQ.event) OQ.event('demo-click');
+});
+</script>
 
 </body>
 </html>
