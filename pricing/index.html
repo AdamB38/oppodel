@@ -267,6 +267,23 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 .field { margin-bottom: .95rem; }
 .formcard .btn { width: 100%; margin-top: .55rem; }
 .reassure { font-size: .875rem; color: var(--muted); text-align: center; margin-top: 1rem; line-height: 1.6; }
+
+/* "or grab a call" — secondary on purpose. Quieter than the submit button
+   so it never competes with the form, which is what captures the people
+   who are interested but not ready to book a call today. */
+.orcall { margin-top: 1.5rem; text-align: center; }
+.orcall-rule { display: block; position: relative; margin-bottom: 1.1rem; }
+.orcall-rule::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%;
+  border-top: 1px solid var(--line);
+}
+.orcall-rule span {
+  position: relative; background: var(--surface); padding: 0 .8rem;
+  font-family: var(--f-mono); font-size: .75rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.orcall .btn-out { width: 100%; }
+.orcall-sub { font-size: .8125rem; color: var(--muted); margin-top: .7rem; line-height: 1.6; }
 .done h3 { font-size: 1.4rem; margin-bottom: .9rem; }
 .done p  { font-size: .9375rem; color: var(--muted); line-height: 1.75; }
 
@@ -585,6 +602,24 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
               <p class="reassure">By submitting, you agree we may contact you about your enquiry by email, phone or text. Reply STOP to any text to opt out. We'll come back to you within one business day &mdash; no spam, unsubscribe anytime.</p>
               <div class="err" id="formErr"></div>
             </form>
+
+            <!-- Secondary path for the rare visitor who is ready right now.
+                 Deliberately BELOW the form and visually quieter: the form is
+                 the primary capture because it still gets a contact detail
+                 out of everyone who is not ready to book a call today. -->
+            <div class="orcall">
+              <span class="orcall-rule"><span>or</span></span>
+              <!-- Popup widget, not an inline calendar: an embedded month view
+                   would dominate the card and pull people away from the form,
+                   which is what still captures everyone not ready to book
+                   today. Kept as a real <a href> so it works unchanged if
+                   Calendly's script is blocked or slow — the JS below only
+                   upgrades it to a modal. -->
+              <a class="btn btn-out" id="grabCall"
+                 href="https://calendly.com/hello-quotal/30min"
+                 target="_blank" rel="noopener">See my calendar &amp; book a time</a>
+              <p class="orcall-sub">15&#8209;20 minutes, phone or video &mdash; whichever suits. Times shown in your timezone.</p>
+            </div>
           </div>
 
           <!-- The inline success state was replaced by the /thank-you/
@@ -869,6 +904,44 @@ document.addEventListener('click', function (e) {
   if (window.fbq) fbq('trackCustom', 'DemoClick');
   if (window.OQ && OQ.event) OQ.event('demo-click');
 });
+
+/* Booking clicks straight off the landing page, tracked separately from the
+   thank-you page ones. Without this split there is no way to tell whether
+   the "or grab a call" route is earning its place or just distracting from
+   the form — which is the only reason to keep it. */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href*="calendly.com"]');
+  if (!a) return;
+  if (window.fbq) fbq('trackCustom', 'BookingClick', { source: 'pricing-page' });
+  if (window.OQ && OQ.event) OQ.event('booking-click-pricing');
+});
+
+/* Calendly popup — a progressive upgrade, never a dependency. The button is
+   a real link to the booking page, so an ad-blocker, a slow CDN or a script
+   error leaves a working booking route rather than a dead button. We only
+   preventDefault once Calendly has actually loaded. */
+(function () {
+  var CAL = 'https://calendly.com/hello-quotal/30min';
+  var btn = document.getElementById('grabCall');
+  if (!btn) return;
+
+  var css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = 'https://assets.calendly.com/assets/external/widget.css';
+  document.head.appendChild(css);
+
+  var s = document.createElement('script');
+  s.src = 'https://assets.calendly.com/assets/external/widget.js';
+  s.async = true;
+  s.onerror = function () { /* leave the plain link doing its job */ };
+  document.head.appendChild(s);
+
+  btn.addEventListener('click', function (e) {
+    if (!window.Calendly || !window.Calendly.initPopupWidget) return;  /* fall through to href */
+    e.preventDefault();
+    window.Calendly.initPopupWidget({ url: CAL });
+  });
+})();
 </script>
 
 </body>
