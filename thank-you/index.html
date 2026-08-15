@@ -128,6 +128,20 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
   .calendly-inline-widget { height: 720px; }
 }
 
+/* Matches the offer block on the pricing page — same tint, same job.
+   It sits in the calendar column because booking is what triggers the
+   build, so the offer belongs next to the thing that acts on it. */
+.offer-line {
+  padding: .9rem 1.1rem;
+  margin-bottom: .8rem;
+  background: var(--filament-tint);
+  border-radius: var(--r);
+  font-size: .9375rem;
+  line-height: 1.6;
+  color: var(--bone);
+}
+.offer-line b { font-weight: 700; }
+
 .cal-meta {
   display: flex;
   flex-wrap: wrap;
@@ -170,7 +184,7 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
   <div class="ty-head">
     <span class="eyebrow">Request received</span>
     <h1>That's in.</h1>
-    <p class="lede">Watch the two&#8209;minute video, then <b>grab a time that suits you</b> &mdash; and we skip the back&#8209;and&#8209;forth entirely.</p>
+    <p class="lede">Watch the two&#8209;minute video, then <b>grab a time</b> &mdash; booking is what starts your build, so the sooner you pick a slot the sooner it's in front of you.</p>
   </div>
 
   <div class="ty-grid">
@@ -197,7 +211,8 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
     <!-- ---------- calendar ---------- -->
     <section class="col">
       <h2>Pick a time</h2>
-      <p class="sub">Shown in your timezone, not mine. Grab whatever suits &mdash; evenings and weekends included.</p>
+      <p class="offer-line"><b>Book a slot and I'll build you a working one before we speak.</b> Your branding, your services, a house in your metro &mdash; so on the call you're looking at your own business rather than somebody else's example. Free either way.</p>
+      <p class="sub">Shown in your timezone, not mine &mdash; evenings and weekends included.</p>
 
       <div class="card cal-card">
         <div class="calendly-inline-widget"
@@ -205,11 +220,11 @@ src="https://www.facebook.com/tr?id=1205377681780627&ev=PageView&noscript=1"/></
       </div>
 
       <div class="cal-meta">
-        <span class="chip quiet">30 minutes</span>
+        <span class="chip quiet">15 minutes</span>
         <span class="chip quiet">Google Meet</span>
         <span class="chip">One build per metro</span>
       </div>
-      <p class="cal-note">Bring a rough idea of last season and what you'd charge for a standard job &mdash; that's the whole of the prep. You'll leave the call knowing what your own pricing looks like built out. I'll email you from <b>hello@quotal.org</b> either way; worth checking spam the first time.</p>
+      <p class="cal-note">Bring a rough idea of last season and what you'd charge for a standard job &mdash; that's the whole of the prep. I'll email you from <b>hello@quotal.org</b> either way; worth checking spam the first time.</p>
     </section>
 
   </div>
