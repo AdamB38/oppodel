@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quotal — Instant estimate systems for Christmas light installers</title>
-  <meta name="description" content="Quotal builds bespoke instant-estimate systems for Christmas light and exterior cleaning contractors — priced live, on your own site, around the clock." />
+  <title>Quotal — Traffic to booked jobs for Christmas light installers</title>
+  <meta name="description" content="The whole thing built and switched on: your pricing worked out, a bespoke quoting system on your own site, and the ads running to your metro. Built by someone who has run these businesses." />
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://quotal.org/" />
-  <meta property="og:title" content="Quotal — Instant estimate systems for Christmas light installers" />
-  <meta property="og:description" content="Homeowners get a price the moment they want one. You get a pre-measured lead instead of a drive-out." />
+  <meta property="og:title" content="Quotal — Traffic to booked jobs for Christmas light installers" />
+  <meta property="og:description" content="Your pricing worked out, the quoting system built, the ads switched on. Homeowners price their own house and book — you turn up and install." />
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -168,6 +168,79 @@
 
     @media (max-width: 560px) {
       .hero-actions .btn { width: 100%; }
+    }
+
+    /* ---------- the chain — traffic to booked job ----------
+       Three stages with the middle one raised, because that is the thing
+       being built. The outer two are what makes it earn: without traffic
+       it quotes nobody, and without the booking it is just a calculator. */
+    .chain {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 0 1rem;
+      align-items: stretch;
+    }
+
+    .link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--line);
+      padding-top: 2.5rem;
+    }
+    .link svg { width: 22px; height: 22px; display: block; }
+
+    .stage {
+      display: flex;
+      flex-direction: column;
+      border-top: 3px solid var(--line);
+      padding: 1.4rem 0 0;
+    }
+
+    .stage-lab {
+      font-family: var(--f-mono);
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .8rem;
+    }
+    .stage h3 { font-size: 1.15rem; margin-bottom: .55rem; }
+    .stage p { font-size: .9375rem; line-height: 1.7; color: var(--muted); }
+
+    /* the middle one — the product */
+    .stage.built {
+      border-top-color: var(--filament);
+      background: var(--surface);
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      border-radius: 0 0 var(--r-lg) var(--r-lg);
+      padding: 1.4rem 1.5rem 1.6rem;
+      margin-top: -.55rem;
+      box-shadow: 0 1px 2px rgba(17,26,36,.04), 0 12px 30px rgba(17,26,36,.07);
+    }
+    .stage.built .stage-lab { color: var(--amber-text); }
+    .stage.built h3 { font-size: 1.3rem; }
+    .stage.built p { color: var(--bone); opacity: .84; }
+
+    .chain-note {
+      margin-top: 2.5rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid var(--line);
+      font-family: var(--f-display);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      font-size: 1.2rem;
+      line-height: 1.45;
+      max-width: 640px;
+    }
+
+    @media (max-width: 860px) {
+      .chain { grid-template-columns: 1fr; gap: 0; }
+      .link { padding: .9rem 0; transform: rotate(90deg); }
+      .stage.built { margin-top: 0; }
     }
 
     /* ---------- section shell ---------- */
@@ -427,25 +500,25 @@
     </svg>
     <span class="topbar-word">Quotal</span>
     <nav class="topbar-nav">
-      <a href="#work">What we build</a>
+      <a href="#chain">End to end</a>
+      <a href="#work">What I build</a>
       <a href="#how">How it works</a>
-      <a href="/pricing">Pricing</a>
-      <a class="cta" href="#book">Book a demo</a>
+      <a class="cta" href="#book">Build mine free &rarr;</a>
     </nav>
   </header>
 
   <section class="hero">
     <div class="wrap hero-in">
       <div class="hero-col">
-        <span class="eyebrow">Instant estimates for Christmas light pros</span>
+        <span class="eyebrow">End to end, for Christmas light installers</span>
         <h1 class="headline">Book jobs while you <em class="lit">sleep</em></h1>
-        <p class="sub">A quoting system built around your pricing, running on your own website. Homeowners get a price the moment they want one &mdash; you get a pre-measured lead instead of another drive-out.</p>
+        <p class="sub">The whole thing, built and switched on: your pricing worked out properly, a quoting system built round it on your own site, and the ads written and running to your metro. Homeowners find you, price their own house, and book &mdash; you turn up and install.</p>
 
         <div class="hero-actions">
-          <a class="btn btn-solid" href="#book">Book a demo</a>
-          <a class="btn btn-out" href="/pricing">See pricing</a>
+          <a class="btn btn-solid" href="#book">Build mine free &rarr;</a>
+          <a class="btn btn-out" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
         </div>
-        <p class="hero-note">20 minutes on Google Meet &mdash; no obligation.</p>
+        <p class="hero-note">15 minutes on Google Meet &mdash; and I'll have a version built on your business before we speak.</p>
       </div>
 
       <div class="hero-media">
@@ -455,12 +528,57 @@
     </div>
   </section>
 
+  <!-- ---------- the chain: what "end to end" actually means ---------- -->
+  <section class="sec" id="chain">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow quiet">End to end</span>
+        <h2>From nobody knowing you exist, to a job in the calendar</h2>
+        <p>Three stages. Most people will sell you the middle one and leave you to sort out the other two yourself.</p>
+      </div>
+
+      <div class="chain">
+        <div class="stage">
+          <span class="stage-lab">Stage 01 &mdash; Traffic</span>
+          <h3>Homeowners find you</h3>
+          <p>Ads written for your metro and switched on for you &mdash; creative, targeting, tracking, the lot. You don't write them and you don't set them up.</p>
+        </div>
+
+        <div class="link" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12h15" /><path d="M13 6l6 6-6 6" />
+          </svg>
+        </div>
+
+        <div class="stage built">
+          <span class="stage-lab">Stage 02 &mdash; The build</span>
+          <h3>They price their own house</h3>
+          <p>A photo, a few taps to draw their runs, and your price builds as they draw it. Ninety seconds, at any hour, on your branding and your rates. <strong>This is the part I build from scratch.</strong></p>
+        </div>
+
+        <div class="link" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12h15" /><path d="M13 6l6 6-6 6" />
+          </svg>
+        </div>
+
+        <div class="stage">
+          <span class="stage-lab">Stage 03 &mdash; Booked</span>
+          <h3>It lands as a job</h3>
+          <p>Deposit taken, slot picked, and the quote plus a photo of their house in your inbox or your CRM. No drive-out, no quote written at ten at night.</p>
+        </div>
+      </div>
+
+      <p class="chain-note">A quote form with no traffic quotes nobody. Ads pointing at a phone number lose to whoever answers first. It only works as one piece &mdash; so I build it as one piece.</p>
+    </div>
+  </section>
+
   <section class="sec band" id="work">
     <div class="wrap">
       <div class="sec-head">
-        <span class="eyebrow quiet">What we build</span>
-        <h2>One system, shaped to your trade</h2>
-        <p>The same measuring and pricing core sits behind both of these. What changes is how the property gets sized, what you sell, and what the homeowner sees at the end. The screens below are our demo skin &mdash; <strong>every build is made from scratch in your branding, on your rates.</strong></p>
+        <span class="eyebrow quiet">What I build</span>
+        <h2>The system at the centre of it</h2>
+        <p>Stage two, up close. The same measuring and pricing core sits behind both trades &mdash; what changes is how the property gets sized, what you sell, and what the homeowner sees at the end. The screens below are my demo skin: <strong>every build is made from scratch in your branding, on your rates.</strong></p>
       </div>
 
       <!-- Christmas lights — the lead product -->
@@ -511,7 +629,7 @@
       <div class="sec-head">
         <span class="eyebrow quiet">How it works</span>
         <h2>The calculator is the easy part</h2>
-        <p>Anyone can put a form on a website. The value is in the pricing model behind it and the plumbing around it.</p>
+        <p>Anyone can put a form on a website. The value is in the pricing model behind it, the plumbing around it, and getting people through the door in the first place.</p>
       </div>
 
       <div class="flow">
@@ -523,8 +641,8 @@
           </div>
           <div class="fstep-c">
             <span class="fstep-num">01</span>
-            <span class="fstep-t">Learn your pricing</span>
-            <p class="fstep-d">Real jobs, real margins, and the calls you make without thinking.</p>
+            <span class="fstep-t">Work out your pricing</span>
+            <p class="fstep-d">Real jobs, real margins, your packages and the upsells you forget to offer.</p>
           </div>
         </div>
 
@@ -564,7 +682,7 @@
           <div class="fstep-c">
             <span class="fstep-num">04</span>
             <span class="fstep-t">Test it on past jobs</span>
-            <p class="fstep-d">The numbers land where you'd have put them, or we fix the model.</p>
+            <p class="fstep-d">The numbers land where you'd have put them, or I fix the model.</p>
           </div>
         </div>
 
@@ -576,8 +694,8 @@
           </div>
           <div class="fstep-c">
             <span class="fstep-num">05</span>
-            <span class="fstep-t">Keep it earning</span>
-            <p class="fstep-d">We tune it against what converts, instead of walking away.</p>
+            <span class="fstep-t">Switch the ads on</span>
+            <p class="fstep-d">Creative written, pixel firing, first campaign live to your service area.</p>
           </div>
         </div>
       </div>
@@ -585,8 +703,12 @@
       <div class="includes">
         <div class="inc-title"><span class="eyebrow quiet">Every build includes</span></div>
         <div class="chips">
+          <span class="inc-chip">Pricing breakdown workshop</span>
           <span class="inc-chip">Bespoke design in your branding</span>
           <span class="inc-chip">Your pricing model, not a template</span>
+          <span class="inc-chip">Three ad creatives for your metro</span>
+          <span class="inc-chip">Meta pixel installed &amp; tested</span>
+          <span class="inc-chip">First campaign built &amp; launched</span>
           <span class="inc-chip">CRM &amp; inbox integration</span>
           <span class="inc-chip">Payment links &amp; deposits</span>
           <span class="inc-chip">Booking &amp; route scheduling</span>
@@ -600,25 +722,25 @@
         </div>
       </div>
 
-      <p class="how-close">You're not buying a calculator. You're buying your pricing, written down properly &mdash; and someone who keeps it earning.</p>
+      <p class="how-close">You're not buying a calculator. You're buying your pricing written down properly, a system built round it, and the ads pointed at it &mdash; built and switched on by someone who has run both of these businesses.</p>
     </div>
   </section>
 
   <section class="sec band closing" id="book">
     <div class="wrap closing-in">
       <div class="closing-copy">
-        <span class="eyebrow">Book a demo</span>
-        <h2 class="closing-t">See what this would look like for your business</h2>
-        <p class="closing-s">Tell us what you do and how you price it. We'll walk you through a live quote flow running on your own numbers, then give you a straight answer on whether it's worth building &mdash; no obligation either way.</p>
+        <span class="eyebrow">Next step</span>
+        <h2 class="closing-t">I'll build you a working one before you decide anything</h2>
+        <p class="closing-s">Tell me what you do and roughly how you price it. I'll put together a working version on your branding, your services and a house in your metro, and walk you through it &mdash; so you're judging your own business rather than somebody else's example. Free either way.</p>
         <ul class="book-pts">
-          <li>20 minutes on Google Meet, camera optional</li>
-          <li>We send the Meet link by email, with a couple of times to pick from</li>
-          <li>No slides and no pressure &mdash; if it isn't a fit we'll say so</li>
+          <li>15 minutes on Google Meet, camera optional</li>
+          <li>Your demo is built before we speak, not during</li>
+          <li>No slides and no pressure &mdash; if it isn't a fit I'll say so</li>
         </ul>
       </div>
 
       <div class="card form-card" id="enquire">
-        <div class="form-title"><span class="eyebrow quiet">Request your demo</span></div>
+        <div class="form-title"><span class="eyebrow quiet">Get your free demo built</span></div>
         <!-- Same Netlify form name as the pricing page on purpose: every
              lead on the site lands in ONE bucket ("founders"), so the
              email/SMS automation triggered on it covers all of them.
@@ -670,13 +792,13 @@
 
           <label class="check">
             <input type="checkbox" name="consent" value="yes" required />
-            <span>I'm a real person running a real business, and I'm happy to be contacted about this demo.</span>
+            <span>I'm a real person running a real business, and I'm happy to be contacted about this.</span>
           </label>
 
-          <button class="btn btn-solid" type="submit">Book my demo</button>
+          <button class="btn btn-solid" type="submit">Build mine free &rarr;</button>
         </form>
-        <p class="form-warn" id="form-warn" hidden>That went through a little too quickly for us &mdash; give it a moment and press the button again.</p>
-        <p class="form-note">We'll email you a Google Meet link within one business day.</p>
+        <p class="form-warn" id="form-warn" hidden>That went through a little too quickly &mdash; give it a moment and press the button again.</p>
+        <p class="form-note">No card, no commitment. I'll come back to you within one business day.</p>
       </div>
     </div>
   </section>
