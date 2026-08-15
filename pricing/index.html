@@ -51,6 +51,27 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   line-height: 1.7;
 }
 
+/* The offer, set apart from the description so it reads as the ask rather
+   than more prose. Filament as a tint — it is a fill colour, never text. */
+.offer-line {
+  max-width: 620px;
+  margin: 1.6rem auto 0;
+  padding: 1rem 1.35rem;
+  background: var(--filament-tint);
+  border-radius: var(--r);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--bone);
+}
+.offer-line b { font-weight: 700; }
+
+/* At phone width this runs to six lines and takes a quarter of the
+   screen. Every clause earns its place, so shrink the type rather
+   than cut the offer. */
+@media (max-width: 560px) {
+  .offer-line { font-size: .9375rem; padding: .9rem 1.1rem; margin-top: 1.3rem; }
+}
+
 .btns { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; margin-top: 2.1rem; }
 .note { font-family: var(--f-mono); font-size: .8125rem; letter-spacing: .1em; color: var(--muted); margin-top: 1.2rem; }
 
@@ -160,7 +181,9 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 /* template vs yours — the argument the setup fee has to win.
    "Yours" is marked by the Surface fill and a Filament label, never a
    Filament border: the spec rules that out. */
-.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+/* margin-bottom was spacing this off the four-up grid that used to sit
+   below it. That grid is gone, so the section's own padding is enough. */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 
 .cmp { border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.7rem 1.6rem 1.8rem; }
 .cmp.yours { background: var(--surface); }
@@ -325,13 +348,15 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   <section class="hero">
     <span class="eyebrow">For Christmas light installers &middot; 2026 season</span>
     <h1>Your customers design, measure &amp; price their own display. You just install.</h1>
-    <p class="sub">Quotal builds you your own instant-estimate calculator &mdash; your rates, your packages, your branding, on your domain. Homeowners upload a photo of their home, draw the lights they want, and see their price with an HD preview of their own house lit up. You get a pre-measured, pre-qualified lead instead of another drive-out.</p>
+    <p class="sub">Homeowners upload a photo of their home, draw the lights they want, and see their price with an HD preview of their own house lit up. You get a pre-measured, pre-qualified lead instead of another drive-out &mdash; on your rates, your packages, your branding, on your own domain.</p>
+
+    <p class="offer-line"><b>Before you decide anything, I'll build you a working one.</b> Your branding, your services, a house in your metro &mdash; then I walk you through it on a call. Free, so you're judging your own business rather than somebody else's example.</p>
 
     <div class="btns">
-      <a class="btn btn-solid" href="#pricing">See pricing &rarr;</a>
+      <a class="btn btn-solid" href="#pricing">Build mine free &rarr;</a>
       <a class="btn btn-out" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
     </div>
-    <p class="note">$1,199 TO BUILD IT &middot; $59/MONTH MAINTENANCE</p>
+    <p class="note">FREE TO SEE YOURS &middot; $1,199 TO BUILD IT &middot; $59/MONTH AFTER</p>
 
     <div class="vsl">
       <div class="vsl-frame" id="vslFrame"></div>
@@ -382,7 +407,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
     <div class="sec-head">
       <span class="eyebrow">Built for you, not configured by you</span>
       <h2>Nobody hands you a login and wishes you luck</h2>
-      <p>The screenshot above is a demo skin. What goes on your site is a calculator built around your business from scratch &mdash; and the $1,199 setup is that build. It isn't a signup fee.</p>
+      <p>The screenshot above is a demo skin. What goes on your site is built around your business from scratch &mdash; and that's what the build fee is. It isn't a signup fee.</p>
     </div>
 
     <div class="compare">
@@ -390,7 +415,6 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
         <div class="cmp-h"><span class="eyebrow quiet">An off-the-shelf tool</span></div>
         <ul>
           <li>Their pricing logic, with your rates poured into it</li>
-          <li>Their question set, whether it fits how you sell or not</li>
           <li>A widget that looks like a widget on your page</li>
           <li>You configure it, on your own time, in August</li>
           <li>Something's wrong? File a ticket and join the queue</li>
@@ -400,78 +424,11 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
         <div class="cmp-h"><span class="eyebrow">Yours, built</span></div>
         <ul>
           <li>Your pricing logic, written down the way you actually quote</li>
-          <li>Only the questions you'd ask on a driveway</li>
           <li>Your branding, your domain &mdash; indistinguishable from in-house</li>
-          <li>We build it with you and hand it over working</li>
+          <li>I build it with you and hand it over working</li>
           <li>Something's wrong? Tell the person who built it</li>
         </ul>
       </div>
-    </div>
-
-    <div class="bespoke-grid">
-      <div class="bes">
-        <h4>Your pricing</h4>
-        <p>Your rates &mdash; per foot, per run, per bulb type &mdash; plus your minimums, your story and access loading, and your seasons-after price. Every figure it quotes is one you set.</p>
-      </div>
-      <div class="bes">
-        <h4>Your branding</h4>
-        <p>Your logo, your colors, your fonts, on your own domain. A customer shouldn't be able to tell it wasn't built in-house.</p>
-      </div>
-      <div class="bes">
-        <h4>Your services</h4>
-        <p>Only what you actually sell. C9s, minis, icicles, wreaths, garland, trees, permanent lighting &mdash; the list is yours, and so is what you leave off it.</p>
-      </div>
-      <div class="bes">
-        <h4>Your changes</h4>
-        <p>Want a question added, a package renamed, a run type pulled, the wording softened? Say so and it gets changed. You're not filing a ticket into a queue.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ---------- what lands in your inbox ---------- -->
-<section class="band">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow quiet">The lead</span>
-      <h2>What lands in your inbox</h2>
-    </div>
-
-    <div class="cols">
-      <div class="card col">
-        <h3>Pre-measured</h3>
-        <p>Every run's footage, drawn on their photo &mdash; run by run, calibrated off their door and roofline.</p>
-      </div>
-      <div class="card col">
-        <h3>Pre-qualified</h3>
-        <p>Install timing and property ownership answered before they ever see a price. Tire-kickers filter themselves out.</p>
-      </div>
-      <div class="card col">
-        <h3>Pre-sold</h3>
-        <p>They've already seen their own house lit up in HD. The render does the closing &mdash; you do the install.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ---------- who builds it — the credibility behind "bespoke" ---------- -->
-<section>
-  <div class="narrow">
-    <div class="sec-head">
-      <span class="eyebrow quiet">Who builds it</span>
-      <h2>Built by an installer, not a software company</h2>
-    </div>
-
-    <div class="builder">
-      <p>I've hung Christmas lights myself &mdash; <strong>enough ladder time to know the hard part isn't the install, it's everything before it.</strong> The driving. The measuring. The quotes that go quiet.</p>
-      <p>Since then I've built quoting systems for home-service businesses, and the same complaint came up every single time: too much of the week disappears into pricing jobs that were never going to book.</p>
-      <p>That's why these are built one at a time rather than sold as a template. Pricing a roofline isn't a form &mdash; it's the judgement calls you make without thinking, about access, about height, about which customers are worth the drive. <strong>Getting those into software takes someone who has made them on a ladder in November.</strong></p>
-
-      <ul class="builder-pts">
-        <li><span class="tick">&#10003;</span><span>Built in collaboration with real Christmas light installers</span></li>
-        <li><span class="tick">&#10003;</span><span>Designed to plug into your existing workflow, not replace your whole CRM</span></li>
-        <li><span class="tick">&#10003;</span><span>You deal with the person who builds it, start to finish</span></li>
-      </ul>
     </div>
   </div>
 </section>
@@ -519,8 +476,8 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       <div>
         <div class="card formcard">
           <div id="formWrap">
-            <h3>Start your build</h3>
-            <p class="lede">Takes 30 seconds. No card, no commitment.</p>
+            <h3>Get your free demo built</h3>
+            <p class="lede">Takes 30 seconds. I'll build a working version on your branding and your services, then walk you through it on a call. No card, no commitment.</p>
 
             <!-- The Netlify form name stays "founders" on purpose. It is a
                  dashboard label, never shown to a visitor, and renaming it
@@ -598,7 +555,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
                 </select>
               </div>
 
-              <button class="btn btn-solid" type="submit" id="submitBtn">Start my build &rarr;</button>
+              <button class="btn btn-solid" type="submit" id="submitBtn">Build mine free &rarr;</button>
               <p class="reassure">By submitting, you agree we may contact you about your enquiry by email, phone or text. Reply STOP to any text to opt out. We'll come back to you within one business day &mdash; no spam, unsubscribe anytime.</p>
               <div class="err" id="formErr"></div>
             </form>
@@ -618,7 +575,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
               <a class="btn btn-out" id="grabCall"
                  href="https://calendly.com/hello-quotal/30min"
                  target="_blank" rel="noopener">See my calendar &amp; book a time</a>
-              <p class="orcall-sub">15&#8209;20 minutes, phone or video &mdash; whichever suits. Times shown in your timezone.</p>
+              <p class="orcall-sub">30 minutes, phone or video &mdash; whichever suits. Times shown in your timezone.</p>
             </div>
           </div>
 
@@ -627,6 +584,53 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ---------- what lands in your inbox ---------- -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow quiet">The lead</span>
+      <h2>What lands in your inbox</h2>
+    </div>
+
+    <div class="cols">
+      <div class="card col">
+        <h3>Pre-measured</h3>
+        <p>Every run's footage, drawn on their photo &mdash; run by run, calibrated off their door and roofline.</p>
+      </div>
+      <div class="card col">
+        <h3>Pre-qualified</h3>
+        <p>Install timing and property ownership answered before they ever see a price. Tire-kickers filter themselves out.</p>
+      </div>
+      <div class="card col">
+        <h3>Pre-sold</h3>
+        <p>They've already seen their own house lit up in HD. The render does the closing &mdash; you do the install.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- who builds it — the credibility behind "bespoke" ---------- -->
+<section class="band">
+  <div class="narrow">
+    <div class="sec-head">
+      <span class="eyebrow quiet">Who builds it</span>
+      <h2>Built by an installer, not a software company</h2>
+    </div>
+
+    <div class="builder">
+      <p>I've hung Christmas lights myself &mdash; <strong>enough ladder time to know the hard part isn't the install, it's everything before it.</strong> The driving. The measuring. The quotes that go quiet.</p>
+      <p>Since then I've built quoting systems for home-service businesses, and the same complaint came up every single time: too much of the week disappears into pricing jobs that were never going to book.</p>
+      <p>That's why these are built one at a time rather than sold as a template. Pricing a roofline isn't a form &mdash; it's the judgement calls you make without thinking, about access, about height, about which customers are worth the drive. <strong>Getting those into software takes someone who has made them on a ladder in November.</strong></p>
+
+      <ul class="builder-pts">
+        <li><span class="tick">&#10003;</span><span>Built in collaboration with real Christmas light installers</span></li>
+        <li><span class="tick">&#10003;</span><span>Designed to plug into your existing workflow, not replace your whole CRM</span></li>
+        <li><span class="tick">&#10003;</span><span>You deal with the person who builds it, start to finish</span></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -808,7 +812,7 @@ var VSL = { type: 'youtube', id: 'EJKc-09czHU', poster: 'https://i.ytimg.com/vi/
     errBox.innerHTML = msg;
     errBox.classList.add('on');
     btn.disabled = false;
-    btn.textContent = 'Start my build →';
+    btn.textContent = 'Build mine free →';
   }
 
   function succeed() {
