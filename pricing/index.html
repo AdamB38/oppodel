@@ -380,6 +380,42 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 .done h3 { font-size: 1.4rem; margin-bottom: .9rem; }
 .done p  { font-size: .9375rem; color: var(--muted); line-height: 1.75; }
 
+/* ---------- full engagement — consulting & implementation ----------
+   Scope pillars, then a genuinely sequential process (numbered because it
+   is one), then who it's for. Sells the process, not a SKU. */
+.pillars { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.1rem; text-align: left; }
+.pillar { border-top: 1px solid var(--line); padding-top: .9rem; }
+.pillar h4 { font-size: 1rem; }
+.pillar p { font-size: .875rem; color: var(--muted); line-height: 1.6; margin-top: .4rem; }
+
+.phases {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; text-align: left;
+  margin-top: clamp(2rem, 4vw, 2.75rem); padding-top: clamp(1.5rem, 3vw, 2rem); border-top: 1px solid var(--line);
+}
+.phase { display: flex; flex-direction: column; gap: .3rem; }
+.phase .ph-n { font-family: var(--f-mono); font-size: .75rem; letter-spacing: .14em; color: var(--amber-text); }
+.phase b { font-family: var(--f-display); font-weight: 600; letter-spacing: -.02em; font-size: 1.05rem; color: var(--bone); }
+.phase .ph-d { font-size: .875rem; color: var(--muted); line-height: 1.55; }
+
+.eng-foot {
+  margin-top: clamp(2rem, 4vw, 2.75rem); padding-top: 1.6rem; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: 1fr auto; gap: 1.5rem 3rem; align-items: start; text-align: left;
+}
+.eng-for { font-size: .9375rem; color: var(--muted); line-height: 1.7; max-width: 48ch; }
+.eng-for b { color: var(--bone); font-weight: 600; }
+.eng-act { display: flex; flex-direction: column; gap: .8rem; align-items: flex-start; }
+.eng-terms { font-family: var(--f-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); line-height: 1.8; max-width: 24rem; }
+
+@media (max-width: 900px) {
+  .pillars, .phases { grid-template-columns: 1fr 1fr; }
+  .eng-foot { grid-template-columns: 1fr; }
+}
+@media (max-width: 540px) {
+  .pillars, .phases { grid-template-columns: 1fr; }
+  .eng-act { align-items: stretch; }
+  .eng-act .btn { width: 100%; }
+}
+
 /* ---------- faq — accordions, so 15 questions read as a list ---------- */
 .faq { max-width: 780px; margin: 0 auto; border-top: 1px solid var(--line); }
 .faq-item { border-bottom: 1px solid var(--line); }
@@ -770,8 +806,43 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   </div>
 </section>
 
+<!-- ---------- full engagement — consulting & implementation ---------- -->
+<section class="band" id="engagement">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow quiet">Beyond the build</span>
+      <h2>Consulting &amp; implementation, when you want the whole season done</h2>
+      <p>The four&#8209;part build is the fastest way in. Some businesses want more than a quoting system &mdash; the strategy, the brand, the traffic and the systems behind it, planned properly and built by the same person. That's an engagement, scoped to your business.</p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar"><h4>Strategy &amp; planning</h4><p>Your season mapped &mdash; offers, pricing, capacity, and the calendar that decides it.</p></div>
+      <div class="pillar"><h4>Brand &amp; offer</h4><p>How you look and what you sell, sharpened so the ads and the quote page pull the same way.</p></div>
+      <div class="pillar"><h4>Traffic</h4><p>Ads and content built to your metro &mdash; creative, targeting, tracking, and the plan for running them.</p></div>
+      <div class="pillar"><h4>Quoting &amp; follow&#8209;up</h4><p>The instant&#8209;quote system, the automated follow&#8209;up, and the booking flow behind it.</p></div>
+      <div class="pillar"><h4>Systems &amp; integrations</h4><p>Leads landing in your CRM, deposits taken, nothing falling between tools.</p></div>
+    </div>
+
+    <div class="phases">
+      <div class="phase"><span class="ph-n">01</span><b>Discovery</b><span class="ph-d">Your numbers, your season, and what's actually broken.</span></div>
+      <div class="phase"><span class="ph-n">02</span><b>Plan</b><span class="ph-d">Scope, sequence, and what it costs &mdash; in writing.</span></div>
+      <div class="phase"><span class="ph-n">03</span><b>Build</b><span class="ph-d">Implemented in stages, each signed off before the next.</span></div>
+      <div class="phase"><span class="ph-n">04</span><b>Launch</b><span class="ph-d">Switched on and tested with real submissions, before the season.</span></div>
+      <div class="phase"><span class="ph-n">05</span><b>Handover</b><span class="ph-d">You run it, with a walkthrough of the things that matter.</span></div>
+    </div>
+
+    <div class="eng-foot">
+      <p class="eng-for"><b>For:</b> businesses past the one&#8209;truck stage that want the whole system done, not another tool. <b>Not for:</b> anyone who wants a login and to be left to it &mdash; that's the software, next year.</p>
+      <div class="eng-act">
+        <a class="btn btn-solid" href="#pricing">Start with a call &rarr;</a>
+        <p class="eng-terms">Scoped and quoted after discovery &middot; staged payments against delivered work &middot; one client per metro</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ---------- who builds it — the credibility behind "bespoke" ---------- -->
-<section class="band">
+<section>
   <div class="narrow">
     <div class="sec-head">
       <span class="eyebrow quiet">Who builds it</span>
@@ -794,7 +865,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 </section>
 
 <!-- ---------- faq ---------- -->
-<section>
+<section class="band">
   <div class="narrow">
     <div class="sec-head">
       <span class="eyebrow quiet">Honest answers</span>
@@ -824,7 +895,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       </details>
       <details class="faq-item">
         <summary><h3>Is the four-part build the only thing you do?</h3></summary>
-        <p>It's the starting engagement, and for most businesses it's the right one. Some want more than that &mdash; the branding, the content, the strategy, more systems built around the season. That's a bigger piece of work and a different conversation, so if that's you, say so on the call.</p>
+        <p>It's the fastest way in, and for most businesses it's the right one. If you want more than a quoting system &mdash; the strategy, the brand, the traffic and the systems behind the season, planned and built together &mdash; that's a full engagement, scoped after a discovery call. The process is laid out under <em>Beyond the build</em> above.</p>
       </details>
       <details class="faq-item">
         <summary><h3>There are tools at $50 a month. Why is this different?</h3></summary>
