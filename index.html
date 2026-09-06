@@ -385,6 +385,26 @@
       .route .act .btn { width: 100%; }
     }
 
+    /* ---------- case studies ----------
+       The Roofle "what pros are saying" row, minus the videos until there
+       are videos. Each poster is typographic for now; when a client video
+       exists it replaces the poster (same box, 4:5, play button on top)
+       and the status line becomes the headline result. Never a fabricated
+       number - the status says "in progress" until it isn't. */
+    .cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .case { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--ink); }
+    .case-poster {
+      aspect-ratio: 4 / 5; background: var(--bone);
+      display: flex; flex-direction: column; justify-content: flex-end; gap: .5rem;
+      padding: 1.5rem 1.4rem;
+    }
+    .cp-trade { font-family: var(--f-mono); font-size: .72rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--filament); }
+    .cp-name { font-family: var(--f-display); font-weight: 800; letter-spacing: -.04em; font-size: clamp(1.6rem, 2.6vw, 2.1rem); line-height: 1.02; color: var(--ink); }
+    .case-body { padding: 1rem 1.2rem 1.15rem; }
+    .case-chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .case-status { font-size: .875rem; color: var(--muted); margin-top: .8rem; line-height: 1.5; }
+    @media (max-width: 860px) { .cases { grid-template-columns: 1fr; } .case-poster { aspect-ratio: 16 / 9; } }
+
     /* ---------- who builds it ---------- */
     .who-txt p { font-size: 1rem; color: var(--muted); line-height: 1.8; max-width: 60ch; }
     .who-txt p + p { margin-top: 1.05rem; }
@@ -459,7 +479,7 @@
     <nav class="topbar-nav">
       <a href="#routes">Done for you</a>
       <a href="#routes">Software</a>
-      <a href="#chain">How it works</a>
+      <a href="#cases">Case studies</a>
       <a class="cta" href="#book">Learn more &rarr;</a>
     </nav>
   </header>
@@ -469,13 +489,13 @@
       <div class="hero-col">
         <span class="eyebrow">End to end, for US home-service businesses</span>
         <h1 class="headline">Book jobs while you <em class="lit">sleep</em></h1>
-        <p class="sub">The whole thing, built and switched on: your pricing worked out properly, a quoting system built round it on your own site, and the ads written and running to your metro. Homeowners find you, price their own house, and book &mdash; you turn up and install.</p>
+        <p class="sub">Your pricing worked out, a quoting system built on your site, the ads switched on. Homeowners price their own house and book &mdash; you turn up and install.</p>
 
         <div class="hero-actions">
           <a class="btn btn-solid" href="#book">Learn more &rarr;</a>
           <a class="btn btn-out" href="https://oppodel-xmas.pages.dev/" target="_blank" rel="noopener">Try the live demo</a>
         </div>
-        <p class="hero-note">15 minutes on Google Meet &mdash; and I'll have a version built on your business before we speak.</p>
+        <p class="hero-note">15 minutes on Google Meet. Your demo built before we speak.</p>
       </div>
 
       <div class="hero-media">
@@ -491,7 +511,7 @@
       <div class="sec-head">
         <span class="eyebrow quiet">Two ways to get there</span>
         <h2>Built for you this season, or run it yourself next year</h2>
-        <p>Same system either way &mdash; a homeowner prices their own house and books. The difference is who does the building.</p>
+        <p>Same system either way. The difference is who builds it.</p>
       </div>
 
       <div class="split-tabs" role="tablist" aria-label="Choose a route">
@@ -503,14 +523,13 @@
         <div class="route hi is-active" data-route="hi">
           <span class="eyebrow">Consulting &amp; implementation &middot; done for you</span>
           <h3>Your season, planned and built by the same person</h3>
-          <p>From the fastest way in &mdash; a two&#8209;week build of your quoting system, ads and launch &mdash; to a full engagement covering strategy, brand, traffic and the systems behind it. Scoped to your business, implemented in stages.</p>
+          <p>Your quoting system, ads and launch built for you &mdash; or the whole season, planned and implemented in stages.</p>
           <ul>
-            <li><b>Season Build</b> &mdash; pricing workshop, bespoke quote form, ad creatives, launch. About two weeks.</li>
-            <li><b>Full engagement</b> &mdash; discovery, plan, build, launch, handover, across the whole season</li>
-            <li>Project work, not a retainer &mdash; staged payments against delivered work, no deposit</li>
-            <li>One client per metro</li>
+            <li><b>Season Build</b> &mdash; quote form, ads, launch. About two weeks.</li>
+            <li><b>Full engagement</b> &mdash; discovery through handover</li>
+            <li>Project work &mdash; no retainer, no deposit, one client per metro</li>
           </ul>
-          <p class="meta">Scoped on a 15&#8209;minute call &middot; figures in writing before anything is due</p>
+          <p class="meta">Scoped on a 15&#8209;minute call &middot; figures in writing first</p>
           <div class="act">
             <a class="btn btn-solid" href="#book">Start with a call &rarr;</a>
             <a class="more" href="/pricing#engagement">How engagements run &rarr;</a>
@@ -520,12 +539,11 @@
         <div class="route lo" data-route="lo">
           <span class="eyebrow quiet">Do it yourself &middot; launching 2027</span>
           <h3>Quotal software</h3>
-          <p>A quote calculator built from a template for your trade, then shaped to your business &mdash; your services, your pricing rules, your branding &mdash; and embedded on your own site. Everything after the quote is built in.</p>
+          <p>A quote calculator from a template for your trade, shaped to your business, on your own site.</p>
           <ul>
-            <li>Trade templates &mdash; Christmas lights and exterior cleaning first, more as they're built</li>
-            <li>Your pricing rules, not a flat rate &mdash; tiers, add&#8209;ons, minimums, service radius</li>
-            <li>Lead inbox with automatic follow&#8209;up; deposits taken on booking</li>
-            <li>Syncs to Jobber or Housecall Pro; Meta ad tutorials included</li>
+            <li>Trade templates &mdash; lights and exterior cleaning first</li>
+            <li>Your pricing rules &mdash; tiers, add&#8209;ons, minimums</li>
+            <li>Follow&#8209;up, deposits, and sync to Jobber or Housecall Pro</li>
           </ul>
           <p class="meta">Self&#8209;serve monthly plan &middot; opening summer 2027</p>
           <div class="act">
@@ -546,14 +564,13 @@
       <div class="sec-head">
         <span class="eyebrow quiet">End to end</span>
         <h2>From nobody knowing you exist, to a job in the calendar</h2>
-        <p>Three stages. Most people will sell you the middle one and leave you to sort out the other two yourself.</p>
       </div>
 
       <div class="chain">
         <div class="stage">
           <span class="stage-lab">Stage 01 &mdash; Traffic</span>
           <h3>Homeowners find you</h3>
-          <p>Ads written for your metro and switched on for you &mdash; creative, targeting, tracking, the lot. You don't write them and you don't set them up.</p>
+          <p>Ads written for your metro and switched on for you.</p>
         </div>
 
         <div class="link" aria-hidden="true">
@@ -565,7 +582,7 @@
         <div class="stage built">
           <span class="stage-lab">Stage 02 &mdash; The build</span>
           <h3>They price their own house</h3>
-          <p>A photo, a few taps to draw their runs, and your price builds as they draw it. Ninety seconds, at any hour, on your branding and your rates. <strong>This is the part I build from scratch.</strong></p>
+          <p>A photo, a few taps, and your price builds as they draw. <strong>This is the part I build.</strong></p>
         </div>
 
         <div class="link" aria-hidden="true">
@@ -577,11 +594,10 @@
         <div class="stage">
           <span class="stage-lab">Stage 03 &mdash; Booked</span>
           <h3>It lands as a job</h3>
-          <p>Deposit taken, slot picked, and the quote plus a photo of their house in your inbox or your CRM. No drive-out, no quote written at ten at night.</p>
+          <p>Deposit taken, slot picked, quote and photo in your inbox or CRM.</p>
         </div>
       </div>
 
-      <p class="chain-note">A quote form with no traffic quotes nobody. Ads pointing at a phone number lose to whoever answers first. It only works as one piece &mdash; so I build it as one piece.</p>
     </div>
   </section>
 
@@ -590,7 +606,7 @@
       <div class="sec-head">
         <span class="eyebrow quiet">What I build</span>
         <h2>The system at the centre of it</h2>
-        <p>Stage two, up close. The same measuring and pricing core sits behind both trades &mdash; what changes is how the property gets sized, what you sell, and what the homeowner sees at the end. The screens below are my demo skin: <strong>every build is made from scratch in your branding, on your rates.</strong></p>
+        <p>The screens below are my demo skin &mdash; <strong>every build is made in your branding, on your rates.</strong></p>
       </div>
 
       <!-- Christmas lights — the lead product -->
@@ -601,11 +617,9 @@
           <ul class="svc-list">
             <li>Photo upload, measured off the front door</li>
             <li>Customer draws their own light runs</li>
-            <li>HD AI render of their house lit up</li>
-            <li>Live footage and price per run</li>
-            <li>Install timing and ownership captured first</li>
+            <li>HD render of their house lit up, priced per run</li>
           </ul>
-          <div class="svc-tag"><span class="chip">Our main product</span></div>
+          <div class="svc-tag"><span class="chip">The main build</span></div>
         </div>
         <div class="svc-visual">
           <img src="img/svc-christmas-lights.jpg" width="1400" height="560"
@@ -620,11 +634,9 @@
           <span class="svc-badge">Exterior Cleaning</span>
           <h3 class="svc-title">Every surface priced before you arrive</h3>
           <ul class="svc-list">
-            <li>Property type, stories and access in three taps</li>
+            <li>Property, stories and access in three taps</li>
             <li>Windows, gutters, roof, driveway and patio</li>
-            <li>Recurring routes and one-off jobs both handled</li>
-            <li>Bundle savings applied as they add services</li>
-            <li>Final price confirmed from photos before booking</li>
+            <li>Bundle savings as they add services</li>
           </ul>
         </div>
         <div class="svc-visual">
@@ -636,28 +648,61 @@
     </div>
   </section>
 
+  <!-- ---------- case studies: results land as they become real ---------- -->
+  <section class="sec band" id="cases">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow quiet">Case studies</span>
+        <h2>What's being built right now</h2>
+        <p>Three businesses, three different scopes. Results published when they're real &mdash; whatever they turn out to be.</p>
+      </div>
+      <div class="cases">
+        <article class="case">
+          <div class="case-poster"><span class="cp-trade">Exterior cleaning</span><span class="cp-name">MKM Exteriors</span></div>
+          <div class="case-body">
+            <div class="case-chips"><span class="chip quiet">Quoting software</span></div>
+            <p class="case-status">In progress &middot; results at season end</p>
+          </div>
+        </article>
+        <article class="case">
+          <div class="case-poster"><span class="cp-trade">Bike exchange</span><span class="cp-name">JamBikes</span></div>
+          <div class="case-body">
+            <div class="case-chips"><span class="chip quiet">Ads</span><span class="chip quiet">Branding</span><span class="chip quiet">Quoting tools</span></div>
+            <p class="case-status">In progress &middot; results as they land</p>
+          </div>
+        </article>
+        <article class="case">
+          <div class="case-poster"><span class="cp-trade">Landscaping &middot; Wales</span><span class="cp-name">Keltic Grounds</span></div>
+          <div class="case-body">
+            <div class="case-chips"><span class="chip quiet">Ads</span><span class="chip quiet">Quoting software</span><span class="chip quiet">Offer creation</span></div>
+            <p class="case-status">My own business &middot; results as they land</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- ---------- who builds it ---------- -->
-  <section class="sec band" id="who">
+  <section class="sec" id="who">
     <div class="narrow">
       <div class="sec-head">
         <span class="eyebrow quiet">Who builds it</span>
         <h2>Built by someone who's run these businesses, not a software company</h2>
       </div>
       <div class="who-txt">
-        <p>I'm Adam. I ran a Christmas light business &mdash; enough ladder time to know the hard part isn't the install, it's everything before it. I also ran a landscaping business, and <strong>I paid for the Meta ads that filled its calendar</strong>. Same radius targeting, same homeowner on the other end.</p>
-        <p>Now I build the whole machine for other people's businesses. If you found me through the videos, this is the same system &mdash; built properly, for yours. <strong>You deal with the person who builds it, start to finish</strong> &mdash; and if it isn't a fit, I'll tell you that on the call.</p>
+        <p>I'm Adam. I ran a Christmas light business and a landscaping business, and <strong>I paid for the Meta ads that filled its calendar</strong>. If you found me through the videos, this is the same system, built properly for yours &mdash; and <strong>you deal with the person who builds it, start to finish.</strong></p>
       </div>
       <!-- A photo of Adam (ladder / van / mid-install) becomes a left column
            here once it exists. Never a placeholder box in production. -->
     </div>
   </section>
 
-  <section class="sec closing" id="book">
+  <section class="sec band closing" id="book">
     <div class="wrap closing-in">
       <div class="closing-copy">
         <span class="eyebrow">Next step</span>
         <h2 class="closing-t">I'll build you a working one before you decide anything</h2>
-        <p class="closing-s">Tell me what you do and roughly how you price it. I'll put together a working version on your branding, your services and a house in your metro, and walk you through it &mdash; so you're judging your own business rather than somebody else's example. Free either way.</p>
+        <p class="closing-s">Tell me what you do and roughly how you price it. I'll build a working version on your branding and a house in your metro, then walk you through it. Free either way.</p>
         <ul class="book-pts">
           <li>15 minutes on Google Meet, camera optional</li>
           <li>Your demo is built before we speak, not during</li>
