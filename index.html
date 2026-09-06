@@ -209,10 +209,11 @@
     .stage h3 { font-size: 1.15rem; margin-bottom: .55rem; }
     .stage p { font-size: .9375rem; line-height: 1.7; color: var(--muted); }
 
-    /* the middle one — the product */
+    /* the middle one — the product. The chain sits on a white band, so
+       the raised stage takes the warm ground, per .band .card convention. */
     .stage.built {
       border-top-color: var(--filament);
-      background: var(--surface);
+      background: var(--ink);
       border-left: 1px solid var(--line);
       border-right: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
@@ -336,102 +337,58 @@
       .svc-visual img { border-radius: 0; border-left: 0; border-right: 0; }
     }
 
-    /* ---------- how it works ---------- */
-    .flow {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1.1rem;
+    /* ---------- the two routes ----------
+       Done-for-you beside the software, the way Roofr and Jobber pair
+       talk-to-sales with self-serve. Done-for-you is raised because it is
+       the live product; the software is a 2027 waitlist, no price shown.
+       Desktop: side by side. Mobile: a segmented toggle shows one at a time. */
+    .split-tabs { display: none; gap: .5rem; margin-bottom: 1.1rem; }
+    .split-tab {
+      flex: 1; font-family: var(--f-mono); font-size: .75rem; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+      padding: .75rem .5rem; cursor: pointer;
+    }
+    .split-tab.is-active { color: var(--on-accent); background: var(--filament); border-color: var(--filament); }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: stretch; }
+    .route {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--line); border-radius: var(--r-lg);
+      padding: clamp(1.6rem, 3vw, 2.2rem); background: var(--ink);
+    }
+    .route.hi {
+      background: var(--surface); border-top: 3px solid var(--filament);
+      box-shadow: 0 1px 2px rgba(17,26,36,.04), 0 12px 30px rgba(17,26,36,.07);
+    }
+    .route .eyebrow { display: block; }
+    .route h3 { font-size: clamp(1.35rem, 2.6vw, 1.7rem); margin-top: .8rem; }
+    .route > p { font-size: 1rem; color: var(--muted); line-height: 1.7; margin-top: .8rem; }
+    .route ul { list-style: none; margin-top: 1.1rem; }
+    .route li { position: relative; padding: .3rem 0 .3rem 1.25rem; font-size: .9375rem; color: var(--bone); opacity: .88; line-height: 1.55; }
+    .route li::before { content: ''; position: absolute; left: 0; top: .78em; width: 5px; height: 5px; border-radius: 50%; background: var(--filament); }
+    .route.lo li::before { background: var(--line); }
+    .route .meta {
+      font-family: var(--f-mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); line-height: 1.9; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line);
+    }
+    .route .act { margin-top: auto; padding-top: 1.3rem; display: flex; align-items: center; flex-wrap: wrap; gap: .8rem 1rem; }
+    .route .act .more { font-size: .875rem; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .route .act .more:hover { color: var(--bone); border-bottom-color: var(--bone); }
+
+    @media (max-width: 860px) {
+      .split { grid-template-columns: 1fr; }
+      .split-tabs { display: flex; }
+      .split[data-js] .route:not(.is-active) { display: none; }
+    }
+    @media (max-width: 560px) {
+      .route .act .btn { width: 100%; }
     }
 
-    .flow::before {
-      content: '';
-      position: absolute;
-      top: 28px;
-      left: 8%;
-      right: 8%;
-      height: 1px;
-      background: var(--line);
-    }
-
-    .fstep { position: relative; }
-
-    .fstep-ic {
-      position: relative;
-      z-index: 1;
-      width: 56px;
-      height: 56px;
-      margin: 0 auto 1.1rem;
-      border: 1px solid var(--line);
-      border-radius: 50%;
-      background: var(--ink);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .fstep-ic svg { width: 22px; height: 22px; }
-
-    .fstep-c { text-align: center; }
-
-    .fstep-num {
-      display: block;
-      font-family: var(--f-mono);
-      font-size: .75rem;
-      font-weight: 500;
-      letter-spacing: .18em;
-      color: var(--muted);
-      margin-bottom: .45rem;
-    }
-
-    .fstep-t {
-      display: block;
-      font-family: var(--f-display);
-      font-weight: 600;
-      letter-spacing: -.03em;
-      font-size: 1.05rem;
-      margin-bottom: .4rem;
-    }
-
-    .fstep-d { font-size: .9375rem; line-height: 1.6; color: var(--muted); }
-
-    @media (max-width: 900px) {
-      .flow { grid-template-columns: 1fr; gap: 1.35rem; }
-      .flow::before { top: 12px; bottom: 12px; left: 21px; right: auto; width: 1px; height: auto; }
-      .fstep { display: grid; grid-template-columns: 42px 1fr; gap: 1rem; align-items: start; }
-      .fstep-ic { width: 42px; height: 42px; margin: 0; }
-      .fstep-ic svg { width: 18px; height: 18px; }
-      .fstep-c { text-align: left; }
-      .fstep-num { display: inline; margin: 0 .55rem 0 0; }
-      .fstep-t { display: inline; }
-      .fstep-d { margin-top: .35rem; }
-    }
-
-    /* ---------- included ---------- */
-    .includes { margin-top: 3.5rem; }
-    .inc-title { margin-bottom: 1.1rem; }
-    .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
-
-    .inc-chip {
-      font-size: .9375rem;
-      color: var(--bone);
-      opacity: .86;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      padding: .5rem .9rem;
-    }
-
-    .how-close {
-      margin-top: 3rem;
-      padding-top: 1.9rem;
-      border-top: 1px solid var(--line);
-      font-family: var(--f-display);
-      font-weight: 600;
-      letter-spacing: -.03em;
-      font-size: 1.3rem;
-      line-height: 1.4;
-      max-width: 620px;
-    }
+    /* ---------- who builds it ---------- */
+    .who-txt p { font-size: 1rem; color: var(--muted); line-height: 1.8; max-width: 60ch; }
+    .who-txt p + p { margin-top: 1.05rem; }
+    .who-txt strong { color: var(--bone); font-weight: 600; }
 
     /* ---------- closing / booking ---------- */
     .closing { scroll-margin-top: 70px; }
@@ -500,9 +457,9 @@
     </svg>
     <span class="topbar-word">Quotal</span>
     <nav class="topbar-nav">
-      <a href="#chain">End to end</a>
-      <a href="#work">What I build</a>
-      <a href="#how">How it works</a>
+      <a href="#routes">Done for you</a>
+      <a href="#routes">Software</a>
+      <a href="#chain">How it works</a>
       <a class="cta" href="#book">Learn more &rarr;</a>
     </nav>
   </header>
@@ -510,7 +467,7 @@
   <section class="hero">
     <div class="wrap hero-in">
       <div class="hero-col">
-        <span class="eyebrow">End to end, for Christmas light installers</span>
+        <span class="eyebrow">End to end, for US home-service businesses</span>
         <h1 class="headline">Book jobs while you <em class="lit">sleep</em></h1>
         <p class="sub">The whole thing, built and switched on: your pricing worked out properly, a quoting system built round it on your own site, and the ads written and running to your metro. Homeowners find you, price their own house, and book &mdash; you turn up and install.</p>
 
@@ -528,8 +485,63 @@
     </div>
   </section>
 
+  <!-- ---------- two routes: done for you, or the software ---------- -->
+  <section class="sec" id="routes">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow quiet">Two ways to get there</span>
+        <h2>Built for you this season, or run it yourself next year</h2>
+        <p>Same system either way &mdash; a homeowner prices their own house and books. The difference is who does the building.</p>
+      </div>
+
+      <div class="split-tabs" role="tablist" aria-label="Choose a route">
+        <button class="split-tab is-active" type="button" data-route="hi">Done for you</button>
+        <button class="split-tab" type="button" data-route="lo">Do it yourself</button>
+      </div>
+
+      <div class="split" id="split">
+        <div class="route hi is-active" data-route="hi">
+          <span class="eyebrow">Done for you &middot; 2026 season</span>
+          <h3>Bespoke build, end to end</h3>
+          <p>I work out your pricing, build the quoting system on your own site, write the ads and switch them on. You turn up and install.</p>
+          <ul>
+            <li>Pricing workshop &mdash; your rates, packages and upsells, on paper</li>
+            <li>Bespoke quote form on your domain &mdash; the main build</li>
+            <li>Three ad creatives written for your metro</li>
+            <li>Pixel, tracking and first campaign live</li>
+          </ul>
+          <p class="meta">Figures on a 15&#8209;minute call &middot; one build per metro &middot; no retainer</p>
+          <div class="act">
+            <a class="btn btn-solid" href="#book">Get my free demo &rarr;</a>
+            <a class="more" href="/pricing">See the full breakdown &rarr;</a>
+          </div>
+        </div>
+
+        <div class="route lo" data-route="lo">
+          <span class="eyebrow quiet">Do it yourself &middot; launching 2027</span>
+          <h3>Quotal software</h3>
+          <p>Plug in your website, your services and your pricing. Get the same instant&#8209;quote page in your branding, and everything that turns a quote into a booked job.</p>
+          <ul>
+            <li>Instant&#8209;quote page, embedded on your site or hosted</li>
+            <li>Lead inbox with automatic follow&#8209;up to unbooked leads</li>
+            <li>Deposits taken on booking; sync to Jobber or Housecall Pro</li>
+            <li>Meta ad tutorials and templates included</li>
+          </ul>
+          <p class="meta">Self&#8209;serve monthly plan &middot; opening summer 2027</p>
+          <div class="act">
+            <!-- mailto for now: keeps waitlist signups out of the sales
+                 automations wired to the founders form. Swap for a proper
+                 form once the app has somewhere to put them. -->
+            <a class="btn btn-out" href="mailto:hello@quotal.org?subject=Quotal%20software%20waitlist">Join the waitlist &rarr;</a>
+            <span class="chip">Waitlist open</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ---------- the chain: what "end to end" actually means ---------- -->
-  <section class="sec" id="chain">
+  <section class="sec band" id="chain">
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow quiet">End to end</span>
@@ -573,7 +585,7 @@
     </div>
   </section>
 
-  <section class="sec band" id="work">
+  <section class="sec" id="work">
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow quiet">What I build</span>
@@ -624,109 +636,23 @@
     </div>
   </section>
 
-  <section class="sec" id="how">
-    <div class="wrap">
+  <!-- ---------- who builds it ---------- -->
+  <section class="sec band" id="who">
+    <div class="narrow">
       <div class="sec-head">
-        <span class="eyebrow quiet">How it works</span>
-        <h2>The calculator is the easy part</h2>
-        <p>Anyone can put a form on a website. The value is in the pricing model behind it, the plumbing around it, and getting people through the door in the first place.</p>
+        <span class="eyebrow quiet">Who builds it</span>
+        <h2>Built by someone who's run these businesses, not a software company</h2>
       </div>
-
-      <div class="flow">
-        <div class="fstep">
-          <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9.5 12h5M9.5 15.5h5M12 10.5v6.5"/>
-            </svg>
-          </div>
-          <div class="fstep-c">
-            <span class="fstep-num">01</span>
-            <span class="fstep-t">Work out your pricing</span>
-            <p class="fstep-d">Real jobs, real margins, your packages and the upsells you forget to offer.</p>
-          </div>
-        </div>
-
-        <div class="fstep">
-          <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>
-            </svg>
-          </div>
-          <div class="fstep-c">
-            <span class="fstep-num">02</span>
-            <span class="fstep-t">Build it as yours</span>
-            <p class="fstep-d">Your name, colors and services &mdash; not a widget bolted on.</p>
-          </div>
-        </div>
-
-        <div class="fstep">
-          <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/>
-              <path d="M8.4 6h7.2M7 8.2l3.7 7.6M17 8.2l-3.7 7.6"/>
-            </svg>
-          </div>
-          <div class="fstep-c">
-            <span class="fstep-num">03</span>
-            <span class="fstep-t">Plug it into your tools</span>
-            <p class="fstep-d">CRM, calendar, payments. Leads arrive as jobs, not emails.</p>
-          </div>
-        </div>
-
-        <div class="fstep">
-          <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="#B86F14"/>
-            </svg>
-          </div>
-          <div class="fstep-c">
-            <span class="fstep-num">04</span>
-            <span class="fstep-t">Test it on past jobs</span>
-            <p class="fstep-d">The numbers land where you'd have put them, or I fix the model.</p>
-          </div>
-        </div>
-
-        <div class="fstep">
-          <div class="fstep-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#B86F14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19h16"/><path d="M4 15.5l5-5 3.5 3.5L20 6"/><path d="M15.5 6H20v4.5"/>
-            </svg>
-          </div>
-          <div class="fstep-c">
-            <span class="fstep-num">05</span>
-            <span class="fstep-t">Switch the ads on</span>
-            <p class="fstep-d">Creative written, pixel firing, first campaign live to your service area.</p>
-          </div>
-        </div>
+      <div class="who-txt">
+        <p>I'm Adam. I ran a Christmas light business &mdash; enough ladder time to know the hard part isn't the install, it's everything before it. I also ran a landscaping business, and <strong>I paid for the Meta ads that filled its calendar</strong>. Same radius targeting, same homeowner on the other end.</p>
+        <p>Now I build the whole machine for other people's businesses. <strong>You deal with the person who builds it, start to finish</strong> &mdash; and if it isn't a fit for yours, I'll tell you that on the call.</p>
       </div>
-
-      <div class="includes">
-        <div class="inc-title"><span class="eyebrow quiet">Every build includes</span></div>
-        <div class="chips">
-          <span class="inc-chip">Pricing breakdown workshop</span>
-          <span class="inc-chip">Bespoke design in your branding</span>
-          <span class="inc-chip">Your pricing model, not a template</span>
-          <span class="inc-chip">Three ad creatives for your metro</span>
-          <span class="inc-chip">Meta pixel installed &amp; tested</span>
-          <span class="inc-chip">First campaign built &amp; launched</span>
-          <span class="inc-chip">CRM &amp; inbox integration</span>
-          <span class="inc-chip">Payment links &amp; deposits</span>
-          <span class="inc-chip">Booking &amp; route scheduling</span>
-          <span class="inc-chip">Instant lead alerts</span>
-          <span class="inc-chip">Abandoned-quote follow-up</span>
-          <span class="inc-chip">ZIP &amp; service-area checks</span>
-          <span class="inc-chip">Conversion tracking</span>
-          <span class="inc-chip">Mobile-first and fast</span>
-          <span class="inc-chip">Hosting &amp; support</span>
-          <span class="inc-chip">Pricing reviewed as you grow</span>
-        </div>
-      </div>
-
-      <p class="how-close">You're not buying a calculator. You're buying your pricing written down properly, a system built round it, and the ads pointed at it &mdash; built and switched on by someone who has run both of these businesses.</p>
+      <!-- A photo of Adam (ladder / van / mid-install) becomes a left column
+           here once it exists. Never a placeholder box in production. -->
     </div>
   </section>
 
-  <section class="sec band closing" id="book">
+  <section class="sec closing" id="book">
     <div class="wrap closing-in">
       <div class="closing-copy">
         <span class="eyebrow">Next step</span>
@@ -919,6 +845,25 @@
       frame.addEventListener('click', function play() {
         frame.removeEventListener('click', play);
         embed(false);
+      });
+    })();
+
+    /* Two routes — mobile only: the tabs show one route at a time. Desktop
+       shows both and hides the tabs. Without JS the attribute is never set,
+       so both routes simply stack; nothing hides behind a control that
+       can't run. */
+    (function () {
+      var split = document.getElementById('split');
+      if (!split) return;
+      split.setAttribute('data-js', '');
+      var tabs = document.querySelectorAll('.split-tab');
+      var routes = split.querySelectorAll('.route');
+      tabs.forEach(function (t) {
+        t.addEventListener('click', function () {
+          var key = t.getAttribute('data-route');
+          tabs.forEach(function (x) { x.classList.toggle('is-active', x === t); });
+          routes.forEach(function (r) { r.classList.toggle('is-active', r.getAttribute('data-route') === key); });
+        });
       });
     })();
   </script>
