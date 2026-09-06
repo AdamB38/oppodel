@@ -13,6 +13,11 @@ Rules specific to this repo:
 - **Two routes on the homepage** (decided 6 Sep 2026): done-for-you (raised, live product)
   beside the software. The software appears **only as a 2027 waitlist — never a price,
   never "buy now"** — so it can't undercut the bespoke pitch during a season.
+- **Traffic is warm** (decided 6 Sep 2026): visitors arrive from value content — short form,
+  case studies, tutorials — and already know Adam. Pages assume familiarity: explain less,
+  route to the two ways of working faster. Don't rewrite heroes for cold traffic.
+- **High end is project work.** No retainer on either tier; ongoing help is a post-project
+  conversation or the client moves onto the software.
 - No prices on the site; figures are given on the 15-minute call.
 - Brand: light theme only, tokens in `css/quotal.css`. Filament `#F2A93C` is fill-only —
   amber as text is `#8A5510`. Voice is "I", not "we". Never promise a cost per lead.
