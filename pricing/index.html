@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Quotal — Bespoke quoting system, ads and launch, built for your business</title>
-<meta name="description" content="A bespoke instant-estimate calculator, built around your business — your rates, your packages, your branding. Homeowners upload a photo, draw their lights, and see the price with an HD AI preview of their own house lit up." />
+<meta name="description" content="A bespoke quoting system built around your business — your rates, your packages, your branding — plus the ads that feed it, set up and launched for you. Customers price their own job on your site and book." />
 <meta name="robots" content="index,follow" />
 
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://quotal.org/pricing" />
 <meta property="og:title" content="Quotal — Bespoke quoting system, ads and launch, built for your business" />
-<meta property="og:description" content="A bespoke instant-estimate calculator, built around your business — your rates, your packages, your branding. Homeowners upload a photo, draw their lights, and see the price with an HD AI preview of their own house lit up." />
+<meta property="og:description" content="A bespoke quoting system built around your business — your rates, your packages, your branding — plus the ads that feed it, set up and launched for you. Customers price their own job on your site and book." />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -416,6 +416,25 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   .eng-act .btn { width: 100%; }
 }
 
+/* ---------- placeholder panels ----------
+   Live on purpose until the real assets land (see ASSETS.md). Styled as
+   intentional image panels with a spec label, not dashed boxes. Each is
+   replaced by an <img> or <video> of the same aspect ratio. */
+.ph {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: linear-gradient(135deg, #EFE9DC 0%, #DDD5C4 100%);
+  border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 1rem; overflow: hidden;
+}
+.ph span { font-family: var(--f-mono); font-size: .68rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); line-height: 1.7; }
+.ph-16x9 { aspect-ratio: 16 / 9; }
+.ph-3x2  { aspect-ratio: 3 / 2; }
+.ph-4x5  { aspect-ratio: 4 / 5; }
+.step .ph { margin-bottom: .25rem; }
+.part.main .ph { margin-top: 1.4rem; }
+.builder-grid { display: grid; grid-template-columns: 240px 1fr; gap: clamp(1.75rem, 4vw, 3rem); align-items: start; }
+@media (max-width: 720px) { .builder-grid { grid-template-columns: 1fr; } .builder-grid .ph { max-width: 280px; } }
+
 /* ---------- faq — accordions, so 15 questions read as a list ---------- */
 .faq { max-width: 780px; margin: 0 auto; border-top: 1px solid var(--line); }
 .faq-item { border-bottom: 1px solid var(--line); }
@@ -458,9 +477,9 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   <section class="hero">
     <span class="eyebrow">Work with me &middot; 2026 season</span>
     <h1>Everything you've watched me build, built for your business.</h1>
-    <p class="sub">Two ways in: a two&#8209;week <strong>Season Build</strong> of your quoting system, ads and launch, or a <strong>full engagement</strong> across the whole season. Either way your customers end up pricing their own house on your site &mdash; your rates, your packages, your branding &mdash; and you turn up and install.</p>
+    <p class="sub">Two ways in: a two&#8209;week <strong>Season Build</strong> of your quoting system, ads and launch, or a <strong>full engagement</strong> across the whole season. Either way your customers end up pricing their own job on your site &mdash; your rates, your packages, your branding &mdash; and you turn up and do the work.</p>
 
-    <p class="offer-line"><b>Before you decide anything, I'll build you a working one.</b> Your branding, your services, a house in your metro &mdash; then I walk you through it on a call. Free, so you're judging your own business rather than somebody else's example.</p>
+    <p class="offer-line"><b>Before you decide anything, I'll build you a working one.</b> Your branding, your services, your area &mdash; then I walk you through it on a call. Free, so you're judging your own business rather than somebody else's example.</p>
 
     <div class="btns">
       <a class="btn btn-solid" href="#pricing">Learn more &rarr;</a>
@@ -470,7 +489,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 
     <div class="vsl">
       <div class="vsl-frame" id="vslFrame"></div>
-      <p class="vsl-cap">Two minutes: how a homeowner goes from photo to priced, rendered quote.</p>
+      <p class="vsl-cap">Two minutes: how a customer goes from photo to priced quote.</p>
     </div>
   </section>
 </div>
@@ -485,24 +504,27 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 
     <div class="steps">
       <div class="card step">
+        <div class="ph ph-3x2"><span>Screenshot &middot; the customer's first screen &middot; 3:2</span></div>
         <span class="eyebrow quiet">Step 1</span>
-        <h3>They upload a photo &amp; tap their door</h3>
-        <p>The door is the tape measure &mdash; a standard door calibrates the whole photo. A satellite roof trace cross-checks the numbers.</p>
+        <h3>They tell it about the job</h3>
+        <p>A photo, an address, or a few taps &mdash; whatever your trade needs to price it. For lights, the front door calibrates the whole photo.</p>
       </div>
       <div class="card step">
+        <div class="ph ph-3x2"><span>Screenshot &middot; picking services, live price &middot; 3:2</span></div>
         <span class="eyebrow quiet">Step 2</span>
-        <h3>They draw their lights</h3>
-        <p>Roofline, windows, railings &mdash; every run they draw shows live footage and a live price, from your rates.</p>
+        <h3>They pick what they want</h3>
+        <p>Draw the light runs, size the driveway, choose the services &mdash; every choice shows a live price, from your rates.</p>
       </div>
       <div class="card step">
+        <div class="ph ph-3x2"><span>Screenshot &middot; details before the number &middot; 3:2</span></div>
         <span class="eyebrow quiet">Step 3</span>
-        <h3>They give details to see it lit up</h3>
-        <p>Name, phone, email, install timing, and whether they own the home &mdash; before the AI render generates. You never pay to impress a tire-kicker.</p>
+        <h3>They give details to see the price</h3>
+        <p>Name, phone, email and timing &mdash; before the final number or the render. You never pay to impress a tire&#8209;kicker.</p>
       </div>
     </div>
 
     <figure class="example">
-      <div class="example-tag"><span class="chip">Example &mdash; our demo skin, not your brand</span></div>
+      <div class="example-tag"><span class="chip">Example &mdash; the Christmas lights build, not your brand</span></div>
       <img src="/img/example-quote.jpg" width="1281" height="872" loading="lazy"
            alt="The quote tool showing a brick house rendered with Christmas lights beside an itemized list of seven lighting runs and a seasonal price" />
       <figcaption><b>Real output, demo skin</b> &mdash; seven runs the customer drew themselves: candy-cane C9s along the roofline, icicles across every window and the door surround. Priced live at $612 for the first season, $398 for seasons after. <b>Yours won't look like this &mdash; it'll look like your company:</b> your logo, your colors, your products and your rates, built from scratch.</figcaption>
@@ -573,19 +595,20 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
           <span class="chip">The main build</span>
         </div>
         <h3>Bespoke Quoting Form &amp; Setup</h3>
-        <p>Your pricing, turned into something a homeowner uses on their phone: they upload a photo of their own house, draw the lights they want, and watch your price build as they draw &mdash; then they book.</p>
+        <p>Your pricing, turned into something a customer uses on their phone: a photo or a few answers, and your price builds as they go &mdash; then they book.</p>
         <ul class="plist">
           <li><b>Built from scratch</b> &mdash; your branding, your services, your rates, on your own domain</li>
           <li>Not a widget bolted onto your page</li>
           <li>Wired into Jobber or Housecall Pro if you use one &mdash; straight to your inbox if you don't</li>
         </ul>
+        <div class="ph ph-16x9"><span>Video &middot; 8&ndash;12s demo loop, silent &middot; 16:9</span></div>
       </div>
 
       <div class="part">
         <div class="part-n">03</div>
         <div>
           <h3>Traffic Starter Kit</h3>
-          <p>Three homeowner-facing ad creatives, written against the pricing we mapped in step one &mdash; not templates with your logo dropped in.</p>
+          <p>Three customer-facing ad creatives, written against the pricing we mapped in step one &mdash; not templates with your logo dropped in.</p>
           <ul class="plist">
             <li>Hooks written for your metro, ready to run</li>
             <li>A plain walkthrough: what to set, and which two numbers to watch</li>
@@ -601,7 +624,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
                   <div class="fbad-meta">Sponsored &middot; your metro</div>
                 </div>
               </div>
-              <div class="fbad-copy">See what Christmas lights would cost on <i>your</i> house &mdash; no visit, no phone call. Takes about a minute.</div>
+              <div class="fbad-copy">See what it would cost at <i>your</i> place &mdash; no visit, no phone call. Takes about a minute.</div>
               <div class="fbad-img"><img src="/img/example-quote.jpg" alt="" loading="lazy" /></div>
               <div class="fbad-foot">
                 <div>
@@ -611,7 +634,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
                 <span class="fbad-cta">Get quote</span>
               </div>
             </div>
-            <p class="adnote"><b>The shape of it</b> &mdash; your name, your metro, a house lit up, and a button that gets a homeowner their price while you're on a roof. Three of these, written for your area, ready to run in your ad account.</p>
+            <p class="adnote"><b>The shape of it</b> &mdash; your name, your area, your work, and a button that gets a customer their price while you're on a job. Three of these, written for your area, ready to run in your ad account.</p>
           </div>
         </div>
       </div>
@@ -641,7 +664,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       <div class="offer">
         <span class="eyebrow quiet">Next step</span>
         <h2>I'll build you a working one before you decide anything</h2>
-        <p class="next-p">Fill this in and I'll put together a working version on your branding, your services and a house in your metro &mdash; then walk you through it on a 15&#8209;minute call. <b>You're judging your own business, not somebody else's example.</b> Free either way.</p>
+        <p class="next-p">Fill this in and I'll put together a working version on your branding, your services and your area &mdash; then walk you through it on a 15&#8209;minute call. <b>You're judging your own business, not somebody else's example.</b> Free either way.</p>
 
         <p class="costnote"><b>On cost</b> &mdash; one build fee for the whole thing, then a small monthly from go&#8209;live. No add&#8209;ons, no per&#8209;quote charges, no cut of your jobs, and no retainer. I'll give you the figures on the call, and you'll have full terms in writing before anything is due. Ad spend is yours and goes straight to Meta, not to me. <b>Nothing is charged for getting in touch.</b></p>
       </div>
@@ -767,7 +790,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 <section>
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow quiet">The lead</span>
+      <span class="eyebrow quiet">The lead &middot; lights example</span>
       <h2>What lands in your inbox</h2>
     </div>
 
@@ -797,9 +820,9 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       </div>
 
       <ul class="lead-pts">
-        <li><b>Pre-measured</b><span>Every run's footage, drawn on their photo and calibrated off their front door.</span></li>
-        <li><b>Pre-qualified</b><span>Install timing and ownership answered before they ever saw a price.</span></li>
-        <li><b>Pre-sold</b><span>They've already seen their own house lit up. You do the install, not the convincing.</span></li>
+        <li><b>Pre-measured</b><span>Every measurement they gave you &mdash; on their photo or in their answers &mdash; before you've left the yard.</span></li>
+        <li><b>Pre-qualified</b><span>Timing and the qualifying questions answered before they ever saw a price.</span></li>
+        <li><b>Pre-sold</b><span>They've seen the price and said yes. You do the work, not the convincing.</span></li>
         <li class="foot">Lands wherever you already look &mdash; inbox, text, Jobber or Housecall Pro.</li>
       </ul>
     </div>
@@ -849,17 +872,20 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       <h2>Built by an installer, not a software company</h2>
     </div>
 
+    <div class="builder-grid">
+      <div class="ph ph-4x5"><span>Photo &middot; Adam &mdash; ladder, van or mid&#8209;install &middot; 4:5</span></div>
     <div class="builder">
       <p>I've hung Christmas lights myself &mdash; <strong>enough ladder time to know the hard part isn't the install, it's everything before it.</strong> The driving. The measuring. The quotes that go quiet.</p>
       <p>I've also run a landscaping business, and <strong>I paid for the Meta ads that filled its calendar</strong> &mdash; same radius targeting, same homeowner on the other end, different trade. So the ads side of this isn't theory to me either.</p>
       <p>Since then I've built quoting systems for home-service businesses, and the same complaint came up every single time: too much of the week disappears into pricing jobs that were never going to book.</p>
-      <p>That's why these are built one at a time rather than sold as a template. Pricing a roofline isn't a form &mdash; it's the judgement calls you make without thinking, about access, about height, about which customers are worth the drive. <strong>Getting those into software takes someone who has made them on a ladder in November.</strong></p>
+      <p>That's why these are built one at a time rather than sold as a template. Pricing a job isn't a form &mdash; it's the judgement calls you make without thinking, about access, about size, about which customers are worth the drive. <strong>Getting those into software takes someone who has made them on a ladder in November.</strong></p>
 
       <ul class="builder-pts">
-        <li><span class="tick">&#10003;</span><span>Built in collaboration with real Christmas light installers</span></li>
+        <li><span class="tick">&#10003;</span><span>Built alongside real businesses &mdash; cleaners, installers, landscapers</span></li>
         <li><span class="tick">&#10003;</span><span>Designed to plug into your existing workflow, not replace your whole CRM</span></li>
         <li><span class="tick">&#10003;</span><span>You deal with the person who builds it, start to finish</span></li>
       </ul>
+    </div>
     </div>
   </div>
 </section>
@@ -869,7 +895,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
   <div class="narrow">
     <div class="sec-head">
       <span class="eyebrow quiet">Honest answers</span>
-      <h2>The questions installers actually ask</h2>
+      <h2>The questions people actually ask</h2>
     </div>
 
     <div class="faq">
@@ -879,11 +905,11 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
            being the plainest possible description of the thing. -->
       <details class="faq-item" open>
         <summary><h3>What is this, exactly?</h3></summary>
-        <p>It's a page your customers use themselves. They put in their address, take a photo of the house, and pick what they want lit &mdash; roofline, trees, wraps &mdash; and the price builds live as they go. When they're happy, they book. The first you hear about it is a quote and a photo of the house landing on your phone. And because a quote page with no traffic quotes nobody, I also write and launch the ads that send homeowners to it.</p>
+        <p>It's a page your customers use themselves. They give a few details &mdash; a photo, an address, what they want &mdash; and the price builds live as they go. When they're happy, they book. The first you hear about it is a quote landing on your phone. And because a quote page with no traffic quotes nobody, I also write and launch the ads that send customers to it.</p>
       </details>
       <details class="faq-item">
         <summary><h3>I haven't got a website. Can I still use it?</h3></summary>
-        <p>Yes &mdash; and it's arguably more useful to you than to someone who has one. You get a link. It goes in your Facebook replies, your text messages, your Google listing, or a QR code on the truck. Someone asks what lights would cost at nine at night and you send the link instead of losing your Saturday to a drive&#8209;out. If you do have a site, it sits on your domain as its own page or a button. Either way I set it up.</p>
+        <p>Yes &mdash; and it's arguably more useful to you than to someone who has one. You get a link. It goes in your Facebook replies, your text messages, your Google listing, or a QR code on the truck. Someone asks what it would cost at nine at night and you send the link instead of losing your Saturday to a drive&#8209;out. If you do have a site, it sits on your domain as its own page or a button. Either way I set it up.</p>
       </details>
       <details class="faq-item">
         <summary><h3>Do I need a CRM or any other software?</h3></summary>
@@ -907,7 +933,7 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       </details>
       <details class="faq-item">
         <summary><h3>Why is there a build fee at all?</h3></summary>
-        <p>Because you're not being handed a login. The build fee is the work of turning how you actually price a roofline &mdash; your rates, your minimums, your access and height loading, the calls you make without thinking &mdash; into something a homeowner can use on their phone at 11pm. A template doesn't need a build fee because nobody built anything.</p>
+        <p>Because you're not being handed a login. The build fee is the work of turning how you actually price a job &mdash; your rates, your minimums, the loadings and the calls you make without thinking &mdash; into something a customer can use on their phone at 11pm. A template doesn't need a build fee because nobody built anything.</p>
       </details>
       <details class="faq-item">
         <summary><h3>What does it cost?</h3></summary>
@@ -915,19 +941,19 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
       </details>
       <details class="faq-item">
         <summary><h3>What does my customer actually see?</h3></summary>
-        <p>A page with your name on it and a photo of their own house with the lights drawn on it &mdash; not a form. That matters more than it sounds. Most quotes in this trade arrive as a number in a text message; yours arrives looking like it came from a company with an office.</p>
+        <p>A page with your name on it and their own job priced in front of them &mdash; not a form. That matters more than it sounds. Most quotes in the trades arrive as a number in a text message; yours arrives looking like it came from a company with an office.</p>
       </details>
       <details class="faq-item">
         <summary><h3>Who else is using it?</h3></summary>
-        <p>In Christmas lights, nobody yet &mdash; this is its first season and you'd be one of the first on it. I'm not going to dress that up. What I would say is that I ran one of these businesses myself, so this isn't a software company guessing at how your October works.</p>
+        <p>Three businesses are being built right now &mdash; an exterior cleaner, a bike exchange, and a landscaping business that happens to be my own. No finished results yet, and I'm not going to dress that up: they go on the site as they land. What I would say is that I've run these businesses myself, so this isn't a software company guessing at how your busy season works.</p>
       </details>
       <details class="faq-item">
         <summary><h3>What do you need from me?</h3></summary>
-        <p>Your pricing, mostly. Ideally last season's jobs &mdash; what you charged, roof type, how many storeys, rough footage. If you haven't kept records we do it from memory: what you'd charge for a standard single&#8209;storey ranch, a two&#8209;storey colonial and a big one. I build from those and we tune it together before it goes live.</p>
+        <p>Your pricing, mostly. Ideally last season's jobs &mdash; what you charged and what drove the price. If you haven't kept records we do it from memory: what you'd charge for a small job, a standard one and a big one. I build from those and we tune it together before it goes live.</p>
       </details>
       <details class="faq-item">
         <summary><h3>How accurate is the measuring?</h3></summary>
-        <p>It calibrates from their front door (a known size) and cross-checks against a satellite trace of their roof. It's a bidding estimate &mdash; accurate enough to price confidently, and your crew confirms final footage before install, exactly like you do today. The live demo is open if you want to see it measure a real house before we talk.</p>
+        <p>For photo&#8209;measured builds, it calibrates from their front door (a known size) and cross-checks against a satellite trace of their roof. It's a bidding estimate &mdash; accurate enough to price confidently, and your crew confirms final footage before install, exactly like you do today. The live demo is open if you want to see it measure a real house before we talk.</p>
       </details>
       <details class="faq-item">
         <summary><h3>Does the AI render show things the customer didn't buy?</h3></summary>
@@ -938,8 +964,8 @@ section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
         <p>Yes &mdash; one installer per metro. If I build your pricing logic and then build it for the company across town, I've effectively handed him how you price. So your metro is either yours or it isn't.</p>
       </details>
       <details class="faq-item">
-        <summary><h3>When does it launch?</h3></summary>
-        <p>September 2026, ahead of quote season. Builds run in the order enquiries come in, and a build takes about two weeks from getting your pricing &mdash; but quote season starts in October, so the earlier you start the more of the season you get.</p>
+        <summary><h3>How long does a build take?</h3></summary>
+        <p>Builds run in the order enquiries come in, and a Season Build takes about two weeks from getting your pricing. If your trade is seasonal, the earlier you start the more of the season you get.</p>
       </details>
       <details class="faq-item">
         <summary><h3>Do I pay anything to enquire?</h3></summary>
