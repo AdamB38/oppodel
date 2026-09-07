@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quotal — Traffic to booked jobs for Christmas light installers</title>
+  <title>Quotal — Bespoke quoting systems, and the ads that feed them</title>
   <meta name="description" content="The whole thing built and switched on: your pricing worked out, a bespoke quoting system on your own site, and the ads running to your metro. Built by someone who has run these businesses." />
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://quotal.org/" />
-  <meta property="og:title" content="Quotal — Traffic to booked jobs for Christmas light installers" />
-  <meta property="og:description" content="Your pricing worked out, the quoting system built, the ads switched on. Homeowners price their own house and book — you turn up and install." />
+  <meta property="og:title" content="Quotal — Bespoke quoting systems, and the ads that feed them" />
+  <meta property="og:description" content="Your pricing worked out, the quoting system built, the ads switched on. Customers price their own job and book — you turn up and do the work." />
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,26 +40,43 @@
        screenshots below it ---------- */
     .hero {
       position: relative;
-      display: flex;
-      align-items: center;
-      min-height: 74svh;
       padding: clamp(3rem, 8vw, 5.5rem) 0 clamp(3rem, 7vw, 5rem);
       background: linear-gradient(180deg, #FDFBF7 0%, #F7F3E9 55%, #F2EBDC 100%);
     }
 
-    .hero-in {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
-      gap: clamp(2rem, 5vw, 4rem);
-      align-items: center;
-    }
-    .hero-col { max-width: 620px; }
+    /* Stacked and centred: headline block first, video beneath it at
+       reading width. Decided 6 Sep 2026 over the side-by-side layout. */
+    .hero-in { position: relative; z-index: 1; width: 100%; }
+    .hero-col { max-width: 760px; margin: 0 auto; text-align: center; }
+    .hero .sub { margin-left: auto; margin-right: auto; }
+    .hero-actions { justify-content: center; }
 
     /* ---------- hero VSL ---------- */
-    .hero-media { min-width: 0; }
+    .hero-media { min-width: 0; max-width: 880px; margin: clamp(2.25rem, 5vw, 3.5rem) auto 0; }
+
+    /* ---------- placeholder panels ----------
+       Live on purpose until the real assets land (see ASSETS.md). Styled
+       as intentional image panels with a spec label, not dashed boxes, so
+       the page previews how it will sit once the photos and screenshots
+       exist. Each one is replaced by an <img> or <video> of the same
+       aspect ratio. */
+    .ph {
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      background: linear-gradient(135deg, #EFE9DC 0%, #DDD5C4 100%);
+      border: 1px solid var(--line); border-radius: var(--r-lg);
+      padding: 1rem; overflow: hidden;
+    }
+    .ph span {
+      font-family: var(--f-mono); font-size: .68rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--muted); line-height: 1.7;
+    }
+    .ph-16x9 { aspect-ratio: 16 / 9; }
+    .ph-3x2  { aspect-ratio: 3 / 2; }
+    .ph-4x5  { aspect-ratio: 4 / 5; }
+    .route .ph { margin-bottom: 1.1rem; }
+    .stage .ph { margin-bottom: 1rem; }
+    .who-grid { display: grid; grid-template-columns: 250px 1fr; gap: clamp(1.75rem, 4vw, 3rem); align-items: center; }
+    @media (max-width: 720px) { .who-grid { grid-template-columns: 1fr; } .who-grid .ph { max-width: 280px; } }
 
     .vsl-frame {
       position: relative;
@@ -156,12 +173,6 @@
     }
 
     @media (max-width: 900px) {
-      /* stacked: copy first, video below it */
-      .hero { min-height: 0; }
-      .hero-in { grid-template-columns: minmax(0, 1fr); gap: 2.25rem; }
-      .hero-col { max-width: none; text-align: center; }
-      .hero .sub { margin-left: auto; margin-right: auto; }
-      .hero-actions { justify-content: center; }
       .vsl-btn { width: 58px; height: 58px; }
       .vsl-sound { top: .55rem; right: .55rem; padding: .5rem .8rem; font-size: .78rem; }
     }
@@ -394,10 +405,12 @@
     .cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .case { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--ink); }
     .case-poster {
+      position: relative;
       aspect-ratio: 4 / 5; background: var(--bone);
       display: flex; flex-direction: column; justify-content: flex-end; gap: .5rem;
       padding: 1.5rem 1.4rem;
     }
+    .cp-slot { position: absolute; top: 1rem; right: 1.2rem; font-family: var(--f-mono); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(247,243,233,.5); }
     .cp-trade { font-family: var(--f-mono); font-size: .72rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--filament); }
     .cp-name { font-family: var(--f-display); font-weight: 800; letter-spacing: -.04em; font-size: clamp(1.6rem, 2.6vw, 2.1rem); line-height: 1.02; color: var(--ink); }
     .case-body { padding: 1rem 1.2rem 1.15rem; }
@@ -487,9 +500,9 @@
   <section class="hero">
     <div class="wrap hero-in">
       <div class="hero-col">
-        <span class="eyebrow">End to end, for US home-service businesses</span>
+        <span class="eyebrow">End to end, for any business that quotes jobs</span>
         <h1 class="headline">Book jobs while you <em class="lit">sleep</em></h1>
-        <p class="sub">Your pricing worked out, a quoting system built on your site, the ads switched on. Homeowners price their own house and book &mdash; you turn up and install.</p>
+        <p class="sub">Your pricing worked out, a quoting system built on your site, the ads switched on. Customers price their own job and book &mdash; you turn up and do the work.</p>
 
         <div class="hero-actions">
           <a class="btn btn-solid" href="#book">Learn more &rarr;</a>
@@ -500,7 +513,7 @@
 
       <div class="hero-media">
         <div class="vsl-frame" id="vslFrame"></div>
-        <p class="vsl-cap">Two minutes: how a homeowner goes from photo to priced, rendered quote.</p>
+        <p class="vsl-cap">Two minutes: photo &rarr; drawn lights &rarr; priced &rarr; booked.</p>
       </div>
     </div>
   </section>
@@ -521,6 +534,7 @@
 
       <div class="split" id="split">
         <div class="route hi is-active" data-route="hi">
+          <div class="ph ph-16x9"><span>Photo &middot; a finished install, your crew on site &middot; 16:9</span></div>
           <span class="eyebrow">Consulting &amp; implementation &middot; done for you</span>
           <h3>Your season, planned and built by the same person</h3>
           <p>Your quoting system, ads and launch built for you &mdash; or the whole season, planned and implemented in stages.</p>
@@ -537,11 +551,12 @@
         </div>
 
         <div class="route lo" data-route="lo">
+          <div class="ph ph-16x9"><span>Screenshot &middot; the software lead inbox &middot; 16:9</span></div>
           <span class="eyebrow quiet">Do it yourself &middot; launching 2027</span>
           <h3>Quotal software</h3>
           <p>A quote calculator from a template for your trade, shaped to your business, on your own site.</p>
           <ul>
-            <li>Trade templates &mdash; lights and exterior cleaning first</li>
+            <li>Templates per trade, shaped to your business</li>
             <li>Your pricing rules &mdash; tiers, add&#8209;ons, minimums</li>
             <li>Follow&#8209;up, deposits, and sync to Jobber or Housecall Pro</li>
           </ul>
@@ -568,8 +583,9 @@
 
       <div class="chain">
         <div class="stage">
+          <div class="ph ph-3x2"><span>Screenshot &middot; your ad in the Facebook feed &middot; 3:2</span></div>
           <span class="stage-lab">Stage 01 &mdash; Traffic</span>
-          <h3>Homeowners find you</h3>
+          <h3>Customers find you</h3>
           <p>Ads written for your metro and switched on for you.</p>
         </div>
 
@@ -580,9 +596,10 @@
         </div>
 
         <div class="stage built">
+          <div class="ph ph-3x2"><span>Screenshot &middot; a customer pricing their own job &middot; 3:2</span></div>
           <span class="stage-lab">Stage 02 &mdash; The build</span>
-          <h3>They price their own house</h3>
-          <p>A photo, a few taps, and your price builds as they draw. <strong>This is the part I build.</strong></p>
+          <h3>They price their own job</h3>
+          <p>A photo or a few answers, and your price builds as they go. <strong>This is the part I build.</strong></p>
         </div>
 
         <div class="link" aria-hidden="true">
@@ -592,6 +609,7 @@
         </div>
 
         <div class="stage">
+          <div class="ph ph-3x2"><span>Photo &middot; the booked job landing on a phone &middot; 3:2</span></div>
           <span class="stage-lab">Stage 03 &mdash; Booked</span>
           <h3>It lands as a job</h3>
           <p>Deposit taken, slot picked, quote and photo in your inbox or CRM.</p>
@@ -605,12 +623,12 @@
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow quiet">What I build</span>
-        <h2>The system at the centre of it</h2>
-        <p>The screens below are my demo skin &mdash; <strong>every build is made in your branding, on your rates.</strong></p>
+        <h2>One system, shaped to your trade</h2>
+        <p>Two builds so far, same quoting engine. <strong>Yours is made in your branding, on your rates, for whatever you sell.</strong></p>
       </div>
 
       <!-- Christmas lights — the lead product -->
-      <div class="svc-row svc-lead">
+      <div class="svc-row">
         <div class="svc-panel">
           <span class="svc-badge">Christmas Lights</span>
           <h3 class="svc-title">Quote every roofline without leaving the truck</h3>
@@ -619,7 +637,7 @@
             <li>Customer draws their own light runs</li>
             <li>HD render of their house lit up, priced per run</li>
           </ul>
-          <div class="svc-tag"><span class="chip">The main build</span></div>
+          <div class="svc-tag"><span class="chip">Example build</span></div>
         </div>
         <div class="svc-visual">
           <img src="img/svc-christmas-lights.jpg" width="1400" height="560"
@@ -658,21 +676,21 @@
       </div>
       <div class="cases">
         <article class="case">
-          <div class="case-poster"><span class="cp-trade">Exterior cleaning</span><span class="cp-name">MKM Exteriors</span></div>
+          <div class="case-poster"><span class="cp-slot">Video &middot; 4:5</span><span class="cp-trade">Exterior cleaning</span><span class="cp-name">MKM Exteriors</span></div>
           <div class="case-body">
             <div class="case-chips"><span class="chip quiet">Quoting software</span></div>
             <p class="case-status">In progress &middot; results at season end</p>
           </div>
         </article>
         <article class="case">
-          <div class="case-poster"><span class="cp-trade">Bike exchange</span><span class="cp-name">JamBikes</span></div>
+          <div class="case-poster"><span class="cp-slot">Video &middot; 4:5</span><span class="cp-trade">Bike exchange</span><span class="cp-name">JamBikes</span></div>
           <div class="case-body">
             <div class="case-chips"><span class="chip quiet">Ads</span><span class="chip quiet">Branding</span><span class="chip quiet">Quoting tools</span></div>
             <p class="case-status">In progress &middot; results as they land</p>
           </div>
         </article>
         <article class="case">
-          <div class="case-poster"><span class="cp-trade">Landscaping &middot; Wales</span><span class="cp-name">Keltic Grounds</span></div>
+          <div class="case-poster"><span class="cp-slot">Video &middot; 4:5</span><span class="cp-trade">Landscaping &middot; Wales</span><span class="cp-name">Keltic Grounds</span></div>
           <div class="case-body">
             <div class="case-chips"><span class="chip quiet">Ads</span><span class="chip quiet">Quoting software</span><span class="chip quiet">Offer creation</span></div>
             <p class="case-status">My own business &middot; results as they land</p>
@@ -689,11 +707,12 @@
         <span class="eyebrow quiet">Who builds it</span>
         <h2>Built by someone who's run these businesses, not a software company</h2>
       </div>
-      <div class="who-txt">
+      <div class="who-grid">
+        <div class="ph ph-4x5"><span>Photo &middot; Adam &mdash; ladder, van or mid&#8209;install &middot; 4:5</span></div>
+        <div class="who-txt">
         <p>I'm Adam. I ran a Christmas light business and a landscaping business, and <strong>I paid for the Meta ads that filled its calendar</strong>. If you found me through the videos, this is the same system, built properly for yours &mdash; and <strong>you deal with the person who builds it, start to finish.</strong></p>
+        </div>
       </div>
-      <!-- A photo of Adam (ladder / van / mid-install) becomes a left column
-           here once it exists. Never a placeholder box in production. -->
     </div>
   </section>
 
@@ -755,8 +774,9 @@
             <option value="" disabled selected>What business are you in?</option>
             <option>Christmas Lights</option>
             <option>Exterior Cleaning</option>
-            <option>Both</option>
-            <option>Other</option>
+            <option>Landscaping / Lawn Care</option>
+            <option>Other home service</option>
+            <option>Other business</option>
           </select>
 
           <textarea name="message" placeholder="Anything you'd like us to cover, and when you're usually free..."></textarea>
